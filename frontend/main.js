@@ -36,6 +36,7 @@ function render() {
       latestDisplayOwnerId = row.ownerId;
     }
     // Add html for a pet
+    // Test comment
     html += `
       <div class="pet">
         <h3>${row.petName}</h3>
