@@ -1,11 +1,29 @@
 <template>
-  <div id="app">
-    <div id="nav">
+  <v-app>
+    <v-navigation-drawer app
+    style="z-index:0" 
+    >
+      <!-- -->
+    </v-navigation-drawer>
+
+    <v-app-bar elevation="4" outlined app>
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+    </v-app-bar>
+
+    <v-main>
+      <!-- Provides the application the proper gutter -->
+      <v-container fluid>
+        <router-view/>
+      </v-container>
+    </v-main>
+
+    <v-footer 
+    height="100"
+    >
+
+    </v-footer>
+  </v-app>
 </template>
 
 <style lang="scss">
@@ -18,7 +36,7 @@
 }
 
 #nav {
-  padding: 30px;
+  padding: 20px;
 
   a {
     font-weight: bold;

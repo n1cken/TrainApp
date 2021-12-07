@@ -10,6 +10,7 @@
     <v-card
      elevation="2"
      width="300"
+     height="400"
     >
       <v-card-title> This card is found in HelloWorld.vue </v-card-title>
     <v-btn> Test Button </v-btn>
@@ -43,4 +44,5 @@ li {
 a {
   color: #42b983;
 }
+
 </style>
