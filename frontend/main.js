@@ -14,7 +14,7 @@ async function readJson() {
 
 function render() {
   // Create a holder for html we are going to create
-  let html = '<div><h1>Owners and pets</h1>';
+  let html = '<div><h1>This will become a train application</h1>';
 
   // Remember which owner that was displayed latest
   let latestDisplayOwnerId = 0;
