@@ -4,7 +4,7 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
       <v-toolbar-title style="font-size: 35px; margin-right: 20px">SJ</v-toolbar-title>
-      <v-toolbar-title>Scriptens Javavägar</v-toolbar-title>
+      <v-toolbar-title>{{this.title}}</v-toolbar-title>
 
       <v-spacer></v-spacer>
     </v-app-bar>
@@ -43,11 +43,13 @@
 
 <script>
 export default {
-  data: () => ({
-    drawer: false,
-    group: null,
-  }),
-
+  data: function () {
+    return {
+      title: "Scriptens Javavägar",
+      drawer: false,
+      group: null,
+    };
+  },
   watch: {
     group() {
       this.drawer = false;
