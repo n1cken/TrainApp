@@ -1,31 +1,44 @@
 <template>
-  <div class="hello">
+  <div>
     <h1>{{ msg }}</h1>
     <p>
-      For a guide and recipes on how to configure / customize this project,<br>
+      For a guide and recipes on how to configure / customize this project,<br />
       check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
+      <a href="https://cli.vuejs.org" target="_blank" rel="noopener"
+        >vue-cli documentation</a
+      >.
     </p>
-
-    <v-card
-     elevation="2"
-     width="300"
-     height="400"
-    >
+    <div>
+    <v-card elevation="2" width="300" height="400">
       <v-card-title> This card is found in HelloWorld.vue </v-card-title>
-    <v-btn> Test Button </v-btn>
+      <v-btn
+      @click="getAllStations"
+      > Get Stations </v-btn>
     </v-card>
+    </div>
 
   </div>
 </template>
 
 <script>
 export default {
-  name: 'HelloWorld',
+  name: "HelloWorld",
   props: {
-    msg: String
-  }
-}
+    msg: String,
+  },
+  methods: {
+    getAllStations: function () {
+      console.log("This is all stations! ")
+    }
+  },
+  watch: {
+
+  },
+
+  computed: {
+
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -44,5 +57,4 @@ li {
 a {
   color: #42b983;
 }
-
 </style>

@@ -1,30 +1,60 @@
 <template>
   <v-app>
-    <v-navigation-drawer app
-    style="z-index:0" 
-    >
-      <!-- -->
-    </v-navigation-drawer>
+    <v-app-bar dark app>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
-    <v-app-bar elevation="4" outlined app>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <v-toolbar-title style="font-size: 35px; margin-right: 20px">SJ</v-toolbar-title>
+      <v-toolbar-title>Scriptens Javavägar</v-toolbar-title>
+
+      <v-spacer></v-spacer>
     </v-app-bar>
+
+    <v-navigation-drawer v-model="drawer" absolute bottom temporary>
+      <v-list nav dense>
+        <v-list-item-group
+          v-model="group"
+          active-class="deep-purple--text text--accent-4"
+        >
+          <router-link to="/" style="text-decoration: none; color: inherit">
+            <v-list-item>
+              <v-list-item-title> Home </v-list-item-title>
+            </v-list-item>
+          </router-link>
+
+          <router-link to="/about" style="text-decoration: none; color: inherit">
+            <v-list-item>
+              <v-list-item-title> About </v-list-item-title>
+            </v-list-item>
+          </router-link>
+        </v-list-item-group>
+      </v-list>
+    </v-navigation-drawer>
 
     <v-main>
       <!-- Provides the application the proper gutter -->
       <v-container fluid>
-        <router-view/>
+        <router-view />
       </v-container>
     </v-main>
 
-    <v-footer 
-    height="100"
-    >
-
-    </v-footer>
+    <v-footer height="100"> </v-footer>
   </v-app>
 </template>
+
+<script>
+export default {
+  data: () => ({
+    drawer: false,
+    group: null,
+  }),
+
+  watch: {
+    group() {
+      this.drawer = false;
+    },
+  },
+};
+</script>
 
 <style lang="scss">
 #app {
