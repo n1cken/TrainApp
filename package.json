@@ -4,7 +4,9 @@
   "description": "",
   "author": "Thomas Frank & Benjamin Berglund, Node Hill",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "client": "cd vuefrontend && npm run serve",
+    "start": "concurrently \"nodemon index.js\" \"npm run client\""
   },
   "main": "index.js",
   "dependencies": {
@@ -17,6 +19,7 @@
   "devDependencies": {
     "@vue/cli-plugin-router": "~4.5.0",
     "@vue/cli-service": "^4.5.15",
+    "nodemon": "^2.0.15",
     "sass": "~1.32.0",
     "sass-loader": "^10.0.0",
     "vue-cli-plugin-vuetify": "~2.4.5",
