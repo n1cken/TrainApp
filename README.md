@@ -1,3 +1,16 @@
+### Instructions to start!
+
+<ol>
+<li>Open intergrated terminal for the trainapp</li>
+<li> "npm install"</li>
+<li> Open intergrated terminal inside vuefrontend folder</li>
+<li> "npm install"</li>
+<li> Open intergrated terminal inside the trainapp folder</li>
+<li> "npm run dev"</li>
+</ol>
+
+>Obs! database and frontend folder is just temporary!
+
 ### Node.js Dynamic REST-api for SQLite
 Automatically creates a REST-api from any SQLite-database. 
 Also provides a web server serving files/static content.
