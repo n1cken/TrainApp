@@ -9,7 +9,7 @@ const path = require('path');
 
 // require/import express
 const express = require('express');
-
+const cors = require('cors')
 // create a new web server
 const webServer = express();
 
@@ -17,7 +17,7 @@ const webServer = express();
 // all files (static content)
 // that are inside the folder "frontend"
 webServer.use(express.static('frontend'));
-
+webServer.use(cors())
 // make it possible to read req bodies
 // (needed for post and put reqs)
 webServer.use(express.json({ limit: '100MB' }));
