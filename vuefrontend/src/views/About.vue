@@ -1,9 +1,11 @@
 <template>
  <div >
-   <ol v-for="pet in pets" :key ="pet.id" >
-     <v-card elevation="24">    <h1>{{pet.name}}</h1>
-     <h2>{{pet.species}}</h2>
-    <h2>{{pet.ownerId}}</h2></v-card>
+    <ol v-for="pet in pets" :key ="pet.id" >
+        <v-card elevation="24">    
+            <h1>{{pet.name}}</h1>
+            <h2>{{pet.species}}</h2>
+            <h2>{{pet.ownerId}}</h2>
+        </v-card>
    </ol>
  </div>
 </template>
