@@ -15,13 +15,13 @@
 Automatically creates a REST-api from any SQLite-database. 
 Also provides a web server serving files/static content.
 
-Put your SQLite database file in in the **database** folder and all your frontend code (html, css, js, imagws etc) in the **frontend** folder.
+Put your SQLite database file in in the **database** folder and all your frontend code (html, css, js, images etc) in the **frontend** folder.
 
 **Note:** All tables are expected to have a column named **id**.
 
 ### Settings
 You can change the settings - in settings.json: 
-```js
+```json
 {
   // which server port to start the web server on
   "port": 3000,
@@ -40,13 +40,13 @@ Returns a list of all tables and views in the database in JSON format.
 ##### Example result: 
 ```json
 {
-"tablesInDb": [
-"petOwners",
-"pets"
-],
-"viewsInDb": [
-"petOwnersAndPets"
-]
+  "tablesInDb": [
+    "petOwners",
+    "pets"
+  ],
+  "viewsInDb": [
+    "petOwnersAndPets"
+  ]
 }
 ```
 
