@@ -1,0 +1,14 @@
+name: Build images
+on: [push]
+jobs:
+  Example-Build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout git repo
+        uses: actions/checkout@v2
+
+      - name: Update user about status
+        run: echo "Cloed repo will list files"
+
+      - run: | 
+          ls ${{ github.workspace }}
