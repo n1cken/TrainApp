@@ -1,6 +1,15 @@
 <template>
   <v-row justify="center">
     <v-date-picker v-model="picker" show-week width="400" @change="changeDate()"></v-date-picker>
+        <v-card
+            width="350"
+        >
+        <v-card-title>  <p class="text-h4 text--primary">
+        Datum för avgång
+      </p>
+        </v-card-title>
+            {{this.$store.state.chosenDepartureDate  }}
+    </v-card>
   </v-row>
 </template>
 
@@ -13,7 +22,7 @@
     },
     methods: {
         changeDate () {
-            this.$emit('changeDate', this.picker);
+            this.$store.commit('setDepartureDate', this.picker)
         }
     }
   }
