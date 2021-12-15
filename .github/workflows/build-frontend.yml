@@ -1,14 +1,33 @@
 name: Build images
-on: [push]
+on: [ push ]
+
+env: 
+  IMAGE_NAME: 'trainapp-web'
+  APP_PATH: './vuefrontend'
+
 jobs:
-  Example-Build:
+  build-frontend:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout git repo
         uses: actions/checkout@v2
 
-      - name: Update user about status
-        run: echo "Cloed repo will list files"
+      - name: Setup QEMU for docker
+        uses: docker/setup-qemu-action@v1
 
-      - run: | 
-          ls ${{ github.workspace }}
+      - name: Setup Docker buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Build image and do not push
+        uses: docker/build-push-action@v2
+        with: 
+          context: ${{ env.APP_PATH }}
+          tags: someuser/${{ env.IMAGE_NAME }}:latest
+          push: false
+
+      - name: Output digest
+        run: echo ${{ steps.docker_build.output.digest }}
+
+      - name: Output metadata
+        run: echo ${{ steps.docker_build.output.metadata }}
