@@ -1,4 +1,4 @@
-name: Build images
+name: build docker images
 on: [ push ]
 
 env: 
@@ -6,7 +6,7 @@ env:
   APP_PATH: './vuefrontend'
 
 jobs:
-  build-frontend:
+  build-frontend-image:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout git repo
@@ -31,3 +31,9 @@ jobs:
 
       - name: Output metadata
         run: echo ${{ steps.docker_build.output.metadata }}
+
+  build-backend-image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Placeholder
+        run: echo "Build docker image for backend"
