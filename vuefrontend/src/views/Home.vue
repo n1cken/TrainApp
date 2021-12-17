@@ -2,7 +2,7 @@
   <div>
     <stop-searchbox titel="Från" />
     <stop-searchbox titel="Till" />
-    <date-pick-calendar show-current @changeDate="changeDate($event)"/>
+    <date-pick-calendar show-current/>
   </div>
 </template>
 
@@ -20,13 +20,12 @@ export default {
   },
   data: function () {
     return {
-      chosenDate: null,
-    };
+      
+    }
   },
   methods: {
-    changeDate (pickedDate) {
-      this.chosenDate = pickedDate
+   
     }
   }
-};
+
 </script>
