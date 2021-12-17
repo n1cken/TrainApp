@@ -19,11 +19,11 @@ const { appendFile } = require('fs');
 const db = driver(path.join(__dirname,
   'database', settings.dbName));
 
-let r = db.prepare(`
+let getStation = db.prepare(`
   SELECT *
   FROM station
 `).all();
 
 app.get('/', (req, res) => {
-  res.send(r)
+  res.send(getStation)
 })
