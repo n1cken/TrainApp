@@ -6,7 +6,7 @@
       <options-box title="Wheelchair"/>
       <options-box title="Dog"/>
     </v-row>
-    <date-pick-calendar show-current @changeDate="changeDate($event)"/>
+    <date-pick-calendar show-current/>
   </div>
 </template>
 
@@ -26,13 +26,12 @@ export default {
   },
   data: function () {
     return {
-      chosenDate: null,
-    };
+      
+    }
   },
   methods: {
-    changeDate (pickedDate) {
-      this.chosenDate = pickedDate
+   
     }
   }
-};
+
 </script>
