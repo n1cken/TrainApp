@@ -1,5 +1,5 @@
 {
   "port": 3000,
-  "dbName": "petowners-and-pets.sqlite3",
+  "dbName": "traindb.sqlite3",
   "allowWherePosts": true
 }

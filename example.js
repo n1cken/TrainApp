@@ -1,28 +1,55 @@
-
+// Read settings
 const settings = require('./settings.json');
+
+// NOTE: No ACL 
+// (access - control / user credentials) yet!
+
+// require path (helper for file paths)
 const path = require('path');
 
+// require/import express
 const express = require('express');
 const cors = require('cors')
-const app = express();
+// create a new web server
+const webServer = express();
 
-app.use(cors())
-app.use(express.json({ limit: '100MB' }));
+// tell the web server to serve
+// all files (static content)
+// that are inside the folder "frontend"
+webServer.use(express.static('frontend'));
+webServer.use(cors())
+// make it possible to read req bodies
+// (needed for post and put reqs)
+webServer.use(express.json({ limit: '100MB' }));
 
-app.listen(settings.port,
+// start the webserver and tell it to listen
+// on a specific port (in this case port 3000)
+webServer.listen(settings.port,
   () => console.log(
     'Listening on http://localhost:' + settings.port
   ));
 
+// require the sqlite driver better-sqlite3
 const driver = require('better-sqlite3');
-const { appendFile } = require('fs');
-const db = driver(path.join(__dirname,
-  '../database', settings.dbName));
 
-let getStation = db.prepare(`
-  SELECT *
-  FROM station
+// connect to a database (call the connection db)
+const db = driver(path.join(__dirname,
+  'database', settings.dbName));
+
+// get the table and view names from the db 
+// so we can restrict to routes matching existing 
+// tables and views
+let r = db.prepare(`
+  SELECT name, type
+  FROM sqlite_schema
+  WHERE type IN ('table', 'view')
+        AND name NOT LIKE 'sqlite_%';
 `).all();
+let tablesInDb = r.filter(x => x.type === 'table')
+  .map(x => x.name).sort();
+let viewsInDb = r.filter(x => x.type === 'view')
+  .map(x => x.name).sort();
+let tablesAndViewsInDb = [...tablesInDb, ...viewsInDb];
 
 // helper function to run query, catch errors & return result
 function runQuery(req, res, query, params = {}, one = false) {
