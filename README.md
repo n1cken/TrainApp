@@ -11,6 +11,15 @@
 
 >Obs! database and frontend folder is just temporary!
 
+### Run & build with docker
+When we `build` for production, we are using an [nginx:lts-alpine](https://hub.docker.com/_/nginx) to achive both a smaller and easier to maintain image.
+
+```bash
+$ cd vuefrontend
+$ docker build -t <image> .
+$ docker run -p 80:80 <image>
+```
+
 ### Node.js Dynamic REST-api for SQLite
 Automatically creates a REST-api from any SQLite-database. 
 Also provides a web server serving files/static content.
