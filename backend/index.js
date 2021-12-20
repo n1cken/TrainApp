@@ -34,7 +34,7 @@ const driver = require('better-sqlite3');
 
 // connect to a database (call the connection db)
 const db = driver(path.join(__dirname,
-  'database', settings.dbName));
+  '../database', settings.dbName));
 
 // get the table and view names from the db 
 // so we can restrict to routes matching existing 
