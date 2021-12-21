@@ -15,7 +15,7 @@ app.listen(settings.port,
 
 const driver = require('better-sqlite3');
 const { appendFile } = require('fs');
-const db = driver(path.join(__dirname,
+const db = driver(path.join( '../',
   'database', settings.dbName));
 
 let getStation = db.prepare(`
