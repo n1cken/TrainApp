@@ -3,6 +3,12 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Docker build tag"
+        required: false
+        default: "development"
 
 env: 
   IMAGE_NAME: 'trainapp-web'
