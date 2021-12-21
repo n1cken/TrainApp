@@ -34,7 +34,7 @@ jobs:
         uses: docker/build-push-action@v2
         with: 
           context: ${{ env.APP_PATH }}
-          tags: ghcr.io/${{ github.actor }}/${{ env.IMAGE_NAME }}:latest
+          tags: ghcr.io/${{ github.repository }}/${{ env.IMAGE_NAME }}:latest
           push: false
 
       - name: Output digest
