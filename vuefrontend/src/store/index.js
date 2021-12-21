@@ -4,10 +4,19 @@ Vue.use(Vuex)
 
 const Store = new Vuex.Store({
   state: {
+    originStation: null,
+    destinationStation: null,
     chosenDepartureDate: null,
     options: [],
   },
+
   mutations: {
+    setOrigin (state, station ) {
+      state.originStation = station
+    },
+    setDestination (state, station ) {
+      state.destinationStation = station
+    },
     setDepartureDate (state, date) {
         state.chosenDepartureDate = date
         },

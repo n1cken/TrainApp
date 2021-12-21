@@ -36,7 +36,15 @@ export default {
     search(val) {
       val && val !== this.select && this.querySelections(val);
     },
-  },
+    select(val) {
+      if (this.titel == "Från") {
+        this.$store.commit("setOrigin", val);
+      }
+      if (this.titel == "Till") {
+        this.$store.commit("setDestination", val);
+      }
+    }
+   },
   methods: {
     querySelections(v) {
       this.loading = true;
