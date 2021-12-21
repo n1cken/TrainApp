@@ -1,9 +1,8 @@
 name: build docker images
 on: 
   push:
-    # branches:
-    #   - main
-  workflow_dispatch:
+    branches:
+      - main
 
 env: 
   IMAGE_NAME: 'trainapp-web'
