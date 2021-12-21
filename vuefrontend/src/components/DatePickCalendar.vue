@@ -8,7 +8,7 @@
         Datum för avgång
       </p>
         </v-card-title>
-            {{this.$store.state.chosenDepartureDate  }}
+            {{ this.$store.state.chosenDepartureDate }}
     </v-card>
   </v-row>
 </template>
