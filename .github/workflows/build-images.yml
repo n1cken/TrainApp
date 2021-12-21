@@ -15,6 +15,11 @@ jobs:
       - name: Checkout git repo
         uses: actions/checkout@v2
 
+      - name: Login to ghcr.
+        run: echo ${GITHUB_TOKEN} | docker login -u ${GITHUB_ACTOR} --password-stdin ghcr.io
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Setup QEMU for docker
         uses: docker/setup-qemu-action@v1
 
