@@ -4,6 +4,7 @@
   "description": "",
   "author": "Group 2",
   "scripts": {
+    "prod": "node index.js",
     "serve": "nodemon index.js"
   },
   "main": "index.js",
