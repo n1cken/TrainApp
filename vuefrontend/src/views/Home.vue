@@ -12,6 +12,9 @@
       <v-col cols="12" sm="12" md="12">
         <v-btn large elevation="" color="blue" @click="searchTravels()">Sök resa</v-btn>
       </v-col>
+      <v-col cols="12" sm="12" md="12">
+        <booking-dialog/>
+      </v-col>             
     </v-row>
 
     <v-row justify="center">
@@ -29,6 +32,7 @@ import StopSearchbox from "../components/StopSearchbox.vue";
 import DatePickCalendar from "../components/DatePickCalendar.vue";
 import OptionsBox from "../components/OptionsBox.vue";
 import SearchResult from "../components/SearchResult.vue";
+import BookingDialog from '../components/BookingDialog.vue';
 
 export default {
   name: "Home",
@@ -37,6 +41,7 @@ export default {
     StopSearchbox,
     DatePickCalendar,
     SearchResult,
+    BookingDialog,
   },
   data: function () {
     return {
