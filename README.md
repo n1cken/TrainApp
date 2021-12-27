@@ -1,12 +1,12 @@
 ### Instructions to start!
 
 <ol>
-<li>Open intergrated terminal for the trainapp</li>
-<li> "npm install"</li>
 <li> Open intergrated terminal inside vuefrontend folder</li>
 <li> "npm install"</li>
-<li> Open intergrated terminal inside the trainapp folder</li>
-<li> "npm run dev"</li>
+<li> "npm run serve"</li>
+<li> Open intergrated terminal inside the backend folder</li>
+<li> "npm install"</li>
+<li> "npm run serve"</li>
 </ol>
 
 >Obs! database and frontend folder is just temporary!
