@@ -1,33 +1,48 @@
 const express = require('express');
+const driver = require('better-sqlite3');
 
 const router = express.Router();
 
 //connect to db
+const db = driver('../database/traindb.sqlite3');
 
-router.get('/', (req, res) => {
-  res.send('Hello World!')
+router.get('/getDepartures', (req, res) => {
 
-  /**
-   * <REQUEST>
-  <LOGIN authenticationkey="{	320718ba25b94e40b84c6e74d51f8bf8}" />
-  <QUERY objecttype="TrainMessage" schemaversion="1.3">
-    <FILTER>
-      <EQ name="AffectedLocation" value="Cst" />
-    </FILTER>
-    <INCLUDE>StartDateTime</INCLUDE>
-    <INCLUDE>LastUpdateDateTime</INCLUDE>
-    <INCLUDE>ExternalDescription</INCLUDE>
-    <INCLUDE>ReasonCodeText</INCLUDE>
-  </QUERY>
-</REQUEST>
-   */
-  // fetch data from trafikverket
+  let getTravels = db.prepare(`
+  SELECT *
+  FROM trainDepartures
+  `).all();
 
-  //insert data into local array
+  res.send(getTravels)
 
-  // prepare insert statement, only push data we want 
-
-  //push it into db
 });
+
+
+router.get('/getBookedSeats/:id', (req, res) => {
+
+  let getSeats = db.prepare(`
+  SELECT *
+  FROM bookedSeats
+  WHERE travelId = ${req.params.id}
+  `).all();
+
+  res.send(getSeats)
+
+});
+
+router.get('/get/:origin/:destination/:date', (req, res) => {
+  console.log(req.params.origin)
+  console.log(req.params.destination)
+  let travel = db.prepare(`
+  SELECT *
+  FROM trainDepartures
+  WHERE date = '${req.params.date}' 
+  AND origin = '${req.params.origin}'
+  AND destination = '${req.params.destination}'
+  `).all();
+
+  res.send(travel);
+});
+
 
 module.exports = router;
