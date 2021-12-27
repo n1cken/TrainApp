@@ -31,7 +31,7 @@ router.get('/getBookedSeats/:id', (req, res) => {
 });
 
 router.get('/get/:origin/:destination/:date', (req, res) => {
-
+  w
   let travel = db.prepare(`
   SELECT *
   FROM trainDepartures
