@@ -35,10 +35,10 @@ router.get('/get/:origin/:destination/:date', (req, res) => {
   let travel = db.prepare(`
   SELECT *
   FROM trainDepartures
-  WHERE date = '${req.params.date}' 
-  AND origin = '${req.params.origin}'
-  AND destination = '${req.params.destination}'
-  `).all();
+  WHERE date = :date
+  AND origin = :origin
+  AND destination = :destination
+  `).all(req.params);
 
   res.send(travel);
 });
