@@ -16,5 +16,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Routes
 app.use('/station', routes.station)
+app.use('/trafik', routes.trafikverket)
 
 app.listen(port, () => console.log(`Listening on port ${port}`));

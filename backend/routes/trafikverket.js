@@ -1,7 +1,7 @@
-const express = require('express');
-const driver = require('better-sqlite3');
+import { Router } from 'express';
+import driver from 'better-sqlite3';
 
-const router = express.Router();
+const router = Router();
 
 //connect to db
 const db = driver('../database/traindb.sqlite3');
@@ -44,4 +44,4 @@ router.get('/get/:origin/:destination/:date', (req, res) => {
 });
 
 
-module.exports = router;
+export default router;
