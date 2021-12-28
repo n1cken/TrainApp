@@ -1,31 +1,20 @@
-const settings = require('./settings.json');
-const path = require('path');
+import { } from 'dotenv/config';
+import express from 'express';
+import cors from 'cors';
+import bodyParser from 'body-parser';
 
-const express = require('express');
-const cors = require('cors')
 const app = express();
 
-const trafikverketRoutes = require('./routes/trafikverket');
+const port = process.env.PORT || 3000;
 
+import routes from './routes/index.js';
+
+// Middleware
 app.use(cors());
-app.use('/departures', trafikverketRoutes);
-app.use(express.json({ limit: '100MB' }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-app.listen(settings.port,
-  () => console.log(
-    'Listening on http://localhost:' + settings.port
-  ));
+// Routes
+app.use('/station', routes.station)
 
-const driver = require('better-sqlite3');
-const { appendFile } = require('fs');
-const db = driver(path.join('../',
-  'database', settings.dbName));
-
-let getStation = db.prepare(`
-  SELECT *
-  FROM station
-`).all();
-
-app.get('/', (req, res) => {
-  res.send(getStation)
-})
+app.listen(port, () => console.log(`Listening on port ${port}`));
