@@ -8,6 +8,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 const { InitRoutes } = require('./routes/index.js');
+const db = require('./db/database.js');
 
 // Middleware
 app.use(cors());
@@ -15,6 +16,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Routes
-InitRoutes(app)
-
-app.listen(port, () => console.log(`Listening on port ${port}`));
+db.sequelize.sync().then(() => {
+  InitRoutes(app, db)
+  
+  app.listen(port, () => console.log(`Listening on port ${port}`));
+}).catch((err) => {
+  console.log(err)
+});

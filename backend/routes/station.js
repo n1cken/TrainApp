@@ -1,14 +1,16 @@
 const express = require('express');
-const router = express.Router();
 
-router.get('/', (req, res) => {
-  res.send("Wihtout ID");
-});
+module.exports = (db) => {
+  const router = express.Router();
 
-// TODO: Error handling
-router.get('/:id', (req, res) => {
-  res.send("ID");
-});
+  router.get('/', (req, res) => {
+    db.station.findAll().then((result) => res.json(result))
+  });
 
-module.exports = router;
+  // TODO: Error handling
+  router.get('/:id', (req, res) => {
+    res.send("ID");
+  });
 
+  return router;
+}
