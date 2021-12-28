@@ -1,5 +1,9 @@
-import station from './station.js';
+const station = require('./station.js');
 
-export default {
-  station
+function InitRoutes(app) {
+  app.use('/station', station)
+}
+
+module.exports = {
+  InitRoutes
 }
