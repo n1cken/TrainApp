@@ -1,13 +1,14 @@
-import {} from 'dotenv/config';
-import express from 'express';
-import cors from 'cors';
-import bodyParser from 'body-parser';
+require('dotenv').config();
+const express = require('express');
+const cors = require('cors');
+const bodyParser = require('body-parser');
 
 const app = express();
 
 const port = process.env.PORT || 3000;
 
-import routes from './routes/index.js';
+const { InitRoutes } = require('./routes/index.js');
+const db = require('./db/database.js');
 
 // Middleware
 app.use(cors());
@@ -15,6 +16,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Routes
-app.use('/station', routes.station)
-
-app.listen(port, () => console.log(`Listening on port ${port}`));
+db.sequelize.sync().then(() => {
+  InitRoutes(app, db)
+  
+  app.listen(port, () => console.log(`Listening on port ${port}`));
+}).catch((err) => {
+  console.log(err)
+});
