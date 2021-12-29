@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-row style="display:flex; align-items: center; justify-content: center; height:66p  x">
+    <v-row style="display:flex; align-items: center; justify-content: center; height:66px">
           <options-box v-if="this.titel == 'RETURRESA'" title="Återresa"/>
           <h5 style="width:30%;">{{this.titel}}</h5>
       </v-row>  
