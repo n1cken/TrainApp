@@ -31,7 +31,12 @@
     </v-row>
 
     <v-row justify="center" v-if="this.travels.length > 0">
-      <h2>there is content</h2>
+      <li v-for="travel in travels" :key="travel.id">
+        {{ travel.origin }}
+        {{ travel.destination }}
+        {{ travel.date }}
+        {{ travel.time }}
+      </li>
     </v-row>
   </div>
 </template>

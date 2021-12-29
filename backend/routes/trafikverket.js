@@ -31,7 +31,6 @@ router.get('/getBookedSeats/:id', (req, res) => {
 });
 
 router.get('/get/:origin/:destination/:date/', (req, res) => {
-  console.log(decodeURI("http://localhost:3000/travel/get/G%C3%B6teborg%20C/Malm%C3%B6%20C/2022-01-01"))
   let travel = db.prepare(`
   SELECT *
   FROM trainDepartures
