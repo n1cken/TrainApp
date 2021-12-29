@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const Station = sequelize.define('station', {
+  const Train = sequelize.define('train', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -12,9 +12,10 @@ module.exports = (sequelize, DataTypes) => {
     freezeTableName: true
   });
 
-  Station.associate = (models) => {
-    Station.hasMany(models.timetable)
+  Train.associate = (models) => {
+    Train.hasMany(models.route)
+    Train.hasMany(models.wagon)
   };
 
-  return Station;
+  return Train;
 }

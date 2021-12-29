@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Routes
-db.sequelize.sync().then(() => {
+db.sequelize.sync({ force: true }).then(() => {
   InitRoutes(app, db)
   
   app.listen(port, () => console.log(`Listening on port ${port}`));
