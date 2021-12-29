@@ -43,8 +43,8 @@ export default {
       if (this.titel == "Till") {
         this.$store.commit("setDestination", val);
       }
-    }
-   },
+    },
+  },
   methods: {
     querySelections(v) {
       this.loading = true;
@@ -58,7 +58,7 @@ export default {
     },
   },
   mounted() {
-    fetch("http://localhost:3000/")
+    fetch("http://localhost:3000/station")
       .then((res) => res.json())
       .then((data) => (this.rawStationData = data))
       .then(() => {

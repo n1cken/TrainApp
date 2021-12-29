@@ -10,18 +10,28 @@
 
     <v-row>
       <v-col cols="12" sm="12" md="12">
-        <v-btn large elevation="" color="blue" @click="searchTravels()">Sök resa</v-btn>
+        <v-btn large elevation="" color="blue" @click="searchTravels()"
+          >Sök resa</v-btn
+        >
       </v-col>
       <v-col cols="12" sm="12" md="12">
-        <booking-dialog/>
-      </v-col>             
+        <booking-dialog />
+      </v-col>
     </v-row>
 
     <v-row justify="center">
-      <h2 v-if="this.validSearch"> Sökresultat </h2>
-      <search-result v-if="this.validSearch"/>
-      <h2 v-if="this.sameStations">Vänligen välj olika stationer att resa emellan.</h2>
-      <h2 v-if="this.missingStations">Vänligen fyll i stationer samt datum för din resa.</h2>
+      <h2 v-if="this.validSearch">Sökresultat</h2>
+      <search-result v-if="this.validSearch" />
+      <h2 v-if="this.sameStations">
+        Vänligen välj olika stationer att resa emellan.
+      </h2>
+      <h2 v-if="this.missingStations">
+        Vänligen fyll i stationer samt datum för din resa.
+      </h2>
+    </v-row>
+
+    <v-row justify="center" v-if="this.travels.length > 0">
+      <h2>there is content</h2>
     </v-row>
   </div>
 </template>
@@ -32,7 +42,7 @@ import StopSearchbox from "../components/StopSearchbox.vue";
 import DatePickCalendar from "../components/DatePickCalendar.vue";
 import OptionsBox from "../components/OptionsBox.vue";
 import SearchResult from "../components/SearchResult.vue";
-import BookingDialog from '../components/BookingDialog.vue';
+import BookingDialog from "../components/BookingDialog.vue";
 
 export default {
   name: "Home",
@@ -48,12 +58,16 @@ export default {
       missingStations: true,
       sameStations: false,
       validSearch: false,
+      travels: [],
     };
   },
   methods: {
     searchTravels() {
       //Origin or Destination is null
-      if (!this.$store.state.originStation || !this.$store.state.destinationStation) {
+      if (
+        !this.$store.state.originStation ||
+        !this.$store.state.destinationStation
+      ) {
         this.missingStations = true;
         this.sameStations = false;
         this.validSearch = false;
@@ -66,21 +80,35 @@ export default {
         this.$store.state.chosenDepartureDate
       ) {
         //If same origin and destination
-        if (this.$store.state.originStation == this.$store.state.destinationStation) {
+        if (
+          this.$store.state.originStation ==
+          this.$store.state.destinationStation
+        ) {
           this.sameStations = true;
           this.missingStations = false;
           this.validSearch = false;
         }
 
         //Valid search
-        if (this.$store.state.originStation != this.$store.state.destinationStation) {
+        if (
+          this.$store.state.originStation !=
+          this.$store.state.destinationStation
+        ) {
           this.sameStations = false;
           this.missingStations = false;
           this.validSearch = true;
         }
 
         if (this.validSearch) {
-          console.log("Search valid. fetching data... ");
+          console.log(this.$store.state.originStation);
+          console.log(this.$store.state.destinationStation);
+          fetch(
+            `http://localhost:3000/trafik/get/${this.$store.state.originStation}/${this.$store.state.destinationStation}/${this.$store.state.chosenDepartureDate}`
+          )
+            .then((res) => res.json())
+            .then((data) => (this.travels = data))
+            .then(() => console.log(this.travels))
+            .catch((e) => console.log(e));
         }
       }
     },
