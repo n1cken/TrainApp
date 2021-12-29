@@ -1,23 +1,33 @@
 <template>
-  <v-row justify="center">
-    <v-date-picker
-      v-model="picker"
-      show-week
-      width="400"
-      @change="changeDate()"
-      :min="new Date().toISOString().substr(0, 10)"
-    ></v-date-picker>
-    <v-card width="350">
-      <v-card-title>
-        <p class="text-h4 text--primary">Datum för avgång</p>
-      </v-card-title>
-      {{ this.$store.state.chosenDepartureDate }}
-    </v-card>
-  </v-row>
+  <div>
+    <v-row style="display:flex; align-items: center; justify-content: center; height:66p  x">
+          <options-box v-if="this.titel == 'RETURRESA'" title="Återresa"/>
+          <h5 style="width:30%;">{{this.titel}}</h5>
+      </v-row>  
+    <v-row justify="center" style="margin-bottom: 30px">
+      <v-date-picker
+        :disabled=" (this.titel == 'RETURRESA' && !this.$store.state.options[0])"
+        v-model="picker"
+        show-week
+        class="mx-8"
+        width="350"
+        @change="changeDate()"
+        :min="new Date().toISOString().substr(0, 10)"
+      ></v-date-picker>
+    </v-row>
+  </div>
 </template>
 
 <script>
+import OptionsBox from "../components/OptionsBox.vue";
+
 export default {
+  components: {
+    OptionsBox,
+  },
+  props: {
+    titel: String,
+  },
   data() {
     return {
       picker: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
@@ -28,6 +38,11 @@ export default {
   methods: {
     changeDate() {
       this.$store.commit("setDepartureDate", this.picker);
+    },
+    computed: {
+      returnTicket() {
+        return ;
+      }
     },
   },
 };

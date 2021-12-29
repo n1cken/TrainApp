@@ -1,7 +1,6 @@
 <template>
   <v-checkbox
     v-model="checked"
-    :label="title"
     @change="changedState()"
   ></v-checkbox>
 </template>

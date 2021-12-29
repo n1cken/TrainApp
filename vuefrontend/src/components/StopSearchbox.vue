@@ -1,20 +1,25 @@
 <template>
-  <v-toolbar dark color="gray">
+<v-row justify="center" style="margin-top: 20px">
+  <v-toolbar elevation="0" max-width="800">
+  <div style="width:50px;">
     <v-toolbar-title>{{ titel }}</v-toolbar-title>
+    </div>
     <v-autocomplete
       v-model="select"
       :loading="loading"
       :items="items"
       :search-input.sync="search"
       cache-items
-      class="mx-4"
+      class="mx-3"
       flat
       hide-no-data
       hide-details
       label="Hållplats"
       solo-inverted
+      auto-select-first
     ></v-autocomplete>
   </v-toolbar>
+  </v-row>
 </template>
 
 <script>
@@ -58,7 +63,7 @@ export default {
     },
   },
   mounted() {
-    fetch("http://localhost:3000/")
+    fetch("http://localhost:3000/station")
       .then((res) => res.json())
       .then((data) => (this.rawStationData = data))
       .then(() => {
