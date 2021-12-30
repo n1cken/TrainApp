@@ -3,26 +3,55 @@
     <stop-searchbox titel="Från" />
     <stop-searchbox titel="Till" />
     <v-row class="my-6">
-     <!--<options-box title="Wheelchair" /> 
-     <options-box title="Dog" />--> 
+      <!--<options-box title="Wheelchair" /> 
+     <options-box title="Dog" />-->
     </v-row>
 
-  <v-row style="display:flex; flex-wrap: wrap;" justify="center">
-    <date-pick-calendar titel="AVRESA" show-current />
-    <date-pick-calendar titel="RETURRESA" show-current />
-  </v-row>
-
-    <v-row>
-      <v-col cols="12" sm="12" md="12">
-        <v-btn large elevation="" color="blue" @click="searchTravels()">Sök resa</v-btn>
-      </v-col>
+    <v-row style="display: flex; flex-wrap: wrap" justify="center">
+      <date-pick-calendar titel="AVRESA" show-current />
+      <date-pick-calendar titel="RETURRESA" show-current />
     </v-row>
 
+      <v-row justify="center" style="display: flex" class="my-6">
+        <v-col cols="12" sm="12" md="12"> ANTAL RESENÄRER</v-col>
+        <v-btn
+          medium
+          fab
+          elevation=""
+          color="blue"
+          @click="reduceAmountOfTickets()"
+          style="color: white; font-size: 40px; margin-right: 10px"
+          >-</v-btn
+        >
+        <div style="margin-top: 18px; font-size: 16px">{{ this.amountOfTickets }}</div>
+        <v-btn
+          medium
+          fab
+          elevation=""
+          color="blue"
+          @click="increaseAmountOfTickets()"
+          style="color: white; font-size: 30px; margin-left: 10px"
+          >+</v-btn
+        >
+      </v-row>
+        <v-row justify="center" class="my-6">
+      <v-btn
+        style="color: white"
+        x-large
+        elevation=""
+        color="blue"
+        @click="searchTravels()"
+        >Sök resa</v-btn
+      >
+      </v-row>
+
     <v-row>
-      <h2 v-if="this.validSearch"> Sökresultat </h2>
-      <search-result v-if="this.validSearch"/>
+      <h2 v-if="this.validSearch">Sökresultat</h2>
+      <search-result v-if="this.validSearch" />
       <h2 v-if="this.sameStations">Vänligen välj olika stationer att resa emellan.</h2>
-      <h2 v-if="this.missingStations">Vänligen fyll i stationer samt datum för din resa.</h2>
+      <h2 v-if="this.missingStations">
+        Vänligen fyll i stationer samt datum för din resa.
+      </h2>
     </v-row>
   </div>
 </template>
@@ -47,9 +76,20 @@ export default {
       missingStations: true,
       sameStations: false,
       validSearch: false,
+      amountOfTickets: 0,
     };
   },
   methods: {
+    reduceAmountOfTickets() {
+      if (this.amountOfTickets > 0) {
+        this.amountOfTickets = this.amountOfTickets - 1;
+      }
+    },
+
+    increaseAmountOfTickets() {
+      this.amountOfTickets = this.amountOfTickets + 1;
+    },
+
     searchTravels() {
       //Origin or Destination is null
       if (!this.$store.state.originStation || !this.$store.state.destinationStation) {
@@ -82,7 +122,6 @@ export default {
           console.log("Search valid. fetching data... ");
         }
       }
-    
     },
   },
 };
