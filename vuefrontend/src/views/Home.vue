@@ -12,29 +12,29 @@
       <date-pick-calendar titel="RETURRESA" show-current />
     </v-row>
 
-      <v-row justify="center" style="display: flex" class="my-6">
-        <v-col cols="12" sm="12" md="12"> ANTAL RESENÄRER</v-col>
-        <v-btn
-          medium
-          fab
-          elevation=""
-          color="blue"
-          @click="reduceAmountOfTickets()"
-          style="color: white; font-size: 40px; margin-right: 10px"
-          >-</v-btn
-        >
-        <div style="margin-top: 18px; font-size: 16px">{{ this.amountOfTickets }}</div>
-        <v-btn
-          medium
-          fab
-          elevation=""
-          color="blue"
-          @click="increaseAmountOfTickets()"
-          style="color: white; font-size: 30px; margin-left: 10px"
-          >+</v-btn
-        >
-      </v-row>
-        <v-row justify="center" class="my-6">
+    <v-row justify="center" style="display: flex" class="my-6">
+      <v-col cols="12" sm="12" md="12"> ANTAL RESENÄRER</v-col>
+      <v-btn
+        medium
+        fab
+        elevation=""
+        color="blue"
+        @click="reduceAmountOfTickets()"
+        style="color: white; font-size: 40px; margin-right: 10px"
+        >-</v-btn
+      >
+      <div style="margin-top: 18px; font-size: 16px">{{ this.amountOfTickets }}</div>
+      <v-btn
+        medium
+        fab
+        elevation=""
+        color="blue"
+        @click="increaseAmountOfTickets()"
+        style="color: white; font-size: 30px; margin-left: 10px"
+        >+</v-btn
+      >
+    </v-row>
+    <v-row justify="center" class="my-6">
       <v-btn
         style="color: white"
         x-large
@@ -43,15 +43,26 @@
         @click="searchTravels()"
         >Sök resa</v-btn
       >
-      </v-row>
+    </v-row>
 
-    <v-row>
-      <h2 v-if="this.validSearch">Sökresultat</h2>
+    <h2 v-if="this.sameStations">Vänligen välj olika stationer att resa emellan.</h2>
+
+    <h2 v-if="this.missingStations">
+      Vänligen fyll i stationer samt datum för din resa.
+    </h2>
+
+    <v-row v-if="this.validSearch" justify="center" class="my-3">
+      <v-col cols="12" sm="12" md="12" style="background-color: black; height: 300px">
+        <p class="my-4" style="color: white; font-size: 35px">SÖKRESULTAT</p>
+         <p class="my-4" style="color: white; font-size: 25px"> {{ this.$store.state.chosenDepartureDate }} </p>
+        <div class="my-4" style="color: white; font-size: 35px">
+          {{ this.$store.state.originStation }}
+          <v-icon aria-hidden="false" color="white"> mdi-arrow-right </v-icon>
+          {{ this.$store.state.destinationStation }}
+        </div>
+      </v-col>
+
       <search-result v-if="this.validSearch" />
-      <h2 v-if="this.sameStations">Vänligen välj olika stationer att resa emellan.</h2>
-      <h2 v-if="this.missingStations">
-        Vänligen fyll i stationer samt datum för din resa.
-      </h2>
     </v-row>
   </div>
 </template>
@@ -76,12 +87,12 @@ export default {
       missingStations: true,
       sameStations: false,
       validSearch: false,
-      amountOfTickets: 0,
+      amountOfTickets: 1,
     };
   },
   methods: {
     reduceAmountOfTickets() {
-      if (this.amountOfTickets > 0) {
+      if (this.amountOfTickets > 1) {
         this.amountOfTickets = this.amountOfTickets - 1;
       }
     },
