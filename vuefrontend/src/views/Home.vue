@@ -39,8 +39,8 @@
         style="color: white"
         x-large
         elevation=""
-        color="blue"
-        @click="searchTravels()"
+        color="blue "
+        @click="setSearchDate();searchTravels()"
         >Sök resa</v-btn
       >
     </v-row>
@@ -53,9 +53,9 @@
 
     <v-row v-if="this.validSearch" justify="center" class="my-3">
       <v-col cols="12" sm="12" md="12" style="background-color: black; height: 300px">
-        <p class="my-4" style="color: white; font-size: 35px">SÖKRESULTAT</p>
-         <p class="my-4" style="color: white; font-size: 25px"> {{ this.$store.state.chosenDepartureDate }} </p>
-        <div class="my-4" style="color: white; font-size: 35px">
+        <p class="my-4" style="color: white; font-size: 30px">SÖKRESULTAT</p>
+         <p class="my-4" style="color: white; font-size: 25px"> {{ this.departureDate }} </p>
+        <div class="my-4" style="color: white; font-size: 30px">
           {{ this.$store.state.originStation }}
           <v-icon aria-hidden="false" color="white"> mdi-arrow-right </v-icon>
           {{ this.$store.state.destinationStation }}
@@ -88,6 +88,7 @@ export default {
       sameStations: false,
       validSearch: false,
       amountOfTickets: 1,
+      departureDate: null,
     };
   },
   methods: {
@@ -99,6 +100,10 @@ export default {
 
     increaseAmountOfTickets() {
       this.amountOfTickets = this.amountOfTickets + 1;
+    },
+
+    setSearchDate () {
+      this.departureDate = this.$store.state.chosenDepartureDate;
     },
 
     searchTravels() {
