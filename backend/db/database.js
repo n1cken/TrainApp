@@ -19,7 +19,13 @@ fs.readdirSync(
   .forEach(file => {
     const model = require(`${path.join(__dirname, 'models', file)}`)(sequelize, DataTypes);
     db[model.name] = model;
-  })
+  });
+
+Object.keys(db).forEach(model => {
+  if (db[model].associate) {
+    db[model].associate(db);
+  }
+});
 
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;

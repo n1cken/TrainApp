@@ -1,20 +1,20 @@
 module.exports = (sequelize, DataTypes) => {
-  const Station = sequelize.define('station', {
+  const Route = sequelize.define('route', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true
-    },
-    name: DataTypes.STRING
+    }
   },
   {
     timestamps: false,
     freezeTableName: true
   });
 
-  Station.associate = (models) => {
-    Station.hasMany(models.timetable)
-  };
+  Route.associate = (models) => {
+    Route.hasMany(models.timetable)
+  }
 
-  return Station;
+  return Route;
 }
+
