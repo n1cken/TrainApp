@@ -40,7 +40,7 @@
         x-large
         elevation=""
         color="blue "
-        @click="setSearchDate();searchTravels()"
+        @click="setSearchInformation();searchTravels()"
         >Sök resa</v-btn
       >
     </v-row>
@@ -48,11 +48,11 @@
     <v-row v-if="this.validSearch" justify="center" class="my-3">
       <v-col cols="12" sm="12" md="12" style="background-color: black; height: 300px">
         <p class="my-4" style="color: white; font-size: 30px">SÖKRESULTAT</p>
-         <p class="my-4" style="color: white; font-size: 25px"> {{ this.departureDate }} </p>
+         <p class="my-4" style="color: white; font-size: 25px"> {{ this.searchResultDepartureDate }} </p>
         <div class="my-4" style="color: white; font-size: 30px">
-          {{ this.$store.state.originStation }}
+          {{ this.searchResultFromStation  }}
           <v-icon aria-hidden="false" color="white"> mdi-arrow-right </v-icon>
-          {{ this.$store.state.destinationStation }}
+          {{ this.searchResultToStation }}
         </div>
       </v-col>
     </v-row>
@@ -90,7 +90,9 @@ export default {
       validSearch: false,
       results: [],
       amountOfTickets: 1,
-      departureDate: null,
+      searchResultDepartureDate: null,
+      searchResultFromStation: null,
+      searchResultToStation: null,
     };
   },
   methods: {
@@ -104,8 +106,13 @@ export default {
       this.amountOfTickets = this.amountOfTickets + 1;
     },
 
-    setSearchDate () {
-      this.departureDate = this.$store.state.chosenDepartureDate;
+    /* This is so that the black search result field is not updated instantly upon change,
+    but only after using Sök Resa button. */
+    setSearchInformation () {
+      this.searchResultDepartureDate = this.$store.state.chosenDepartureDate;
+      this.searchResultFromStation = this.$store.state.originStation;
+      this.searchResultToStation = this.$store.state.destinationStation;
+
     },
 
     searchTravels() {
