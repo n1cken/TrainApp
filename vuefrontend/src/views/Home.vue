@@ -18,11 +18,15 @@
       </v-col>
     </v-row>
 
-    <v-row>
-      <h2 v-if="this.validSearch"> Sökresultat </h2>
-      <search-result v-if="this.validSearch"/>
+
+    <v-row v-if="!this.validSearch">
       <h2 v-if="this.sameStations">Vänligen välj olika stationer att resa emellan.</h2>
       <h2 v-if="this.missingStations">Vänligen fyll i stationer samt datum för din resa.</h2>
+    </v-row>
+
+    <v-row v-if="this.validSearch">
+      <h2 v-if="this.validSearch"> Sökresultat </h2>
+      <search-result v-for="(result, i) in results" :key="i"/>
     </v-row>
   </div>
 </template>
@@ -47,6 +51,7 @@ export default {
       missingStations: true,
       sameStations: false,
       validSearch: false,
+      results: [],
     };
   },
   methods: {
@@ -79,11 +84,18 @@ export default {
         }
 
         if (this.validSearch) {
-          console.log("Search valid. fetching data... ");
+          fetch("http://localhost:3000/station")
+            .then((res) => res.json())
+            .then((data) => (this.resultData = data))
+            .then(() => {
+              for (var i = 0; i < this.resultData.length; i++) {
+                this.results.push(this.resultData[i]);
+              }
+            })
+            .catch((err) => console.log(err.message));
         }
-      }
-    
-    },
+    }
   },
-};
+}
+}
 </script>

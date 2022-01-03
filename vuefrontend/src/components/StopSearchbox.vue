@@ -30,7 +30,7 @@ export default {
       items: [],
       search: null,
       select: null,
-      stations: [],
+      stations: ['Varberg C', 'Göteborg C'],
       rawStationData: [],
     };
   },
