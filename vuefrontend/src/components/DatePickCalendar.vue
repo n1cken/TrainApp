@@ -39,12 +39,9 @@ export default {
     changeDate() {
       this.$store.commit("setDepartureDate", this.picker);
     },
-    computed: {
-      returnTicket() {
-        return ;
-      }
-    },
   },
-
-};
+    mounted ()  {
+      this.picker = this.$store.state.chosenDepartureDate;
+    }
+  };
 </script>

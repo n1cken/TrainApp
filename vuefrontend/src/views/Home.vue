@@ -70,7 +70,7 @@
     </v-row>
 
     <v-row v-if="this.validSearch">
-      <search-result v-for="(result, i) in results" :title="result.departure" :key="i" />
+      <search-result v-for="(result, i) in results" :departure="result.departure" :key="i" />
     </v-row>
   </div>
 </template>

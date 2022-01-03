@@ -1,7 +1,7 @@
 <template>
   <v-card elevation="5" width="100%">
     <div class="d-flex flex-no-wrap justify-space-between">
-      <v-card-title class="text-h5" v-text="this.title"></v-card-title>
+      <v-card-title class="text-h5" v-text="this.departure"></v-card-title>
     </div>
     <v-card-text>
       <div class="text--primary"></div>
@@ -20,7 +20,7 @@ export default {
     return {};
   },
   props: {
-    title : String,
+    departure : String,
   },
   methods: {},
 };
