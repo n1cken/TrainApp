@@ -64,7 +64,7 @@
 
     <v-row v-if="this.validSearch">
       <h2 v-if="this.validSearch"> Sökresultat </h2>
-      <search-result v-for="(result, i) in results" :key="i"/>
+      <search-result v-for="(result, i) in results" :title="result.name" :key="i"/>
     </v-row>
   </div>
 </template>
