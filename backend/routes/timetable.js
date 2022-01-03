@@ -5,14 +5,14 @@ module.exports = (db) => {
   const router = express.Router();
 
   router.get('/', (req, res) => {
-    db.station.findAll()
+    db.timetable.findAll()
       .then((result) => {
         res.json(result);
       });
   });
 
   router.get('/:id', (req, res) => {
-    db.station.findByPk(req.params.id)
+    db.timetable.findByPk(req.params.id)
       .then((result) => {
         res.json(result);
       });

@@ -70,7 +70,7 @@
     </v-row>
 
     <v-row v-if="this.validSearch">
-      <search-result v-for="(result, i) in results" :title="result.name" :key="i" />
+      <search-result v-for="(result, i) in results" :title="result.departure" :key="i" />
     </v-row>
   </div>
 </template>
@@ -154,13 +154,15 @@ export default {
         if (this.validSearch) {
           this.$store.commit("setAmountOfTickets", this.amountOfTickets);
 
-          fetch("http://localhost:3000/station")
+          fetch("http://localhost:3000/timetable")
             .then((res) => res.json())
             .then((data) => (this.resultData = data))
             .then(() => {
               for (var i = 0; i < this.resultData.length; i++) {
                 this.results.push(this.resultData[i]);
               }
+              console.log(this.resultData);
+              console.log("result array: ", this.results);
             })
             .catch((err) => console.log(err.message));
         }

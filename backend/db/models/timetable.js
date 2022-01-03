@@ -3,9 +3,19 @@ module.exports = (sequelize, DataTypes) => {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
-      autoIncrement: true
+      autoIncrement: true,
+      get() {
+        const rawValue = this.getDataValue('id');
+        return rawValue;
+      }
     },
-    departure: DataTypes.DATE,
+    departure: {
+      type: DataTypes.DATE,
+      get() {
+        const rawValue = this.getDataValue('departure');
+        return rawValue;
+      }
+    },
     arrival: DataTypes.DATE
   },
   {
