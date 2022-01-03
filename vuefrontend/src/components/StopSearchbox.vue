@@ -30,7 +30,7 @@ export default {
       items: [],
       search: null,
       select: null,
-      stations: ['Varberg C', 'Göteborg C'],
+      stations: [],
       rawStationData: [],
     };
   },
@@ -68,7 +68,7 @@ export default {
       .then((data) => (this.rawStationData = data))
       .then(() => {
         for (var i = 0; i < this.rawStationData.length; i++) {
-          this.stations.push(this.rawStationData[i].stationName);
+          this.stations.push(this.rawStationData[i].name);
         }
       })
       .catch((err) => console.log(err.message));
