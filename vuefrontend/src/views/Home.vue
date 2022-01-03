@@ -45,12 +45,6 @@
       >
     </v-row>
 
-    <h2 v-if="this.sameStations">Vänligen välj olika stationer att resa emellan.</h2>
-
-    <h2 v-if="this.missingStations">
-      Vänligen fyll i stationer samt datum för din resa.
-    </h2>
-
     <v-row v-if="this.validSearch" justify="center" class="my-3">
       <v-col cols="12" sm="12" md="12" style="background-color: black; height: 300px">
         <p class="my-4" style="color: white; font-size: 30px">SÖKRESULTAT</p>
@@ -61,15 +55,11 @@
           {{ this.$store.state.destinationStation }}
         </div>
       </v-col>
+    </v-row>
 
-<<<<<<< HEAD
-
-    <v-row v-if="!this.validSearch">
+    <v-row v-if="!this.validSearch" justify="center" class="my-3">
       <h2 v-if="this.sameStations">Vänligen välj olika stationer att resa emellan.</h2>
       <h2 v-if="this.missingStations">Vänligen fyll i stationer samt datum för din resa.</h2>
-=======
-      <search-result v-if="this.validSearch" />
->>>>>>> ce20b9b3a26eab4d397419cd9aff6101d62ae0ea
     </v-row>
 
     <v-row v-if="this.validSearch">
@@ -99,12 +89,9 @@ export default {
       missingStations: true,
       sameStations: false,
       validSearch: false,
-<<<<<<< HEAD
       results: [],
-=======
       amountOfTickets: 1,
       departureDate: null,
->>>>>>> ce20b9b3a26eab4d397419cd9aff6101d62ae0ea
     };
   },
   methods: {
@@ -161,12 +148,7 @@ export default {
             })
             .catch((err) => console.log(err.message));
         }
-<<<<<<< HEAD
     }
-=======
-      }
-    },
->>>>>>> ce20b9b3a26eab4d397419cd9aff6101d62ae0ea
   },
 }
 }
