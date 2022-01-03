@@ -6,7 +6,9 @@ const Store = new Vuex.Store({
   state: {
     originStation: null,
     destinationStation: null,
-    chosenDepartureDate: null,
+    chosenDepartureDate: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+    .toISOString()
+    .substr(0, 10),
     options: [],
   },
 
