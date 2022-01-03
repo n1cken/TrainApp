@@ -40,7 +40,10 @@
         x-large
         elevation=""
         color="blue "
-        @click="setSearchInformation();searchTravels()"
+        @click="
+          setSearchInformation();
+          searchTravels();
+        "
         >Sök resa</v-btn
       >
     </v-row>
@@ -48,9 +51,11 @@
     <v-row v-if="this.validSearch" justify="center" class="my-3">
       <v-col cols="12" sm="12" md="12" style="background-color: black; height: 300px">
         <p class="my-4" style="color: white; font-size: 30px">SÖKRESULTAT</p>
-         <p class="my-4" style="color: white; font-size: 25px"> {{ this.searchResultDepartureDate }} </p>
+        <p class="my-4" style="color: white; font-size: 25px">
+          {{ this.searchResultDepartureDate }}
+        </p>
         <div class="my-4" style="color: white; font-size: 30px">
-          {{ this.searchResultFromStation  }}
+          {{ this.searchResultFromStation }}
           <v-icon aria-hidden="false" color="white"> mdi-arrow-right </v-icon>
           {{ this.searchResultToStation }}
         </div>
@@ -59,11 +64,13 @@
 
     <v-row v-if="!this.validSearch" justify="center" class="my-3">
       <h2 v-if="this.sameStations">Vänligen välj olika stationer att resa emellan.</h2>
-      <h2 v-if="this.missingStations">Vänligen fyll i stationer samt datum för din resa.</h2>
+      <h2 v-if="this.missingStations">
+        Vänligen fyll i stationer samt datum för din resa.
+      </h2>
     </v-row>
 
     <v-row v-if="this.validSearch">
-      <search-result v-for="(result, i) in results" :title="result.name" :key="i"/>
+      <search-result v-for="(result, i) in results" :title="result.name" :key="i" />
     </v-row>
   </div>
 </template>
@@ -108,11 +115,10 @@ export default {
 
     /* This is so that the black search result field is not updated instantly upon change,
     but only after using Sök Resa button. */
-    setSearchInformation () {
+    setSearchInformation() {
       this.searchResultDepartureDate = this.$store.state.chosenDepartureDate;
       this.searchResultFromStation = this.$store.state.originStation;
       this.searchResultToStation = this.$store.state.destinationStation;
-
     },
 
     searchTravels() {
@@ -146,6 +152,8 @@ export default {
         }
 
         if (this.validSearch) {
+          this.$store.commit("setAmountOfTickets", this.amountOfTickets);
+
           fetch("http://localhost:3000/station")
             .then((res) => res.json())
             .then((data) => (this.resultData = data))
@@ -156,8 +164,8 @@ export default {
             })
             .catch((err) => console.log(err.message));
         }
-    }
+      }
+    },
   },
-}
-}
+};
 </script>
