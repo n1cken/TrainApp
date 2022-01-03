@@ -63,7 +63,6 @@
     </v-row>
 
     <v-row v-if="this.validSearch">
-      <h2 v-if="this.validSearch"> Sökresultat </h2>
       <search-result v-for="(result, i) in results" :title="result.name" :key="i"/>
     </v-row>
   </div>
@@ -110,6 +109,8 @@ export default {
     },
 
     searchTravels() {
+      this.results = [];
+
       //Origin or Destination is null
       if (!this.$store.state.originStation || !this.$store.state.destinationStation) {
         this.missingStations = true;
