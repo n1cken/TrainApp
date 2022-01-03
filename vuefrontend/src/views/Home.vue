@@ -123,6 +123,8 @@ export default {
 
     searchTravels() {
       this.results = [];
+      this.$store.commit("setAmountOfTickets", this.amountOfTickets);
+
 
       //Origin or Destination is null
       if (!this.$store.state.originStation || !this.$store.state.destinationStation) {
@@ -152,7 +154,6 @@ export default {
         }
 
         if (this.validSearch) {
-          this.$store.commit("setAmountOfTickets", this.amountOfTickets);
 
           fetch("http://localhost:3000/timetable")
             .then((res) => res.json())
