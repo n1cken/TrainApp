@@ -1,0 +1,84 @@
+---
+station:
+  - name: "Gothenburg C"
+  - name: "Stockholm C"
+  - name: "Kiruna C"
+  - name: "Danmark C"
+  - name: "Stockholm Sodra"
+
+train:
+  - name: "Javascript..."
+  - name: "Mr Javascript is not fund"
+  - name: "This is just a test train"
+  - name: "NOooooo, I crashed"
+
+route:
+  - trainId: 1
+  - trainId: 2
+  - trainId: 3
+  - trainId: 4
+
+wagon:
+  - trainId: 1
+  - trainId: 2
+  - trainId: 3
+  - trainId: 4
+
+seat:
+  - wagonId: 1
+    number: 13
+  - wagonId: 1
+    number: 14
+  - wagonId: 1
+    number: 15
+  - wagonId: 1
+    number: 16
+  - wagonId: 1
+    number: 17
+  - wagonId: 1
+    number: 18
+
+timetable:
+  - routeId: 1
+    stationId: 1
+    arrival: null
+    departure: 2022-01-03 14:29:36
+  - routeId: 1
+    stationId: 4
+    arrival: 2022-01-03 18:24:24
+    departure: 2022-01-03 18:29:36
+  - routeId: 1
+    stationId: 3
+    arrival: 2022-01-03 19:10:29
+    departure: 2022-01-03 19:15:10
+  - routeId: 1
+    stationId: 2
+    arrival: 2022-01-03 19:50:14
+    departure: 2022-01-03 20:05:03
+  - routeId: 1
+    stationId: 5
+    arrival: 2022-01-03 21:49:39
+    departure: null
+
+booking:
+  - email: javascript@noo.com
+    timetableDeparturelId: 2
+    timetableArrivalId: 4
+  - email: naaaht@noo.com
+    timetableDeparturelId: 0
+    timetableArrivalId: 5
+
+ticket:
+  - bookingId: 1
+    price: 410
+    seatId: 1
+  - bookingId: 1
+    price: 700
+    seatId: 2
+  - bookingId: 2
+    price: 27971
+    seatId: 6
+  - bookingId: 2
+    price: 2170886
+    seatId: 5
+    
