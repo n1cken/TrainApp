@@ -9,8 +9,8 @@
 export default {
   data() {
     return {
-      checked: false
-    };
+      checked: this.$store.state.options.find(item => item === this.title)
+    }
   },
   props: {
     title: String,

@@ -1,12 +1,14 @@
 <template>
   <div>
-    <v-row style="display:flex; align-items: center; justify-content: center; height:66px">
-          <options-box v-if="this.titel == 'RETURRESA'" title="Återresa"/>
-          <h5 style="width:30%;">{{this.titel}}</h5>
-      </v-row>  
+    <v-row
+      style="display: flex; align-items: center; justify-content: center; height: 66px"
+    >
+      <options-box v-if="this.titel == 'RETURRESA'" title="Återresa" />
+      <h5 style="width: 30%">{{ this.titel }}</h5>
+    </v-row>
     <v-row justify="center" style="margin-bottom: 30px">
       <v-date-picker
-        :disabled=" (this.titel == 'RETURRESA' && !this.$store.state.options[0])"
+        :disabled="this.titel == 'RETURRESA' && !this.$store.state.options[0]"
         v-model="picker"
         show-week
         class="mx-8"
@@ -37,11 +39,21 @@ export default {
   },
   methods: {
     changeDate() {
-      this.$store.commit("setDepartureDate", this.picker);
+      if (this.titel == "AVRESA") {
+        this.$store.commit("setDepartureDate", this.picker);
+      }
+      if (this.titel == "RETURRESA") {
+        this.$store.commit("setReturnDate", this.picker);
+      }
     },
   },
-    mounted ()  {
+  mounted() {
+    if (this.titel == "AVRESA") {
       this.picker = this.$store.state.chosenDepartureDate;
     }
-  };
+    if (this.titel == "RETURRESA") {
+      this.picker = this.$store.state.chosenReturnDate;
+    }
+  },
+};
 </script>

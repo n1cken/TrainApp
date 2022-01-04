@@ -14,7 +14,7 @@
         flat
         hide-no-data
         hide-details
-        :label="this.saveSelect()"
+        :label="this.saveSelected()"
         solo-inverted
         auto-select-first
       >
@@ -62,7 +62,7 @@ export default {
         this.loading = false;
       }, 500);
     },
-     saveSelect ()  {
+     saveSelected ()  {
         if (this.$store.state.originStation && this.$store.state.destinationStation) {
           if (this.titel == "Från") {
             return this.$store.state.originStation;
