@@ -42,7 +42,7 @@ export default {
       if (this.titel == "AVRESA") {
         this.$store.commit("setDepartureDate", this.picker);
       }
-      if (this.titel == "RETURRESA") {
+      else if (this.titel == "RETURRESA") {
         this.$store.commit("setReturnDate", this.picker);
       }
     },
@@ -51,7 +51,7 @@ export default {
     if (this.titel == "AVRESA") {
       this.picker = this.$store.state.chosenDepartureDate;
     }
-    if (this.titel == "RETURRESA") {
+    else if (this.titel == "RETURRESA") {
       this.picker = this.$store.state.chosenReturnDate;
     }
   },
