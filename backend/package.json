@@ -4,6 +4,7 @@
   "description": "",
   "author": "Group 2",
   "scripts": {
+    "seed": "node scripts/seed.js",
     "prod": "node index.js",
     "serve": "nodemon index.js"
   },
@@ -15,6 +16,7 @@
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "js-yaml": "^4.1.0",
     "sequelize": "^7.0.0-alpha.3",
     "sqlite3": "^5.0.2"
   },
