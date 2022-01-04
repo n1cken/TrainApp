@@ -8,7 +8,7 @@ module.exports = (db) => {
     res.send('working')
   })
 
-  router.get('/:origin/:destination/', async (req, res) => {
+  router.get('/:origin/:destination/:date', async (req, res) => {
 
     //translate stations into db corresponding id
     const UserOrigin = decodeURIComponent(req.params.origin);
@@ -16,7 +16,7 @@ module.exports = (db) => {
     const OG = await db.station.findOne({ where: { name: UserOrigin } });
     const DN = await db.station.findOne({ where: { name: UserDestination } });
 
-    const result = await db.timetable.findAll({ where: { [Op.or]: [{ stationId: OG.id }, { stationId: DN.id }] } })
+    const result = await db.timetable.findAll({ where: { [Op.or]: [{ stationId: OG.id }, { stationId: DN.id }], [Op.and]: [{ departure: { [Op.lte]: `${req.params.date}T23:59:59Z` } }, { departure: { [Op.gte]: `${req.params.date}T00:00:01Z` } }] } })
     res.send(result)
     // use id to find in timetable
   });
