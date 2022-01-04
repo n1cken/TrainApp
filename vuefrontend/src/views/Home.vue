@@ -23,7 +23,7 @@
         style="color: white; font-size: 40px; margin-right: 10px"
         >-</v-btn
       >
-      <div style="margin-top: 18px; font-size: 16px">{{ this.amountOfTickets }}</div>
+      <div style="margin-top: 18px; font-size: 16px">{{ this.$store.state.chosenAmountOfTickets }}</div>
       <v-btn
         medium
         fab
@@ -96,7 +96,7 @@ export default {
       sameStations: false,
       validSearch: false,
       results: [],
-      amountOfTickets: 1,
+      amountOfTickets: this.$store.state.chosenAmountOfTickets,
       searchResultDepartureDate: null,
       searchResultFromStation: null,
       searchResultToStation: null,
@@ -106,11 +106,13 @@ export default {
     reduceAmountOfTickets() {
       if (this.amountOfTickets > 1) {
         this.amountOfTickets = this.amountOfTickets - 1;
+        this.$store.commit("setAmountOfTickets", this.amountOfTickets);
       }
     },
 
     increaseAmountOfTickets() {
       this.amountOfTickets = this.amountOfTickets + 1;
+      this.$store.commit("setAmountOfTickets", this.amountOfTickets);
     },
 
     /* This is so that the black search result field is not updated instantly upon change,
@@ -123,7 +125,6 @@ export default {
 
     searchTravels() {
       this.results = [];
-      this.$store.commit("setAmountOfTickets", this.amountOfTickets);
 
 
       //Origin or Destination is null
