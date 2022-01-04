@@ -1,6 +1,6 @@
 <template>
-  <v-row justify="center" style="margin-top: 20px">
-    <v-toolbar elevation="0" max-width="800">
+  <v-row justify="center" style="margin: 20px;">
+    <v-toolbar elevation="5" max-width="800" style="border-radius: 8px;">
       <div style="width: 50px">
         <v-toolbar-title>{{ titel }}</v-toolbar-title>
       </div>
