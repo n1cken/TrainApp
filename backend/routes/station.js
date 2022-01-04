@@ -18,5 +18,11 @@ module.exports = (db) => {
       });
   });
 
+  router.get('/station/:origin', async (req, res) => {
+    const requestOrigin = decodeURIComponent(req.params.origin);
+    const user = await db.station.findAll({ where: { name: requestOrigin } })
+    res.send(user)
+  });
+
   return router;
 }
