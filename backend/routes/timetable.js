@@ -1,6 +1,5 @@
 const express = require('express');
-const Sequelize = require('sequelize');
-const Op = Sequelize.Op;
+const { Op } = require("sequelize");
 // TODO: Error handling
 module.exports = (db) => {
   const router = express.Router();
@@ -17,10 +16,7 @@ module.exports = (db) => {
     const OG = await db.station.findOne({ where: { name: UserOrigin } });
     const DN = await db.station.findOne({ where: { name: UserDestination } });
 
-    const result = await db.timetable.findAll({
-      // find all instance of destination filter and for those who match with the route that has origin before destination, 
-      //lastly filter with datetime
-    })
+    const result = await db.timetable.findAll({ where: { [Op.or]: [{ stationId: OG.id }, { stationId: DN.id }] } })
     res.send(result)
     // use id to find in timetable
   });
