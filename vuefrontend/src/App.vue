@@ -1,10 +1,10 @@
 <template>
   <v-app>
-    <v-app-bar dark app>
+    <v-app-bar app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
-      <v-toolbar-title style="font-size: 35px; margin-right: 20px">SJ</v-toolbar-title>
-      <v-toolbar-title>{{this.title}}</v-toolbar-title>
+      <v-toolbar-title style="font-size: 40px; margin-top: 0px; margin-right: 20px; font-family: Times New Roman">SJ</v-toolbar-title>
+      <v-toolbar-title style="margin-top: 5px;">{{this.title}}</v-toolbar-title>
 
       <v-spacer></v-spacer>
     </v-app-bar>
@@ -32,7 +32,7 @@
 
     <v-main>
       <!-- Provides the application the proper gutter -->
-      <v-container fluid>
+      <v-container fluid class="py-0 px-0">
         <router-view />
       </v-container>
     </v-main>
@@ -64,7 +64,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: white;
 }
 
 #nav {

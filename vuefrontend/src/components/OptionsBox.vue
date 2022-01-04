@@ -1,5 +1,6 @@
 <template>
   <v-checkbox
+    dark
     v-model="checked"
     @change="changedState()"
   ></v-checkbox>

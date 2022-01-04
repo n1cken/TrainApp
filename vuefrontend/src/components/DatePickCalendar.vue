@@ -4,7 +4,7 @@
       style="display: flex; align-items: center; justify-content: center; height: 66px"
     >
       <options-box v-if="this.titel == 'RETURRESA'" title="Återresa" />
-      <h5 style="width: 30%">{{ this.titel }}</h5>
+      <h4 style="width: 30%">{{ this.titel }}</h4>
     </v-row>
     <v-row justify="center" style="margin-bottom: 30px">
       <v-date-picker
@@ -13,6 +13,7 @@
         show-week
         class="mx-8"
         width="350"
+        elevation="3"
         @change="changeDate()"
         :min="new Date().toISOString().substr(0, 10)"
       ></v-date-picker>

@@ -1,5 +1,15 @@
 <template>
-  <div>
+  <div
+    style="
+      background: url(background2.jpg);
+      padding-top: 30px;
+
+      background-attachment: fixed;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    "
+  >
     <stop-searchbox titel="Från" />
     <stop-searchbox titel="Till" />
     <v-row class="my-6">
@@ -13,21 +23,23 @@
     </v-row>
 
     <v-row justify="center" style="display: flex" class="my-6">
-      <v-col cols="12" sm="12" md="12"> ANTAL RESENÄRER</v-col>
+      <v-col cols="12" sm="12" md="12" style="color: white; font-size: 18px;"> ANTAL RESENÄRER</v-col>
       <v-btn
         medium
         fab
-        elevation=""
+        elevation="3"
         color="blue"
         @click="reduceAmountOfTickets()"
         style="color: white; font-size: 40px; margin-right: 10px"
         >-</v-btn
       >
-      <div style="margin-top: 18px; font-size: 16px">{{ this.$store.state.chosenAmountOfTickets }}</div>
+      <div style="margin-top: 18px; font-size: 20px">
+        {{ this.$store.state.chosenAmountOfTickets }}
+      </div>
       <v-btn
         medium
         fab
-        elevation=""
+        elevation="3"
         color="blue"
         @click="increaseAmountOfTickets()"
         style="color: white; font-size: 30px; margin-left: 10px"
@@ -38,7 +50,7 @@
       <v-btn
         style="color: white"
         x-large
-        elevation=""
+        elevation="3"
         color="blue "
         @click="
           setSearchInformation();
@@ -48,13 +60,13 @@
       >
     </v-row>
 
-    <v-row v-if="this.validSearch" justify="center" class="my-3">
-      <v-col cols="12" sm="12" md="12" style="background-color: black; height: 300px">
-        <p class="my-4" style="color: white; font-size: 30px">SÖKRESULTAT</p>
+    <v-row v-if="this.validSearch" justify="center" class="py-0">
+      <v-col cols="12" sm="12" md="12" style="background-color: rgb(0,0,0); height: 300px">
+        <h1 class="my-4" style="color: white; font-size: 30px; padding-top: 30px;">SÖKRESULTAT</h1>
         <p class="my-4" style="color: white; font-size: 25px">
           {{ this.searchResultDepartureDate }}
         </p>
-        <div class="my-4" style="color: white; font-size: 30px">
+        <div class="my-4" style="color: white; font-size: 35px">
           {{ this.searchResultFromStation }}
           <v-icon aria-hidden="false" color="white"> mdi-arrow-right </v-icon>
           {{ this.searchResultToStation }}
@@ -63,14 +75,20 @@
     </v-row>
 
     <v-row v-if="!this.validSearch" justify="center" class="my-3">
-      <h2 v-if="this.sameStations">Vänligen välj olika stationer att resa emellan.</h2>
-      <h2 v-if="this.missingStations">
-        Vänligen fyll i stationer samt datum för din resa.
-      </h2>
+      <div style="margin-bottom: 30px; font-family: Lucida Sans; border-radius: 10px">
+        <h2 v-if="this.sameStations">Vänligen välj olika stationer att resa emellan.</h2>
+        <h2 v-if="this.missingStations">
+          Vänligen fyll i stationer samt datum för din resa.
+        </h2>
+      </div>
     </v-row>
 
     <v-row v-if="this.validSearch">
-      <search-result v-for="(result, i) in results" :departure="result.departure" :key="i" />
+      <search-result
+        v-for="(result, i) in results"
+        :departure="result.departure"
+        :key="i"
+      />
     </v-row>
   </div>
 </template>
@@ -92,9 +110,9 @@ export default {
   },
   data: function () {
     return {
-      missingStations: true,
+      missingStations: false,
       sameStations: false,
-      validSearch: false,
+      validSearch: null,
       results: [],
       amountOfTickets: this.$store.state.chosenAmountOfTickets,
       searchResultDepartureDate: null,
@@ -126,7 +144,6 @@ export default {
     searchTravels() {
       this.results = [];
 
-
       //Origin or Destination is null
       if (!this.$store.state.originStation || !this.$store.state.destinationStation) {
         this.missingStations = true;
@@ -155,7 +172,6 @@ export default {
         }
 
         if (this.validSearch) {
-
           fetch("http://localhost:3000/timetable")
             .then((res) => res.json())
             .then((data) => (this.resultData = data))
