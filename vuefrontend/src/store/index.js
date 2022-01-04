@@ -7,21 +7,25 @@ const Store = new Vuex.Store({
     originStation: null,
     destinationStation: null,
     chosenDepartureDate: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
-    .toISOString()
-    .substr(0, 10),
+      .toISOString()
+      .substr(0, 10),
     options: [],
+    chosenAmountOfTickets: 1
   },
 
   mutations: {
-    setOrigin (state, station ) {
+    setOrigin(state, station) {
       state.originStation = station
     },
-    setDestination (state, station ) {
+    setDestination(state, station) {
       state.destinationStation = station
     },
-    setDepartureDate (state, date) {
-        state.chosenDepartureDate = date
-        },
+    setDepartureDate(state, date) {
+      state.chosenDepartureDate = date
+    },
+    setAmountOfTickets(state, amount) {
+      state.chosenAmountOfTickets = amount
+    },
     addOptionsValue(state, value) {
       state.options.push(value)
     },

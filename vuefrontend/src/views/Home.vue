@@ -40,29 +40,37 @@
         x-large
         elevation=""
         color="blue "
-        @click="setSearchDate();searchTravels()"
+        @click="
+          setSearchInformation();
+          searchTravels();
+        "
         >Sök resa</v-btn
       >
     </v-row>
 
-    <h2 v-if="this.sameStations">Vänligen välj olika stationer att resa emellan.</h2>
-
-    <h2 v-if="this.missingStations">
-      Vänligen fyll i stationer samt datum för din resa.
-    </h2>
-
     <v-row v-if="this.validSearch" justify="center" class="my-3">
       <v-col cols="12" sm="12" md="12" style="background-color: black; height: 300px">
         <p class="my-4" style="color: white; font-size: 30px">SÖKRESULTAT</p>
-         <p class="my-4" style="color: white; font-size: 25px"> {{ this.departureDate }} </p>
+        <p class="my-4" style="color: white; font-size: 25px">
+          {{ this.searchResultDepartureDate }}
+        </p>
         <div class="my-4" style="color: white; font-size: 30px">
-          {{ this.$store.state.originStation }}
+          {{ this.searchResultFromStation }}
           <v-icon aria-hidden="false" color="white"> mdi-arrow-right </v-icon>
-          {{ this.$store.state.destinationStation }}
+          {{ this.searchResultToStation }}
         </div>
       </v-col>
+    </v-row>
 
-      <search-result v-if="this.validSearch" />
+    <v-row v-if="!this.validSearch" justify="center" class="my-3">
+      <h2 v-if="this.sameStations">Vänligen välj olika stationer att resa emellan.</h2>
+      <h2 v-if="this.missingStations">
+        Vänligen fyll i stationer samt datum för din resa.
+      </h2>
+    </v-row>
+
+    <v-row v-if="this.validSearch">
+      <search-result v-for="(result, i) in results" :departure="result.departure" :key="i" />
     </v-row>
   </div>
 </template>
@@ -87,8 +95,11 @@ export default {
       missingStations: true,
       sameStations: false,
       validSearch: false,
+      results: [],
       amountOfTickets: 1,
-      departureDate: null,
+      searchResultDepartureDate: null,
+      searchResultFromStation: null,
+      searchResultToStation: null,
     };
   },
   methods: {
@@ -102,11 +113,19 @@ export default {
       this.amountOfTickets = this.amountOfTickets + 1;
     },
 
-    setSearchDate () {
-      this.departureDate = this.$store.state.chosenDepartureDate;
+    /* This is so that the black search result field is not updated instantly upon change,
+    but only after using Sök Resa button. */
+    setSearchInformation() {
+      this.searchResultDepartureDate = this.$store.state.chosenDepartureDate;
+      this.searchResultFromStation = this.$store.state.originStation;
+      this.searchResultToStation = this.$store.state.destinationStation;
     },
 
     searchTravels() {
+      this.results = [];
+      this.$store.commit("setAmountOfTickets", this.amountOfTickets);
+
+
       //Origin or Destination is null
       if (!this.$store.state.originStation || !this.$store.state.destinationStation) {
         this.missingStations = true;
@@ -135,7 +154,18 @@ export default {
         }
 
         if (this.validSearch) {
-          console.log("Search valid. fetching data... ");
+
+          fetch("http://localhost:3000/timetable")
+            .then((res) => res.json())
+            .then((data) => (this.resultData = data))
+            .then(() => {
+              for (var i = 0; i < this.resultData.length; i++) {
+                this.results.push(this.resultData[i]);
+              }
+              console.log(this.resultData);
+              console.log("result array: ", this.results);
+            })
+            .catch((err) => console.log(err.message));
         }
       }
     },

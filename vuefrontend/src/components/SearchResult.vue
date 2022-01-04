@@ -1,5 +1,8 @@
 <template>
-  <v-card elevation="5" width="100%" >
+  <v-card elevation="5" width="100%">
+    <div class="d-flex flex-no-wrap justify-space-between">
+      <v-card-title class="text-h5" v-text="this.departure"></v-card-title>
+    </div>
     <v-card-text>
       <div class="text--primary"></div>
     </v-card-text>
@@ -9,21 +12,16 @@
   </v-card>
 </template>
 
-
 <script>
-
 export default {
   name: "SearchResults",
-  components: {
-  },
+  components: {},
   data: function () {
-    return {
-      
-    };
+    return {};
   },
-  methods: {
-    
+  props: {
+    departure : String,
   },
+  methods: {},
 };
 </script>
-

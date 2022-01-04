@@ -1,24 +1,25 @@
 <template>
-<v-row justify="center" style="margin-top: 20px">
-  <v-toolbar elevation="0" max-width="800">
-  <div style="width:50px;">
-    <v-toolbar-title>{{ titel }}</v-toolbar-title>
-    </div>
-    <v-autocomplete
-      v-model="select"
-      :loading="loading"
-      :items="items"
-      :search-input.sync="search"
-      cache-items
-      class="mx-3"
-      flat
-      hide-no-data
-      hide-details
-      label="Hållplats"
-      solo-inverted
-      auto-select-first
-    ></v-autocomplete>
-  </v-toolbar>
+  <v-row justify="center" style="margin-top: 20px">
+    <v-toolbar elevation="0" max-width="800">
+      <div style="width: 50px">
+        <v-toolbar-title>{{ titel }}</v-toolbar-title>
+      </div>
+      <v-autocomplete
+        v-model="select"
+        :loading="loading"
+        :items="items"
+        :search-input.sync="search"
+        cache-items
+        class="mx-3"
+        flat
+        hide-no-data
+        hide-details
+        :label="this.saveSelect()"
+        solo-inverted
+        auto-select-first
+      >
+      </v-autocomplete>
+    </v-toolbar>
   </v-row>
 </template>
 
@@ -48,8 +49,8 @@ export default {
       if (this.titel == "Till") {
         this.$store.commit("setDestination", val);
       }
-    }
-   },
+    },
+  },
   methods: {
     querySelections(v) {
       this.loading = true;
@@ -61,6 +62,18 @@ export default {
         this.loading = false;
       }, 500);
     },
+     saveSelect ()  {
+        if (this.$store.state.originStation && this.$store.state.destinationStation) {
+          if (this.titel == "Från") {
+            return this.$store.state.originStation;
+          }
+          if (this.titel == "Till") {
+            return this.$store.state.destinationStation;
+          }
+        } else {
+          return "Hållplats";
+        }
+      },
   },
   mounted() {
     fetch("http://localhost:3000/station")
@@ -68,7 +81,7 @@ export default {
       .then((data) => (this.rawStationData = data))
       .then(() => {
         for (var i = 0; i < this.rawStationData.length; i++) {
-          this.stations.push(this.rawStationData[i].stationName);
+          this.stations.push(this.rawStationData[i].name);
         }
       })
       .catch((err) => console.log(err.message));
