@@ -84,11 +84,7 @@
     </v-row>
 
     <v-row v-if="this.validSearch">
-      <search-result
-        v-for="(result, i) in results"
-        :departure="result.departure"
-        :key="i"
-      />
+      <search-result class="px-11" style="width:100%; padding-top: 30px; padding-bottom: 30px;"/>
     </v-row>
   </div>
 </template>
