@@ -23,7 +23,7 @@ export default {
         {
           text: "AVGÅNG",
           align: "start",
-          value: "",
+          value: this.results.departure,
         },
         { text: "ANKOMST", value: "calories" },
         { text: "RESTID", value: "fat" },
@@ -119,7 +119,6 @@ export default {
     departure: String,
     results: {
       type: Array,
-      default: (()=>{[]})
     }
   },
   methods: {

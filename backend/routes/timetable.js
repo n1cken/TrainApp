@@ -1,22 +1,25 @@
 const express = require('express');
-
+const { Op } = require("sequelize");
 // TODO: Error handling
 module.exports = (db) => {
   const router = express.Router();
 
   router.get('/', (req, res) => {
-    db.timetable.findAll()
-      .then((result) => {
-        res.json(result);
-      });
-  });
+    res.send('working')
+  })
 
-  router.get('/:id', (req, res) => {
-    db.timetable.findByPk(req.params.id)
-      .then((result) => {
-        res.json(result);
-      });
-  }); 
+  router.get('/:origin/:destination/:date', async (req, res) => {
+
+    //translate stations into db corresponding id
+    const UserOrigin = decodeURIComponent(req.params.origin);
+    const UserDestination = decodeURIComponent(req.params.destination);
+    const OG = await db.station.findOne({ where: { name: UserOrigin } });
+    const DN = await db.station.findOne({ where: { name: UserDestination } });
+
+    const result = await db.timetable.findAll({ where: { [Op.or]: [{ stationId: OG.id }, { stationId: DN.id }], [Op.and]: [{ departure: { [Op.lte]: `${req.params.date}T23:59:59Z` } }, { departure: { [Op.gte]: `${req.params.date}T00:00:01Z` } }] } })
+    res.send(result)
+    // use id to find in timetable
+  });
 
   return router;
 }

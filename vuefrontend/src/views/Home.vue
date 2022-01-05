@@ -181,7 +181,7 @@ export default {
         }
 
         if (this.validSearch) {
-          fetch("http://localhost:3000/timetable")
+          fetch("http://localhost:3000/" +  this.$store.state.originStation + + "/" + this.$store.state.destinationStation + "/" + this.$store.state.chosenDepartureDate)
             .then((res) => res.json())
             .then((data) => (this.resultData = data))
             .then(() => {
