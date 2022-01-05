@@ -31,11 +31,11 @@ export default {
         {
           text: "AVGÅNG",
           align: "start",
-          value: this.resultArray,
+          value: "departure",
         },
-        { text: "ANKOMST", value: "calories" },
-        { text: "RESTID", value: "fat" },
-        { text: "ANTAL BYTEN", value: "carbs" },
+        { text: "ANKOMST", value: "arrival" },
+        { text: "Från", value: "From" },
+        { text: "Till", value: "To" },
         { text: "PRIS", value: "protein" },
         { text: "BOKA", value: "actions" },
       ],
@@ -126,7 +126,7 @@ export default {
   props: ["resultArray"],
   methods: {
     onButtonClick(item) {
-      console.log("click on " + item.name);
+      console.log("click on ", item);
       console.log("results ", this.resultArray);
     },
   },
