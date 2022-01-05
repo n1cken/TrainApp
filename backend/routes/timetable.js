@@ -22,11 +22,15 @@ module.exports = (db) => {
       const localArrayMatch = FinalizedTimetable.filter(singleElement => singleElement.routeId == result[i].routeId)
       if (localArrayMatch.length < 1) {
         const match = result.filter(timetable => timetable.routeId == result[i].routeId)
-        if (match[0].routeId == DN) {
-          FinalizedTimetable.push({ "departure": match[1].departure, "arrival": match[0].arrival, "From": UserOrigin, "To": UserDestination, "routeId": result[i].routeId })
-        } else {
-          FinalizedTimetable.push({ "departure": match[0].departure, "arrival": match[1].arrival, "From": UserOrigin, "To": UserDestination, "routeId": result[i].routeId })
+        if (match.length == 2) {
+          console.log(match.length)
+          if (match[0].routeId == DN) {
+            FinalizedTimetable.push({ "departure": match[1].departure, "arrival": match[0].arrival, "From": UserOrigin, "To": UserDestination, "routeId": result[i].routeId })
+          } else {
+            FinalizedTimetable.push({ "departure": match[0].departure, "arrival": match[1].arrival, "From": UserOrigin, "To": UserDestination, "routeId": result[i].routeId })
+          }
         }
+
       } else {
       }
     }
