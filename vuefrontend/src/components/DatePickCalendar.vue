@@ -3,7 +3,7 @@
     <v-row
       style="display: flex; align-items: center; justify-content: center; height: 66px"
     >
-      <options-box v-if="this.titel == 'RETURRESA'" title="Återresa" />
+      <options-box v-if="this.titel == 'RETURRESA'" title="Återresa"/>
       <h4 style="width: 30%">{{ this.titel }}</h4>
     </v-row>
     <v-row justify="center" style="margin-bottom: 30px">
