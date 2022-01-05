@@ -17,7 +17,7 @@ module.exports = (db) => {
     const OG = await db.station.findOne({ where: { name: UserOrigin } });
     const DN = await db.station.findOne({ where: { name: UserDestination } });
 
-    const result = await db.timetable.findAll({ where: { [Op.or]: [{ stationId: OG.id }, { stationId: DN.id }], [Op.and]: [{ departure: { [Op.lte]: `${req.params.date}T23:59:59Z` } }, { departure: { [Op.gte]: `${req.params.date}T00:00:01Z` } }] } })
+    const result = await db.timetable.findAll({ where: { [Op.or]: [{ stationId: OG.id }, { stationId: DN.id }], [Op.and]: [{ [Op.or]: [{ departure: { [Op.lte]: `${req.params.date}T23:59:59Z` }, departure: { [Op.gte]: `${req.params.date}T00:00:01Z` } }, { arrival: { [Op.lte]: `${req.params.date}T23:59:59Z` }, arrival: { [Op.gte]: `${req.params.date}T00:00:01Z` } }] }] } })
 
     for (let i = 0; i < result.length; i++) {
       const localArrayMatch = FinalizedTimetable.filter(singleElement => singleElement.routeId == result[i].routeId)
