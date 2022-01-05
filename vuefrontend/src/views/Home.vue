@@ -23,7 +23,9 @@
     </v-row>
 
     <v-row justify="center" style="display: flex" class="my-6">
-      <v-col cols="12" sm="12" md="12" style="color: white; font-size: 18px;"> ANTAL RESENÄRER</v-col>
+      <v-col cols="12" sm="12" md="12" style="color: white; font-size: 18px">
+        ANTAL RESENÄRER</v-col
+      >
       <v-btn
         medium
         fab
@@ -61,8 +63,15 @@
     </v-row>
 
     <v-row v-if="this.validSearch" justify="center" class="py-0">
-      <v-col cols="12" sm="12" md="12" style="background-color: rgb(0,0,0); height: 300px">
-        <h1 class="my-4" style="color: white; font-size: 30px; padding-top: 30px;">SÖKRESULTAT</h1>
+      <v-col
+        cols="12"
+        sm="12"
+        md="12"
+        style="background-color: rgb(0, 0, 0); height: 300px"
+      >
+        <h1 class="my-4" style="color: white; font-size: 30px; padding-top: 30px">
+          SÖKRESULTAT
+        </h1>
         <p class="my-4" style="color: white; font-size: 25px">
           {{ this.searchResultDepartureDate }}
         </p>
@@ -84,7 +93,11 @@
     </v-row>
 
     <v-row v-if="this.validSearch">
-      <search-result class="px-11" style="width:100%; padding-top: 30px; padding-bottom: 30px;"/>
+      <search-result
+        :results="this.results"
+        class="px-11"
+        style="width: 100%; padding-top: 30px; padding-bottom: 30px"
+      />
     </v-row>
   </div>
 </template>

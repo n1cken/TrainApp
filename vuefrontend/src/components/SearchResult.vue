@@ -1,8 +1,8 @@
 <template>
   <v-data-table
     :headers="headers"
-    :items="desserts"
-    :sort-by="['calories', 'fat']"
+    :items="this.results"
+    :sort-by="[]"
     multi-sort
     class="elevation-1"
   >
@@ -23,7 +23,7 @@ export default {
         {
           text: "AVGÅNG",
           align: "start",
-          value: "name",
+          value: "",
         },
         { text: "ANKOMST", value: "calories" },
         { text: "RESTID", value: "fat" },
@@ -117,10 +117,15 @@ export default {
   },
   props: {
     departure: String,
+    results: {
+      type: Array,
+      default: (()=>{[]})
+    }
   },
   methods: {
     onButtonClick(item) {
       console.log("click on " + item.name);
+      console.log("results " + this.results);
     },
   },
 };
