@@ -1,15 +1,23 @@
 <template>
   <v-data-table
     :headers="headers"
-    :items="this.results"
+    :items="resultArray"
     :sort-by="[]"
     multi-sort
     class="elevation-1"
   >
     <template v-slot:item.actions="{ item }">
-      <v-btn dark small color="blue" elevation="2" class="mr-2" @click="onButtonClick(item)"> BOKA </v-btn>
+      <v-btn
+        dark
+        small
+        color="blue"
+        elevation="2"
+        class="mr-2"
+        @click="onButtonClick(item)"
+      >
+        BOKA
+      </v-btn>
     </template>
-
   </v-data-table>
 </template>
 
@@ -23,7 +31,7 @@ export default {
         {
           text: "AVGÅNG",
           align: "start",
-          value: this.results,
+          value: this.resultArray,
         },
         { text: "ANKOMST", value: "calories" },
         { text: "RESTID", value: "fat" },
@@ -115,16 +123,11 @@ export default {
       ],
     };
   },
-  props: {
-    departure: String,
-    results: {
-      type: Array,
-    }
-  },
+  props: ["resultArray"],
   methods: {
     onButtonClick(item) {
       console.log("click on " + item.name);
-      console.log("results " + this.results);
+      console.log("results ", this.resultArray);
     },
   },
 };

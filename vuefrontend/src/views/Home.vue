@@ -94,7 +94,7 @@
 
     <v-row v-if="this.validSearch">
       <search-result
-        :results="this.results"
+        :resultArray="this.results"
         class="px-11"
         style="width: 100%; padding-top: 30px; padding-bottom: 30px"
       />
@@ -116,6 +116,8 @@ export default {
     StopSearchbox,
     DatePickCalendar,
     SearchResult,
+  },
+  props: {
   },
   data: function () {
     return {
@@ -181,7 +183,14 @@ export default {
         }
 
         if (this.validSearch) {
-          fetch("http://localhost:3000/timetable/" +  this.$store.state.originStation + "/" + this.$store.state.destinationStation + "/" + this.$store.state.chosenDepartureDate)
+          fetch(
+            "http://localhost:3000/timetable/" +
+              this.$store.state.originStation +
+              "/" +
+              this.$store.state.destinationStation +
+              "/" +
+              this.$store.state.chosenDepartureDate
+          )
             .then((res) => res.json())
             .then((data) => (this.resultData = data))
             .then(() => {

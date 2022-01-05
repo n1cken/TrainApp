@@ -9,6 +9,7 @@ module.exports = (db) => {
   })
 
   router.get('/:origin/:destination/:date', async (req, res) => {
+
     const FinalizedTimetable = []
     //translate stations into db corresponding id
     const UserOrigin = decodeURIComponent(req.params.origin);
