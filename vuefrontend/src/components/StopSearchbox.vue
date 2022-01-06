@@ -44,10 +44,11 @@ export default {
     },
     select(val) {
       if (this.titel == "Från") {
-        this.$store.commit("setOrigin", val);
+        this.$store.commit("setOrigin", this.rawStationData[this.stations.indexOf(val)].id);
+        console.log(this.rawStationData[this.stations.indexOf(val)])
       }
       if (this.titel == "Till") {
-        this.$store.commit("setDestination", val);
+        this.$store.commit("setDestination", this.rawStationData[this.stations.indexOf(val)].id);
       }
     },
   },
@@ -65,10 +66,11 @@ export default {
      saveSelected ()  {
         if (this.$store.state.originStation && this.$store.state.destinationStation) {
           if (this.titel == "Från") {
-            return this.$store.state.originStation;
+            return this.rawStationData.find(x => x.id = this.$store.state.originStation)
           }
           if (this.titel == "Till") {
-            return this.$store.state.destinationStation;
+            return this.rawStationData.find(x => x.id = this.$store.state.destinationStation)
+            //return this.$store.state.destinationStation;
           }
         } else {
           return "Hållplats";
