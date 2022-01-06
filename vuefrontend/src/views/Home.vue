@@ -58,6 +58,19 @@
           setSearchInformation();
           searchTravels();
         "
+        v-scroll-to="{
+          el: '#resultBlackBox',
+          duration: 500,
+          easing: 'linear',
+          offset: -200,
+          force: true,
+          cancelable: true,
+          onStart: onStart,
+          onDone: onDone,
+          onCancel: onCancel,
+          x: false,
+          y: true,
+        }"
         >Sök resa</v-btn
       >
     </v-row>
@@ -69,7 +82,11 @@
         md="12"
         style="background-color: rgb(0, 0, 0); height: 300px"
       >
-        <h1 class="my-4" style="color: white; font-size: 30px; padding-top: 30px">
+        <h1
+          class="my-4"
+          id="resultBlackBox"
+          style="color: white; font-size: 30px; padding-top: 30px"
+        >
           SÖKRESULTAT
         </h1>
         <p class="my-4" style="color: white; font-size: 25px">
@@ -117,8 +134,7 @@ export default {
     DatePickCalendar,
     SearchResult,
   },
-  props: {
-  },
+  props: {},
   data: function () {
     return {
       missingStations: false,
