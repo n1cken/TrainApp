@@ -9,6 +9,9 @@ Vue.config.productionTip = false
 Vue.use(vuetify)
 Vue.use(Router);
 
+var VueScrollTo = require('vue-scrollto');
+Vue.use(VueScrollTo)
+
 new Vue({
   vuetify,
   router: Router,
