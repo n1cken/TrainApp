@@ -148,6 +148,15 @@ export default {
     };
   },
   methods: {
+    getStation(id) {
+      return new Promise(function(resolve, reject) {
+        const url = `http://localhost:3000/station/${id}`
+        fetch(url)
+          .then((res) => res.json())
+          .then((data) => resolve(data.name))
+          .catch((err) => reject(err));
+      })
+    },
     reduceAmountOfTickets() {
       if (this.amountOfTickets > 1) {
         this.amountOfTickets = this.amountOfTickets - 1;
@@ -164,8 +173,8 @@ export default {
     but only after using Sök Resa button. */
     setSearchInformation() {
       this.searchResultDepartureDate = this.$store.state.chosenDepartureDate;
-      this.searchResultFromStation = this.$store.state.originStation;
-      this.searchResultToStation = this.$store.state.destinationStation;
+      this.getStation(this.$store.state.originStation).then((res) => this.searchResultFromStation = res)
+      this.getStation(this.$store.state.destinationStation).then((res) => this.searchResultToStation = res)
     },
 
     searchTravels() {
