@@ -1,6 +1,6 @@
 <template>
-  <v-row justify="center" style="margin: 20px;">
-    <v-toolbar elevation="5" max-width="800" style="border-radius: 8px;">
+  <v-row justify="center" style="margin: 20px">
+    <v-toolbar elevation="5" max-width="800" style="border-radius: 8px">
       <div style="width: 50px">
         <v-toolbar-title>{{ titel }}</v-toolbar-title>
       </div>
@@ -33,6 +33,8 @@ export default {
       select: null,
       stations: [],
       rawStationData: [],
+      searchResultFromStation: null,
+      searchResultToStation: null,
     };
   },
   props: {
@@ -44,15 +46,30 @@ export default {
     },
     select(val) {
       if (this.titel == "Från") {
-        this.$store.commit("setOrigin", this.rawStationData[this.stations.indexOf(val)].id);
-        console.log(this.rawStationData[this.stations.indexOf(val)])
+        this.$store.commit(
+          "setOrigin",
+          this.rawStationData[this.stations.indexOf(val)].id
+        );
+        console.log(this.rawStationData[this.stations.indexOf(val)]);
       }
       if (this.titel == "Till") {
-        this.$store.commit("setDestination", this.rawStationData[this.stations.indexOf(val)].id);
+        this.$store.commit(
+          "setDestination",
+          this.rawStationData[this.stations.indexOf(val)].id
+        );
       }
     },
   },
   methods: {
+    getStation(id) {
+      return new Promise(function (resolve, reject) {
+        const url = `http://localhost:3000/station/${id}`;
+        fetch(url)
+          .then((res) => res.json())
+          .then((data) => resolve(data.name))
+          .catch((err) => reject(err));
+      });
+    },
     querySelections(v) {
       this.loading = true;
       // Simulated ajax query
@@ -63,19 +80,25 @@ export default {
         this.loading = false;
       }, 500);
     },
-     saveSelected ()  {
-        if (this.$store.state.originStation && this.$store.state.destinationStation) {
-          if (this.titel == "Från") {
-            return this.rawStationData.find(x => x.id = this.$store.state.originStation)
-          }
-          if (this.titel == "Till") {
-            return this.rawStationData.find(x => x.id = this.$store.state.destinationStation)
-            //return this.$store.state.destinationStation;
-          }
-        } else {
-          return "Hållplats";
+    saveSelected() {
+      if (this.$store.state.originStation && this.$store.state.destinationStation) {
+        if (this.titel == "Från") {
+          this.getStation(this.$store.state.originStation).then(
+            (res) => (this.searchResultFromStation = res)
+          );
+          return this.searchResultFromStation;
         }
-      },
+        if (this.titel == "Till") {
+          this.getStation(this.$store.state.destinationStation).then(
+            (res) => (this.searchResultToStation = res)
+          );
+          return this.searchResultToStation;
+          //return this.$store.state.destinationStation;
+        }
+      } else {
+        return "Hållplats";
+      }
+    },
   },
   mounted() {
     fetch("http://localhost:3000/station")
