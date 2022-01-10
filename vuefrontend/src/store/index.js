@@ -13,7 +13,7 @@ const Store = new Vuex.Store({
       .toISOString()
       .substr(0, 10),
     options: [],
-    chosenAmountOfTickets: 1
+    chosenAmountOfTickets: 1,
   },
 
   mutations: {
