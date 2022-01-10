@@ -3,7 +3,7 @@
     <v-row
       style="display: flex; align-items: center; justify-content: center; height: 66px"
     >
-      <options-box v-if="this.titel == 'RETURRESA'" title="Återresa"/>
+      <options-box v-if="this.titel == 'RETURRESA'" title="Återresa" />
       <h4 style="width: 30%">{{ this.titel }}</h4>
     </v-row>
     <v-row justify="center" style="margin-bottom: 30px">
@@ -42,8 +42,7 @@ export default {
     changeDate() {
       if (this.titel == "AVRESA") {
         this.$store.commit("setDepartureDate", this.picker);
-      }
-      else if (this.titel == "RETURRESA") {
+      } else if (this.titel == "RETURRESA") {
         this.$store.commit("setReturnDate", this.picker);
       }
     },
@@ -51,8 +50,7 @@ export default {
   mounted() {
     if (this.titel == "AVRESA") {
       this.picker = this.$store.state.chosenDepartureDate;
-    }
-    else if (this.titel == "RETURRESA") {
+    } else if (this.titel == "RETURRESA") {
       this.picker = this.$store.state.chosenReturnDate;
     }
   },
