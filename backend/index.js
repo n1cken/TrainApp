@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const { populatedata } = require('./scripts/seed.js')
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Routes
 db.sequelize.sync({ force: false }).then(() => {
   InitRoutes(app, db)
+  populatedata();
   
   app.listen(port, () => console.log(`Listening on port ${port}`));
 }).catch((err) => {
