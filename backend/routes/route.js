@@ -40,7 +40,9 @@ module.exports = (db) => {
         existingRoutesOnDate.forEach(route => {
             db.timetable.findAll({
                 attributes: [
-                    [Sequelize.fn('DISTINCT', Sequelize.col('routeId')), 'routeId'],
+                    [Sequelize.fn('DISTINCT', Sequelize.col('routeId')), 'routeId',],
+                    "departure"
+                    , "stationId"
                 ],
                 where: {
                     [Op.and]: [{
@@ -49,6 +51,7 @@ module.exports = (db) => {
                     }]
                 }
             }).then((ogStation) => {
+                console.log(ogStation)
                 if (ogStation.length > 0) {
                     db.timetable.findAll({
                         attributes: [
@@ -58,7 +61,7 @@ module.exports = (db) => {
                             [Op.and]: [{
                                 routeId: ogStation[0].dataValues.routeId,
                                 stationId: DN.id,
-                                arrival: { [Op.gte]: ogStation[0].dataValues }
+                                arrival: { [Op.gte]: ogStation[0].dataValues.departure }
                             }]
                         }
                     }).then((result) => {
