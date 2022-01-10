@@ -27,6 +27,7 @@ module.exports = (db) => {
         email,
         timetableDepartureId
       });
+
       return res.json(createBooking)
     } catch (err) {
       console.log(err)
