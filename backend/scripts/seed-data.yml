@@ -1,63 +1,309 @@
 ---
 station:
-  - name: "Gothenburg C"
-  - name: "Stockholm C"
-  - name: "Kiruna C"
-  - name: "Danmark C"
-  - name: "Stockholm Sodra"
+  - name: "Stockholm"
+  - name: "Uppsala"
+  - name: "Kiruna"
+  - name: "Norrkoping"
+  - name: "Jonkoping"
+  - name: "Malmo"
+  - name: "Vasteras"
+  - name: "Boras"
+  - name: "Gothenburg"
 
 train:
-  - name: "Javascript..."
-  - name: "Mr Javascript is not fund"
-  - name: "This is just a test train"
-  - name: "NOooooo, I crashed"
+  - name: "Sthlm-Kiruna"
+  - name: "Kiruna-Sthlm"
+  - name: "Sthlm-Gtb"
+  - name: "Gtb-Sthlm"
+  - name: "Sthlm-Malmo"
+  - name: "Malmo-Sthlm"
+  - name: "Gtb-Jonkoping"
+  - name: "Jonkoping-Gtb"
+
 
 route:
   - trainId: 1
   - trainId: 2
   - trainId: 3
   - trainId: 4
+  - trainId: 5
+  - trainId: 6
+  - trainId: 7
+  - trainId: 8
 
 wagon:
   - trainId: 1
+  - trainId: 1
+  - trainId: 2
   - trainId: 2
   - trainId: 3
+  - trainId: 3
   - trainId: 4
+  - trainId: 4
+  - trainId: 5
+  - trainId: 5
+  - trainId: 6
+  - trainId: 6
+  - trainId: 7
+  - trainId: 7
+  - trainId: 8
+  - trainId: 8
+
 
 seat:
   - wagonId: 1
-    number: 13
+    number: 1
   - wagonId: 1
-    number: 14
-  - wagonId: 1
-    number: 15
-  - wagonId: 1
-    number: 16
-  - wagonId: 1
-    number: 17
-  - wagonId: 1
-    number: 18
+    number: 2
+  - wagonId: 2
+    number: 1
+  - wagonId: 2
+    number: 2
+  - wagonId: 3
+    number: 1
+  - wagonId: 3
+    number: 2
+  - wagonId: 4
+    number: 1
+  - wagonId: 4
+    number: 2
+  - wagonId: 5
+    number: 1
+  - wagonId: 5
+    number: 2
+  - wagonId: 6
+    number: 1
+  - wagonId: 6
+    number: 2
+  - wagonId: 7
+    number: 1
+  - wagonId: 7
+    number: 2
+  - wagonId: 8
+    number: 1
+  - wagonId: 8
+    number: 2
+  - wagonId: 9
+    number: 1
+  - wagonId: 9
+    number: 2
+  - wagonId: 10
+    number: 1
+  - wagonId: 10
+    number: 2
+  - wagonId: 11
+    number: 1
+  - wagonId: 11
+    number: 2
+  - wagonId: 12
+    number: 1
+  - wagonId: 12
+    number: 2
+  - wagonId: 13
+    number: 1
+  - wagonId: 13
+    number: 2
+  - wagonId: 14
+    number: 1
+  - wagonId: 14
+    number: 2
+  - wagonId: 15
+    number: 1
+  - wagonId: 15
+    number: 2
+  - wagonId: 16
+    number: 1
+  - wagonId: 16
+    number: 2
+
 
 timetable:
   - routeId: 1
     stationId: 1
     arrival: null
-    departure: 2022-01-03 14:29:36
-  - routeId: 1
-    stationId: 4
-    arrival: 2022-01-03 18:24:24
-    departure: 2022-01-03 18:29:36
-  - routeId: 1
-    stationId: 3
-    arrival: 2022-01-03 19:10:29
-    departure: 2022-01-03 19:15:10
+    departure: 2022-01-28 17:00:00
   - routeId: 1
     stationId: 2
-    arrival: 2022-01-03 19:50:14
-    departure: 2022-01-03 20:05:03
+    arrival: 2022-01-28 17:45:00
+    departure: 2022-01-28 18:00:00
   - routeId: 1
+    stationId: 3
+    arrival: 2022-01-29 00:15:00
+    departure: null
+
+  - routeId: 2
+    stationId: 3
+    arrival: null
+    departure: 2022-01-28 06:00:00
+  - routeId: 2
+    stationId: 2
+    arrival: 2022-01-28 12:15:00
+    departure: 2022-01-28 12:30:00
+  - routeId: 2
+    stationId: 1
+    arrival: 2022-01-28 13:15:00
+    departure: null
+
+  - routeId: 3
+    stationId: 1
+    arrival: null
+    departure: 2022-01-28 08:00:00
+  - routeId: 3
+    stationId: 7
+    arrival: 2022-01-28 09:30:00
+    departure: 2022-01-28 09:35:00
+  - routeId: 3
+    stationId: 8
+    arrival: 2022-01-28 11:30:00
+    departure: 2022-01-28 11:35:00
+  - routeId: 3
+    stationId: 9
+    arrival: 2022-01-28 12:30:00
+    departure: null
+
+  - routeId: 3
+    stationId: 1
+    arrival: null
+    departure: 2022-01-28 17:00:00
+  - routeId: 3
+    stationId: 7
+    arrival: 2022-01-28 18:30:00
+    departure: 2022-01-28 18:35:00
+  - routeId: 3
+    stationId: 8
+    arrival: 2022-01-28 20:30:00
+    departure: 2022-01-28 20:35:00
+  - routeId: 3
+    stationId: 9
+    arrival: 2022-01-28 21:30:00
+    departure: null
+
+  - routeId: 4
+    stationId: 9
+    arrival: null
+    departure: 2022-01-28 08:00:00
+  - routeId: 4
+    stationId: 8
+    arrival: 2022-01-28 08:55:00
+    departure: 2022-01-28 09:00:00
+  - routeId: 4
+    stationId: 7
+    arrival: 2022-01-28 11:30:00
+    departure: 2022-01-28 11:35:00
+  - routeId: 4
+    stationId: 1
+    arrival: 2022-01-28 13:00:00
+    departure: null
+
+  - routeId: 4
+    stationId: 9
+    arrival: null
+    departure: 2022-01-28 17:00:00
+  - routeId: 4
+    stationId: 8
+    arrival: 2022-01-28 17:55:00
+    departure: 2022-01-28 18:00:00
+  - routeId: 4
+    stationId: 7
+    arrival: 2022-01-28 20:30:00
+    departure: 2022-01-28 20:35:00
+  - routeId: 4
+    stationId: 1
+    arrival: 2022-01-28 22:00:00
+    departure: null
+
+  - routeId: 5
+    stationId: 1
+    arrival: null
+    departure: 2022-01-28 08:00:00
+  - routeId: 5
+    stationId: 4
+    arrival: 2022-01-28 08:55:00
+    departure: 2022-01-28 09:00:00
+  - routeId: 5
     stationId: 5
-    arrival: 2022-01-03 21:49:39
+    arrival: 2022-01-28 09:55:00
+    departure: 2022-01-28 10:00:00
+  - routeId: 5
+    stationId: 6
+    arrival: 2022-01-28 11:00:00
+    departure: null
+
+  - routeId: 5
+    stationId: 1
+    arrival: null
+    departure: 2022-01-28 15:00:00
+  - routeId: 5
+    stationId: 4
+    arrival: 2022-01-28 15:55:00
+    departure: 2022-01-28 16:00:00
+  - routeId: 5
+    stationId: 5
+    arrival: 2022-01-28 16:55:00
+    departure: 2022-01-28 17:00:00
+  - routeId: 5
+    stationId: 6
+    arrival: 2022-01-28 19:00:00
+    departure: null
+
+  - routeId: 6
+    stationId: 6
+    arrival: null
+    departure: 2022-01-28 08:00:00
+  - routeId: 6
+    stationId: 5
+    arrival: 2022-01-28 09:00:00
+    departure: 2022-01-28 09:05:00
+  - routeId: 6
+    stationId: 4
+    arrival: 2022-01-28 10:00:00
+    departure: 2022-01-28 10:05:00
+  - routeId: 6
+    stationId: 1
+    arrival: 2022-01-28 11:00:00
+    departure: null
+
+  - routeId: 6
+    stationId: 6
+    arrival: null
+    departure: 2022-01-28 15:00:00
+  - routeId: 6
+    stationId: 5
+    arrival: 2022-01-28 16:00:00
+    departure: 2022-01-28 16:05:00
+  - routeId: 6
+    stationId: 4
+    arrival: 2022-01-28 17:00:00
+    departure: 2022-01-28 17:05:00
+  - routeId: 6
+    stationId: 1
+    arrival: 2022-01-28 18:00:00
+    departure: null
+
+  - routeId: 7
+    stationId: 9
+    arrival: null
+    departure: 2022-01-28 12:00:00
+  - routeId: 7
+    stationId: 8
+    arrival: 2022-01-28 12:55:00
+    departure: 2022-01-28 13:05:00
+  - routeId: 7
+    stationId: 5
+    arrival: 2022-01-28 14:00:00
+    departure: null
+    
+  - routeId: 8
+    stationId: 5
+    arrival: null
+    departure: 2022-01-28 12:00:00
+  - routeId: 7
+    stationId: 8
+    arrival: 2022-01-28 12:55:00
+    departure: 2022-01-28 13:05:00
+  - routeId: 7
+    stationId: 9
+    arrival: 2022-01-28 14:00:00
     departure: null
 
 booking:
