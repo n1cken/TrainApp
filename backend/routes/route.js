@@ -73,20 +73,19 @@ module.exports = (db) => {
             })
         }));
 
-        let DNrouteArray
-        let OGrouteArray
+        let DNrouteArray = []
+        let OGrouteArray = []
         let MatchRouteArray = []
         await Promise.all(suitableTravels.map(async element => {
             OGrouteArray = (await db.timetable.findAll({ where: { [Op.and]: [{ routeId: element }, { stationId: OG.id }] } }))
             DNrouteArray = (await db.timetable.findAll({ where: { [Op.and]: [{ routeId: element }, { stationId: DN.id }] } }))
         }))
-        console.log(OGrouteArray[1].id)
         for (let i = 0; i < OGrouteArray.length; i++) {
             MatchRouteArray.push({
-                routeId: OGrouteArray[i].id,
+                routeId: OGrouteArray[i].routeId,
                 from: OGrouteArray[i].stationId,
                 to: DNrouteArray[i].stationId,
-                departure: OGrouteArray[0].departure,
+                departure: OGrouteArray[i].departure,
                 arrival: DNrouteArray[i].arrival
             })
         }
