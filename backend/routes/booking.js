@@ -6,8 +6,6 @@ module.exports = (db) => {
 
   router.post('/', async (req, res) => {
 
-
-
     //UID creator
     var uniqueId = function () {
       var letters = "123456789";
@@ -19,22 +17,34 @@ module.exports = (db) => {
     };
 
     //Query
-    const { routeId, timetableArrivalId, timetableDepartureId } = req.body
+    const { timetableArrivalId, email, timetableDepartureId } = req.body
+
+    const OG = await db.station.findOne({ where: { name: timetableDepartureId } })
+    if (OG === null)
+      return res.status(404).end("From staion not found")
+
+    const DN = await db.station.findOne({ where: { name: timetableArrivalId } })
+    if (DN === null)
+      return res.status(404).end("Destination station not found")
+
+
     try {
       const createBooking = await db.booking.create({
         id: uniqueId(),
-        timetableArrivalId,
+        timetableArrivalId: OG.id,
         email,
-        timetableDepartureId
+        timetableDepartureId: DN.id
       });
 
+      res.send("Booking Created");
       return res.json(createBooking)
+
     } catch (err) {
       console.log(err)
+      console.log("\n" + DN.id + "\n")
       return res.status(500).json(err)
     }
 
-    res.send("Booking Created");
   })
 
   return router;
