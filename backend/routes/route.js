@@ -37,8 +37,8 @@ module.exports = (db) => {
             }
         })
 
-        existingRoutesOnDate.forEach(route => {
-            db.timetable.findAll({
+        await Promise.all(existingRoutesOnDate.map(async route => {
+            await db.timetable.findAll({
                 attributes: [
                     [Sequelize.fn('DISTINCT', Sequelize.col('routeId')), 'routeId',],
                     "departure"
@@ -50,10 +50,10 @@ module.exports = (db) => {
                         stationId: OG.id
                     }]
                 }
-            }).then((ogStation) => {
+            }).then(async (ogStation) => {
                 console.log(ogStation)
                 if (ogStation.length > 0) {
-                    db.timetable.findAll({
+                    await db.timetable.findAll({
                         attributes: [
                             [Sequelize.fn('DISTINCT', Sequelize.col('routeId')), 'routeId'],
                         ],
@@ -71,8 +71,15 @@ module.exports = (db) => {
                     }).then(() => console.log(suitableTravels))
                 }
             })
-        });
-        res.send(suitableTravels);
+        }));
+        const finalizedLocalArray = []
+        await Promise.all(suitableTravels.map(async element => {
+            finalizedLocalArray.push(await db.timetable.findAll({ where: { [Op.and]: [{ routeId: element }, { [Op.or]: [{ stationId: OG.id }, { stationId: DN.id }] }] } }))
+
+        }))
+
+
+        res.send(finalizedLocalArray);
     });
     return router;
 }
