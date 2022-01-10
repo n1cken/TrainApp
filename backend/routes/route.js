@@ -72,14 +72,25 @@ module.exports = (db) => {
                 }
             })
         }));
-        const finalizedLocalArray = []
+
+        let DNrouteArray
+        let OGrouteArray
+        let MatchRouteArray = []
         await Promise.all(suitableTravels.map(async element => {
-            finalizedLocalArray.push(await db.timetable.findAll({ where: { [Op.and]: [{ routeId: element }, { [Op.or]: [{ stationId: OG.id }, { stationId: DN.id }] }] } }))
-
+            OGrouteArray = (await db.timetable.findAll({ where: { [Op.and]: [{ routeId: element }, { stationId: OG.id }] } }))
+            DNrouteArray = (await db.timetable.findAll({ where: { [Op.and]: [{ routeId: element }, { stationId: DN.id }] } }))
         }))
-
-
-        res.send(finalizedLocalArray);
+        console.log(OGrouteArray[1].id)
+        for (let i = 0; i < OGrouteArray.length; i++) {
+            MatchRouteArray.push({
+                routeId: OGrouteArray[i].id,
+                from: OGrouteArray[i].stationId,
+                to: DNrouteArray[i].stationId,
+                departure: OGrouteArray[0].departure,
+                arrival: DNrouteArray[i].arrival
+            })
+        }
+        res.send(MatchRouteArray);
     });
     return router;
 }
