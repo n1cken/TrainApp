@@ -17,7 +17,7 @@ module.exports = (db) => {
     };
 
     //Query
-    const { timetableArrivalId, email, timetableDepartureId } = req.body
+    const { timetableArrivalId, email, timetableDepartureId, departure, arrival } = req.body
 
     const OG = await db.station.findOne({ where: { id: timetableDepartureId } })
     if (OG === null)
@@ -50,6 +50,7 @@ module.exports = (db) => {
           pass: 'Scripten!#1'
         }
       });
+      const regex = new RegExp('[^ 0 - 9] + /g')
 
       var mailOptions = {
         from: 'scriptensjavavagarbooking@gmail.com',
@@ -57,8 +58,8 @@ module.exports = (db) => {
         subject: 'Booking',
         text: `Thanks for booking with Scriptens Javavägar! Down below is your reciept: \n
         Booking Id: ${bookId} \n
-        From: ${OG.name}\n
-        To: ${DN.name}
+        From: ${OG.name} at ${departure.replace("T", " ")}\n
+        To: ${DN.name} at ${arrival.replace("T", " ")}
         `
       };
 
