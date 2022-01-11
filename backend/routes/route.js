@@ -91,5 +91,24 @@ module.exports = (db) => {
         }
         res.send(MatchRouteArray);
     });
+
+    router.get('/:id', async (req, res) => {
+        let params = req.params
+        await db.timetable.findAll({
+
+            attributes: [
+                [Sequelize.fn('DISTINCT', Sequelize.col('stationId')), 'stationId'],
+            ],
+            where: {
+                    routeId: params.id
+            }
+        }).then((result) => {
+            res.json(result);
+        });
+    });
+
+
+
+
     return router;
 }

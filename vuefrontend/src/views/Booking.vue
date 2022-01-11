@@ -21,17 +21,20 @@
       </v-col>
 
       <v-timeline :dense="$vuetify.breakpoint.smAndDown">
-        <v-timeline-item color="blue" fill-dot right>
+        <v-timeline-item
+          v-for="(station, index) in stationsOnRoute"
+          :key="index"
+          color="white"
+          fill-dot
+          right
+        >
           <v-card>
-            <v-card-title class="blue">
-              <v-col
-                style="width: 300px"
-                cols="12"
-                md="12"
-                class="text-h4 white--text font-weight-light"
-              >
-                Train 1</v-col
-              >
+            <v-card-title class="black">
+              <v-row style="width: 55vw" justify="center">
+                <v-col style="" cols="12" class="text-h4 white--text font-weight-light">
+                  {{ station }}</v-col
+                >
+              </v-row>
             </v-card-title>
           </v-card>
         </v-timeline-item>
@@ -47,6 +50,7 @@ export default {
       searchResultDepartureDate: null,
       fromStation: null,
       toStation: null,
+      stationsOnRoute: [],
     };
   },
   methods: {
@@ -58,6 +62,23 @@ export default {
           .then((data) => resolve(data.name))
           .catch((err) => reject(err));
       });
+    },
+    bookTicket() {
+      var data = {
+        timetableArrivalId: "helloworld",
+        email: "email",
+        timetableDepartureId: 123,
+      };
+
+      var json = JSON.stringify(data);
+
+      var xhr = new XMLHttpRequest();
+      xhr.open(
+        "POST",
+        `http://localhost:3000/route?from=${this.$store.state.originStation}&dest=${this.$store.state.destinationStation}&date=${this.$store.state.chosenDepartureDate}`
+      );
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.send(json);
     },
   },
   mounted() {
@@ -71,21 +92,23 @@ export default {
       (res) => (this.toStation = res)
     );
 
-    fetch(
-      "http://localhost:3000/timetable?" +
-        this.$route.query.from +
-        "&" +
-        this.$route.query.to +
-        "&" +
-        this.$route.query.date +
-        "&" +
-        this.$route.query.routeId
-    )
+    //Get stations on route
+    const url = `http://localhost:3000/route/${this.$route.query.routeId}`;
+    fetch(url)
       .then((res) => res.json())
-      .then((data) => (this.resultData = data))
-      .then(() => {})
+      .then((data) => (this.rawStationData = data))
+      .then(async () => {
+        console.log("rawstationdata", this.rawStationData);
+        for (var i = 0; i < this.rawStationData.length; i++) {
+          console.log(this.rawstationdata);
+          await this.getStation(this.rawStationData[i].stationId).then((res) =>
+            this.stationsOnRoute.push(res)
+          );
+        }
+      })
       .catch((err) => console.log(err.message));
   },
+
   computed() {},
 };
 </script>
