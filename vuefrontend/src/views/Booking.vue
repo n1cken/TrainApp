@@ -49,7 +49,7 @@
     <v-container>
       <v-row align="center" class="py-6" justify="center">
         <v-col>
-          <v-text-field v-model="mailInput" label="email" :rules="rules"></v-text-field>
+          <v-text-field v-model="mailInput" label="Mail" :rules="rules"></v-text-field>
         </v-col>
       </v-row>
     </v-container>

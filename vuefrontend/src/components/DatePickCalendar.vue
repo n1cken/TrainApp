@@ -8,6 +8,7 @@
     </v-row>
     <v-row justify="center" style="margin-bottom: 30px">
       <v-date-picker
+        locale="sv-SE"
         :disabled="this.titel == 'RETURRESA' && !this.$store.state.options[0]"
         v-model="picker"
         show-week
