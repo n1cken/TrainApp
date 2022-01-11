@@ -40,16 +40,22 @@ module.exports = (db) => {
     } catch (e) {
       console.log(e)
     }
-    wagonsConnectedToTrain.map(async element => {
-      console.log(element.id)
-      seatsInTrain.push(await db.seat.findAll({
-
-        where: { wagonId: element.id }
+    await wagonsConnectedToTrain.map(element => {
+      db.seat.findAll(
+        {
+          where: {
+            wagonId: element.id
+          }
+        }
+      ).then((result) => {
+        seatsInTrain.push(result),
+          result.forEach(element => {
+            console.log(element.id)
+          });
       })
-      )
+        .catch((e) => console.log(e))
     })
 
-    console.log(seatsInTrain)
     try {
       const createBooking = await db.booking.create({
         id: uniqueId(),
