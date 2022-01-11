@@ -57,12 +57,18 @@ module.exports = (db) => {
     })
 
     try {
+      var bookId = uniqueId()
       const createBooking = await db.booking.create({
-        id: uniqueId(),
+        id: bookId,
         timetableArrivalId: OG.id,
         email,
         timetableDepartureId: DN.id
       });
+      const createTicket = await db.ticket.create({
+        price: 100,
+        bookingId: bookId,
+        seatId: 1
+      })
 
       res.send("Booking Created");
       return res.json(createBooking)
