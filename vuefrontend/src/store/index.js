@@ -14,6 +14,8 @@ const Store = new Vuex.Store({
       .substr(0, 10),
     options: [],
     chosenAmountOfTickets: 1,
+    ticketDepartureDate : null,
+    ticketArrivalDate : null,
   },
 
   mutations: {
@@ -37,7 +39,13 @@ const Store = new Vuex.Store({
     },
     removeOptionsValue(state, value) {
       state.options.splice(state.options.indexOf(value), 1)
-    }
+    },
+    setTicketDepartureDate(state, date) {
+      state.ticketDepartureDate = date
+    },
+    setTicketArrivalDate(state, date) {
+      state.ticketArrivalDate = date
+    },
   },
 })
 

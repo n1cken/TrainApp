@@ -18,6 +18,11 @@
           <v-icon aria-hidden="false" color="white"> mdi-arrow-right </v-icon>
           {{ this.toStation }}
         </div>
+        <div class="my-4" style="color: white; font-size: 25px">
+          {{ this.$store.state.ticketDepartureDate }}
+          <v-icon aria-hidden="false" color="white"> mdi-arrow-right </v-icon>
+          {{ this.$store.state.ticketArrivalDate }}
+        </div>
       </v-col>
 
       <v-timeline>
@@ -32,8 +37,8 @@
             <v-card-title class="black">
               <v-row style="width: 55vw" justify="center">
                 <v-col style="" cols="12" class="text-h4 white--text font-weight-light">
-                  {{ station }}</v-col
-                >
+                  {{ station }}
+                </v-col>
               </v-row>
             </v-card-title>
           </v-card>
@@ -50,9 +55,32 @@
     </v-container>
 
     <v-row class="py-6" justify="center">
-      <v-btn dark x-large elevation="3" color="blue" @click="bookTicket()"
-        >BEKRÄFTA OCH BETALA</v-btn
+      <router-link
+        replace
+        tag="button"
+        :disabled="!success"
+        :to="{
+          path: 'confirmation',
+          query: {
+            from: this.$route.query.from,
+            to: this.$route.query.to,
+            date: this.$route.query.date,
+            routeId: this.$route.query.routeId,
+            mail: mailInput,
+          },
+        }"
+        style="text-decoration: none; color: inherit"
       >
+        <v-btn
+          :disabled="!success"
+          style="color: white"
+          x-large
+          elevation="3"
+          color="blue"
+          @click="bookTicket()"
+          >BEKRÄFTA OCH BETALA</v-btn
+        >
+      </router-link>
     </v-row>
   </div>
 </template>
@@ -65,13 +93,14 @@ export default {
       fromStation: "",
       toStation: "",
       mailInput: "",
+      success: false,
       stationsOnRoute: [],
       rules: [
         (value) => !!value || "Required.",
         (value) => (value || "").length <= 50 || "Max 50 characters",
         (value) => {
           const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-          return pattern.test(value) || "Invalid e-mail.";
+          return pattern.test(value) ? (this.success = true) : (this.success = false);
         },
       ],
     };
@@ -99,6 +128,8 @@ export default {
         timetableDepartureId: from,
         timetableArrivalId: to,
         email: this.mailInput,
+        departure: this.$store.state.ticketDepartureDate,
+        arrival: this.$store.state.ticketDepartureDate,
       };
 
       const url = "http://localhost:3000/booking";

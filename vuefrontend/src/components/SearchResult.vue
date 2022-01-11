@@ -57,8 +57,8 @@ export default {
   props: ["resultArray"],
   methods: {
     bookTicket(item) {
-      console.log("click on ", item);
-      console.log("results ", this.resultArray);
+      this.$store.commit("setTicketDepartureDate", item.departure);
+      this.$store.commit("setTicketArrivalDate", item.arrival);
     },
   },
 };
