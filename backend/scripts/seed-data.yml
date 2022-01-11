@@ -3,22 +3,22 @@ station:
   - name: "Stockholm"
   - name: "Uppsala"
   - name: "Kiruna"
-  - name: "Norrkoping"
-  - name: "Jonkoping"
-  - name: "Malmo"
-  - name: "Vasteras"
-  - name: "Boras"
-  - name: "Gothenburg"
+  - name: "Norrköping"
+  - name: "Jönköping"
+  - name: "Malmö"
+  - name: "Västerås"
+  - name: "Borås"
+  - name: "Göteborg"
 
 train:
   - name: "Sthlm-Kiruna"
   - name: "Kiruna-Sthlm"
   - name: "Sthlm-Gtb"
   - name: "Gtb-Sthlm"
-  - name: "Sthlm-Malmo"
-  - name: "Malmo-Sthlm"
-  - name: "Gtb-Jonkoping"
-  - name: "Jonkoping-Gtb"
+  - name: "Sthlm-Malmö"
+  - name: "Malmö-Sthlm"
+  - name: "Gbg-Jönköping"
+  - name: "Jönköping-Gbg"
 
 
 route:
