@@ -29,15 +29,48 @@ module.exports = (db) => {
 
 
     try {
+      var bookId = uniqueId()
       const createBooking = await db.booking.create({
-        id: uniqueId(),
+        id: bookId,
         timetableArrivalId: OG.id,
         email,
         timetableDepartureId: DN.id
       });
+      const createTicket = await db.ticket.create({
+        price: 100,
+        bookingId: bookId,
+        seatId: 1
+      })
+      var nodemailer = require('nodemailer');
+
+      var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: 'scriptensjavavagarbooking@gmail.com',
+          pass: 'Scripten!#1'
+        }
+      });
+
+      var mailOptions = {
+        from: 'scriptensjavavagarbooking@gmail.com',
+        to: `${email}`,
+        subject: 'Booking',
+        text: `Thanks for booking with Scriptens Javavägar! Down below is your reciept: \n
+        Booking Id: ${bookId} \n
+        From: ${OG.name}\n
+        To: ${DN.name}
+        `
+      };
+
+      transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log('Email sent: ' + info.response);
+        }
+      });
 
       return res.json(createBooking)
-
     } catch (err) {
       console.log(err)
       console.log("\n" + DN.id + "\n")
