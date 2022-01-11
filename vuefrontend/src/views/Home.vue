@@ -54,10 +54,8 @@
         x-large
         elevation="3"
         color="blue "
-        @click="
-          setSearchInformation();
-          searchTravels();
-        "
+        @click="searchTravels();"
+        :disabled="fetchingResult"
         v-scroll-to="{
           el: '#resultBlackBox',
           duration: 500,
@@ -65,9 +63,6 @@
           offset: -200,
           force: true,
           cancelable: true,
-          onStart: onStart,
-          onDone: onDone,
-          onCancel: onCancel,
           x: false,
           y: true,
         }"
@@ -137,6 +132,7 @@ export default {
   props: {},
   data: function () {
     return {
+      fetchingResult: false,
       missingStations: false,
       sameStations: false,
       validSearch: null,
@@ -182,6 +178,11 @@ export default {
     },
 
     searchTravels() {
+      if (this.fetchingResult)
+        return
+
+      this.fetchingResult = true
+      this.setSearchInformation()
       this.results = [];
 
       //Origin or Destination is null
@@ -222,8 +223,12 @@ export default {
               }
               console.log(this.resultData);
               console.log("result array: ", this.results);
+              this.fetchingResult = false
             })
-            .catch((err) => console.log(err.message));
+            .catch((err) => {
+              this.fetchingResult = false
+              console.log(err.message)
+            });
         }
       }
     },
