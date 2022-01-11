@@ -44,11 +44,7 @@
     <v-container>
       <v-row align="center" class="py-6" justify="center">
         <v-col>
-          <v-text-field
-            v-model="this.mailInput"
-            label="email"
-            :rules="rules"
-          ></v-text-field>
+          <v-text-field v-model="mailInput" label="email" :rules="rules"></v-text-field>
         </v-col>
       </v-row>
     </v-container>
@@ -68,6 +64,7 @@ export default {
       searchResultDepartureDate: null,
       fromStation: "",
       toStation: "",
+      mailInput: "",
       stationsOnRoute: [],
       rules: [
         (value) => !!value || "Required.",
@@ -77,7 +74,6 @@ export default {
           return pattern.test(value) || "Invalid e-mail.";
         },
       ],
-      mailInput: "",
     };
   },
   methods: {
@@ -100,8 +96,8 @@ export default {
       let to = this.$route.query.to;
 
       var data = {
-        from: from,
-        dest: to,
+        timetableDepartureId: from,
+        timetableArrivalId: to,
         email: this.mailInput,
       };
 
@@ -117,7 +113,8 @@ export default {
 
       fetch(url, options)
         .then((res) => res.json())
-        .then((res) => console.log(res));
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
     },
   },
   beforeMount() {

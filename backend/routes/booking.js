@@ -19,11 +19,11 @@ module.exports = (db) => {
     //Query
     const { timetableArrivalId, email, timetableDepartureId, routeIdentity } = req.body
 
-    const OG = await db.station.findOne({ where: { name: timetableDepartureId } })
+    const OG = await db.station.findOne({ where: { id: timetableDepartureId } })
     if (OG === null)
       return res.status(404).end("From staion not found")
 
-    const DN = await db.station.findOne({ where: { name: timetableArrivalId } })
+    const DN = await db.station.findOne({ where: { id: timetableArrivalId } })
     if (DN === null)
       return res.status(404).end("Destination station not found")
 
@@ -70,7 +70,6 @@ module.exports = (db) => {
         seatId: 1
       })
 
-      res.send("Booking Created");
       return res.json(createBooking)
 
     } catch (err) {
