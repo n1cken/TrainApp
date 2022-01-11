@@ -1,12 +1,14 @@
 const express = require('express');
 const {
-    Op
+    Op, Sequelize
 } = require("sequelize");
 // TODO: Error handling
 module.exports = (db) => {
     const router = express.Router();
 
-    router.get('/', async(req, res) => {
+    router.get('/', async (req, res) => {
+        let OgFilter = []
+        let suitableTravels = []
         let queries = req.query
         if (queries.from === undefined || queries.dest === undefined || queries.date === undefined)
             return res.status(404).end("Please specify query")
@@ -14,71 +16,99 @@ module.exports = (db) => {
 
         const OG = await db.station.findByPk(queries.from)
         if (OG === null)
-            return res.status(404).end("From staion not found")
+            return res.status(404).end("From station not found")
 
         const DN = await db.station.findByPk(queries.dest)
         if (DN === null)
             return res.status(404).end("Destination station not found")
 
-        let FinalizedTimetable = []
 
-        const result = await db.timetable.findAll({
+        const existingRoutesOnDate = await db.timetable.findAll({
+            attributes: [
+                [Sequelize.fn('DISTINCT', Sequelize.col('routeId')), 'routeId'],
+            ],
             where: {
-                [Op.or]: [{
-                    stationId: OG.id
-                }, {
-                    stationId: DN.id
-                }],
                 [Op.and]: [{
-                    [Op.or]: [{
-                        departure: {
-                            [Op.lte]: `${queries.date}T23:59:59Z`
-                        },
-                        departure: {
-                            [Op.gte]: `${queries.date}T00:00:01Z`
-                        }
-                    }, {
-                        arrival: {
-                            [Op.lte]: `${queries.date}T23:59:59Z`
-                        },
-                        arrival: {
-                            [Op.gte]: `${queries.date}T00:00:01Z`
-                        }
-                    }]
+                    departure: { [Op.gte]: `${queries.date}T00:00:00Z` }
+
+                }, {
+                    departure: { [Op.lte]: `${queries.date}T23:59:59Z` }
                 }]
             }
         })
 
-        for (let i = 0; i < result.length; i++) {
-            const localArrayMatch = FinalizedTimetable.filter(singleElement => singleElement.routeId == result[i].routeId)
-            if (localArrayMatch.length < 1) {
-                const match = result.filter(timetable => timetable.routeId == result[i].routeId)
-                if (match.length == 2) {
-                    console.log(match.length)
-                    if (match[0].routeId == DN) {
-                        FinalizedTimetable.push({
-                            "departure": match[1].departure,
-                            "arrival": match[0].arrival,
-                            "From": OG.name,
-                            "To": DN.name,
-                            "routeId": result[i].routeId
-                        })
-                    } else {
-                        FinalizedTimetable.push({
-                            "departure": match[0].departure,
-                            "arrival": match[1].arrival,
-                            "From": OG.name,
-                            "To": DN.name,
-                            "routeId": result[i].routeId
-                        })
-                    }
+        await Promise.all(existingRoutesOnDate.map(async route => {
+            await db.timetable.findAll({
+                attributes: [
+                    [Sequelize.fn('DISTINCT', Sequelize.col('routeId')), 'routeId',],
+                    "departure"
+                    , "stationId"
+                ],
+                where: {
+                    [Op.and]: [{
+                        routeId: route.routeId,
+                        stationId: OG.id
+                    }]
                 }
+            }).then(async (ogStation) => {
+                console.log(ogStation)
+                if (ogStation.length > 0) {
+                    await db.timetable.findAll({
+                        attributes: [
+                            [Sequelize.fn('DISTINCT', Sequelize.col('routeId')), 'routeId'],
+                        ],
+                        where: {
+                            [Op.and]: [{
+                                routeId: ogStation[0].dataValues.routeId,
+                                stationId: DN.id,
+                                arrival: { [Op.gte]: ogStation[0].dataValues.departure }
+                            }]
+                        }
+                    }).then((result) => {
+                        if (result.length > 0) {
+                            suitableTravels.push(result[0].dataValues.routeId)
+                        }
+                    }).then(() => console.log(suitableTravels))
+                }
+            })
+        }));
 
-            }
+        let DNrouteArray = []
+        let OGrouteArray = []
+        let MatchRouteArray = []
+        await Promise.all(suitableTravels.map(async element => {
+            OGrouteArray = (await db.timetable.findAll({ where: { [Op.and]: [{ routeId: element }, { stationId: OG.id }] } }))
+            DNrouteArray = (await db.timetable.findAll({ where: { [Op.and]: [{ routeId: element }, { stationId: DN.id }] } }))
+        }))
+        for (let i = 0; i < OGrouteArray.length; i++) {
+            MatchRouteArray.push({
+                routeId: OGrouteArray[i].routeId,
+                from: OGrouteArray[i].stationId,
+                to: DNrouteArray[i].stationId,
+                departure: OGrouteArray[i].departure,
+                arrival: DNrouteArray[i].arrival
+            })
         }
+        res.send(MatchRouteArray);
+    });
 
-        res.send(FinalizedTimetable)
-    })
+    router.get('/:id', async (req, res) => {
+        let params = req.params
+        await db.timetable.findAll({
+
+            attributes: [
+                [Sequelize.fn('DISTINCT', Sequelize.col('stationId')), 'stationId'],
+            ],
+            where: {
+                    routeId: params.id
+            }
+        }).then((result) => {
+            res.json(result);
+        });
+    });
+
+
+
 
     return router;
 }

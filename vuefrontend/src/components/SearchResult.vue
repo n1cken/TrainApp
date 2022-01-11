@@ -11,8 +11,8 @@
         :to="{
           path: 'booking',
           query: {
-            from: item.From,
-            to: item.To,
+            from: item.from,
+            to: item.to,
             date: item.departure,
             routeId: item.routeId,
           },
@@ -56,9 +56,9 @@ export default {
   },
   props: ["resultArray"],
   methods: {
-    onButtonClick(item) {
-      console.log("click on ", item);
-      console.log("results ", this.resultArray);
+    bookTicket(item) {
+      this.$store.commit("setTicketDepartureDate", item.departure);
+      this.$store.commit("setTicketArrivalDate", item.arrival);
     },
   },
 };

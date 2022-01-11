@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Booking from '../views/Booking.vue'
+import Confirmation from '../views/Confirmation.vue'
 
 Vue.use(VueRouter)
 
@@ -23,6 +24,11 @@ const routes = [
     path: '/booking',
     name: 'Booking',
     component: Booking
+  },
+  {
+    path: '/confirmation',
+    name: 'Confirmation',
+    component: Confirmation
   },
 ]
 
