@@ -20,7 +20,7 @@
         </div>
       </v-col>
 
-      <v-timeline :dense="$vuetify.breakpoint.smAndDown">
+      <v-timeline>
         <v-timeline-item
           v-for="(station, index) in stationsOnRoute"
           :key="index"
@@ -40,6 +40,24 @@
         </v-timeline-item>
       </v-timeline>
     </v-row>
+
+    <v-container>
+      <v-row align="center" class="py-6" justify="center">
+        <v-col>
+          <v-text-field
+            v-model="this.mailInput"
+            label="email"
+            :rules="rules"
+          ></v-text-field>
+        </v-col>
+      </v-row>
+    </v-container>
+
+    <v-row class="py-6" justify="center">
+      <v-btn dark x-large elevation="3" color="blue" @click="bookTicket()"
+        >BEKRÄFTA OCH BETALA</v-btn
+      >
+    </v-row>
   </div>
 </template>
 
@@ -48,40 +66,61 @@ export default {
   data: function () {
     return {
       searchResultDepartureDate: null,
-      fromStation: null,
-      toStation: null,
+      fromStation: "",
+      toStation: "",
       stationsOnRoute: [],
+      rules: [
+        (value) => !!value || "Required.",
+        (value) => (value || "").length <= 50 || "Max 50 characters",
+        (value) => {
+          const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+          return pattern.test(value) || "Invalid e-mail.";
+        },
+      ],
+      mailInput: "",
     };
   },
   methods: {
     getStation(id) {
       return new Promise(function (resolve, reject) {
+        if (id === null) return;
         const url = `http://localhost:3000/station/${id}`;
         fetch(url)
           .then((res) => res.json())
-          .then((data) => resolve(data.name))
+          .then((data) => {
+            resolve(data.name);
+          })
           .catch((err) => reject(err));
       });
     },
     bookTicket() {
+      if (!this.mailInput) return;
+
+      let from = this.$route.query.from;
+      let to = this.$route.query.to;
+
       var data = {
-        timetableArrivalId: "helloworld",
-        email: "email",
-        timetableDepartureId: 123,
+        from: from,
+        dest: to,
+        email: this.mailInput,
       };
 
-      var json = JSON.stringify(data);
+      const url = "http://localhost:3000/booking";
 
-      var xhr = new XMLHttpRequest();
-      xhr.open(
-        "POST",
-        `http://localhost:3000/route?from=${this.$store.state.originStation}&dest=${this.$store.state.destinationStation}&date=${this.$store.state.chosenDepartureDate}`
-      );
-      xhr.setRequestHeader("Content-Type", "application/json");
-      xhr.send(json);
+      const options = {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+
+      fetch(url, options)
+        .then((res) => res.json())
+        .then((res) => console.log(res));
     },
   },
-  mounted() {
+  beforeMount() {
     this.searchResultDepartureDate = this.$store.state.chosenDepartureDate;
 
     this.getStation(this.$store.state.originStation).then(
@@ -96,11 +135,13 @@ export default {
     const url = `http://localhost:3000/route/${this.$route.query.routeId}`;
     fetch(url)
       .then((res) => res.json())
-      .then((data) => (this.rawStationData = data))
+      .then((data) => {
+        console.log("earlydata ", data);
+        this.rawStationData = data;
+      })
       .then(async () => {
-        console.log("rawstationdata", this.rawStationData);
         for (var i = 0; i < this.rawStationData.length; i++) {
-          console.log(this.rawstationdata);
+          console.log("rawstationdata", this.rawStationData[i]);
           await this.getStation(this.rawStationData[i].stationId).then((res) =>
             this.stationsOnRoute.push(res)
           );
@@ -108,7 +149,5 @@ export default {
       })
       .catch((err) => console.log(err.message));
   },
-
-  computed() {},
 };
 </script>

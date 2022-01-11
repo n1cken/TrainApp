@@ -16,7 +16,7 @@ module.exports = (db) => {
 
         const OG = await db.station.findByPk(queries.from)
         if (OG === null)
-            return res.status(404).end("From staion not found")
+            return res.status(404).end("From station not found")
 
         const DN = await db.station.findByPk(queries.dest)
         if (DN === null)
