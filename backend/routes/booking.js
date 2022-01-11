@@ -17,7 +17,7 @@ module.exports = (db) => {
     };
 
     //Query
-    const { timetableArrivalId, email, timetableDepartureId } = req.body
+    const { timetableArrivalId, email, timetableDepartureId, routeIdentity } = req.body
 
     const OG = await db.station.findOne({ where: { name: timetableDepartureId } })
     if (OG === null)
@@ -27,7 +27,29 @@ module.exports = (db) => {
     if (DN === null)
       return res.status(404).end("Destination station not found")
 
+    // we have route -> trainid: wagon -> trainid: seat -> wagon
+    const trainquery = await db.route.findOne({ where: { id: routeIdentity } })
+    const trainIdentity = trainquery.trainId
+    let wagonsConnectedToTrain = []
+    let seatsInTrain = []
+    console.log(trainIdentity)
+    try {
+      wagonsConnectedToTrain = await db.wagon.findAll({
+        where: { trainId: trainIdentity }
+      })
+    } catch (e) {
+      console.log(e)
+    }
+    wagonsConnectedToTrain.map(async element => {
+      console.log(element.id)
+      seatsInTrain.push(await db.seat.findAll({
 
+        where: { wagonId: element.id }
+      })
+      )
+    })
+
+    console.log(seatsInTrain)
     try {
       const createBooking = await db.booking.create({
         id: uniqueId(),
@@ -41,7 +63,6 @@ module.exports = (db) => {
 
     } catch (err) {
       console.log(err)
-      console.log("\n" + DN.id + "\n")
       return res.status(500).json(err)
     }
 
