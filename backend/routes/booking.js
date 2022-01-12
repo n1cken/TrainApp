@@ -29,7 +29,9 @@ module.exports = (db) => {
   
   var seatAvailability = async function (routeIdentity) {
     let routeIdToTrainId = await db.route.findOne({ where: { id: routeIdentity } })
-    console.log(routeIdToTrainId)
+    console.log(routeIdToTrainId.trainId +"---------------------------------------------------------------")
+    let trainIdToWagonSeats = await db.wagon.findAll({ where: { trainId: routeIdToTrainId.trainId } })
+    trainIdToWagonSeats.map(element => { console.log(element.id)})
   }
   router.post('/', async (req, res) => {
 
