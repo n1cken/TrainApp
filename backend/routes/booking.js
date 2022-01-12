@@ -3,7 +3,15 @@ const express = require('express');
 
 module.exports = (db) => {
   const router = express.Router();
-
+/* test post body
+{
+    "email":"biyel59065@unigeol.com",
+    "timetableArrivalId": "1",
+    "timetableDepartureId": "3",
+    "routeIdentity": 4,
+    "departure": "2022-01-28T17:00:00.000 +00:00Z",
+    "arrival": "2022-01-29T00:15:00.000 +00:00Z"
+}*/
   /*
   Async function return promise - check available seats
   TODO make post body include route
@@ -32,7 +40,7 @@ module.exports = (db) => {
     };
 
     //Query
-    const { timetableArrivalId, email, timetableDepartureId, departure, arrival } = req.body
+    const { timetableArrivalId, email, timetableDepartureId, departure, arrival, routeIdentity} = req.body
 
     const OG = await db.station.findOne({ where: { id: timetableDepartureId } })
     if (OG === null)
@@ -86,7 +94,7 @@ module.exports = (db) => {
         }
       });
 
-      return res.json(createBooking)
+      return res.json("Booking Created")
     } catch (err) {
       console.log(err)
       console.log("\n" + DN.id + "\n")
