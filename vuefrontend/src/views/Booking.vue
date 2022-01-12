@@ -129,7 +129,7 @@ export default {
         timetableArrivalId: to,
         email: this.mailInput,
         departure: this.$store.state.ticketDepartureDate,
-        arrival: this.$store.state.ticketDepartureDate,
+        arrival: this.$store.state.ticketArrivalDate,
       };
 
       const url = `${process.env.VUE_APP_API_URL}/booking`;
