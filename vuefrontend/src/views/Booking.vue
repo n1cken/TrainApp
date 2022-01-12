@@ -109,7 +109,7 @@ export default {
     getStation(id) {
       return new Promise(function (resolve, reject) {
         if (id === null) return;
-        const url = `http://localhost:3000/station/${id}`;
+        const url = `${process.env.VUE_APP_API_URL}/station/${id}`;
         fetch(url)
           .then((res) => res.json())
           .then((data) => {
@@ -129,10 +129,10 @@ export default {
         timetableArrivalId: to,
         email: this.mailInput,
         departure: this.$store.state.ticketDepartureDate,
-        arrival: this.$store.state.ticketDepartureDate,
+        arrival: this.$store.state.ticketArrivalDate,
       };
 
-      const url = "http://localhost:3000/booking";
+      const url = `${process.env.VUE_APP_API_URL}/booking`;
 
       const options = {
         method: "POST",
@@ -160,7 +160,7 @@ export default {
     );
 
     //Get stations on route
-    const url = `http://localhost:3000/route/${this.$route.query.routeId}`;
+    const url = `${process.env.VUE_APP_API_URL}/route/${this.$route.query.routeId}`;
     fetch(url)
       .then((res) => res.json())
       .then((data) => {
