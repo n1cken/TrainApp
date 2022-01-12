@@ -63,7 +63,7 @@ export default {
   methods: {
     getStation(id) {
       return new Promise(function (resolve, reject) {
-        const url = `http://localhost:3000/station/${id}`;
+        const url = `${process.env.VUE_APP_API_URL}/station/${id}`;
         fetch(url)
           .then((res) => res.json())
           .then((data) => resolve(data.name))
@@ -101,7 +101,7 @@ export default {
     },
   },
   mounted() {
-    fetch("http://localhost:3000/station")
+    fetch(`${process.env.VUE_APP_API_URL}/station`)
       .then((res) => res.json())
       .then((data) => (this.rawStationData = data))
       .then(() => {

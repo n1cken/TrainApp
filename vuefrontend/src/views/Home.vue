@@ -146,7 +146,7 @@ export default {
   methods: {
     getStation(id) {
       return new Promise(function (resolve, reject) {
-        const url = `http://localhost:3000/station/${id}`;
+        const url = `${process.env.VUE_APP_API_URL}/station/${id}`;
         fetch(url)
           .then((res) => res.json())
           .then((data) => resolve(data.name))
@@ -213,7 +213,7 @@ export default {
         }
 
         if (this.validSearch) {
-          const url = `http://localhost:3000/route?from=${this.$store.state.originStation}&dest=${this.$store.state.destinationStation}&date=${this.$store.state.chosenDepartureDate}`;
+          const url = `${process.env.VUE_APP_API_URL}/route?from=${this.$store.state.originStation}&dest=${this.$store.state.destinationStation}&date=${this.$store.state.chosenDepartureDate}`;
           fetch(url)
             .then((res) => res.json())
             .then((data) => (this.resultData = data))
