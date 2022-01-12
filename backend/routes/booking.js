@@ -25,8 +25,12 @@ module.exports = (db) => {
   5 give the user a seat of x + 1 if it doesn't reach over Max capacity
   ---------
 
-
   */
+  
+  var seatAvailability = async function (routeIdentity) {
+    let routeIdToTrainId = await db.route.findOne({ where: { id: routeIdentity } })
+    console.log(routeIdToTrainId)
+  }
   router.post('/', async (req, res) => {
 
     //UID creator
@@ -50,7 +54,7 @@ module.exports = (db) => {
     if (DN === null)
       return res.status(404).end("Destination station not found")
 
-
+    seatAvailability(routeIdentity);
     try {
       var bookId = uniqueId()
       const createBooking = await db.booking.create({
