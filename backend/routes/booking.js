@@ -46,14 +46,14 @@ module.exports = (db) => {
       var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-          user: 'scriptensjavavagarbooking@gmail.com',
-          pass: 'Scripten!#1'
+          user: process.env.EMAIL,
+          pass: process.env.EMAIL_PASSWORD,
         }
       });
       const regex = new RegExp('[^ 0 - 9] + /g')
 
       var mailOptions = {
-        from: 'scriptensjavavagarbooking@gmail.com',
+        from: process.env.EMAIL,
         to: `${email}`,
         subject: 'Booking',
         text: `Thanks for booking with Scriptens Javavägar! Down below is your reciept: \n
