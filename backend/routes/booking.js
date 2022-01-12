@@ -4,6 +4,21 @@ const express = require('express');
 module.exports = (db) => {
   const router = express.Router();
 
+  /*
+  Async function return promise - check available seats
+  TODO make post body include route
+
+  1. await Use route to find train Id
+  2. await Use trainId in wagonTable to find all seats -> wagon -> train === Max capacity
+  ---------
+  3. await loop trough seatsIds to find if any are booked in ticket. x amount booked 
+  ---------
+  4. Max Capacity - x amount booked = y available seats
+  5 give the user a seat of x + 1 if it doesn't reach over Max capacity
+  ---------
+
+
+  */
   router.post('/', async (req, res) => {
 
     //UID creator
