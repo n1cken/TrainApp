@@ -28,10 +28,38 @@ module.exports = (db) => {
   */
   
   var seatAvailability = async function (routeIdentity) {
-    let routeIdToTrainId = await db.route.findOne({ where: { id: routeIdentity } })
-    console.log(routeIdToTrainId.trainId +"---------------------------------------------------------------")
-    let trainIdToWagonSeats = await db.wagon.findAll({ where: { trainId: routeIdToTrainId.trainId } })
-    trainIdToWagonSeats.map(element => { console.log(element.id)})
+    let maximumCapacityForTrain = []
+    let routeIdToTrainId = await db.route.findOne(
+      {
+        where:
+        {
+          id: routeIdentity
+        }
+      })
+    let trainIdToWagonSeats = await db.wagon.findAll(
+      {
+        where:
+        {
+          trainId: routeIdToTrainId.trainId
+        }
+      })
+     for await (const element of trainIdToWagonSeats) {
+       await db.seat.findAll(
+         {
+           where:
+           {
+             wagonId: element.id
+           }
+         })
+         .then((result) => maximumCapacityForTrain.push(result))
+    }
+    // max seat capacity
+    for await (const seat of maximumCapacityForTrain) {
+      for (var i = 0; i < seat.length; i++){
+        console.log(seat[i].number)
+      }
+      
+    }
   }
   router.post('/', async (req, res) => {
 
