@@ -29,6 +29,8 @@ module.exports = (db) => {
   
   var seatAvailability = async function (routeIdentity) {
     let maximumCapacityForTrain = []
+    let seatIds = []
+    let seatHolder;
     let routeIdToTrainId = await db.route.findOne(
       {
         where:
@@ -56,10 +58,42 @@ module.exports = (db) => {
     // max seat capacity
     for await (const seat of maximumCapacityForTrain) {
       for (var i = 0; i < seat.length; i++){
-        console.log(seat[i].number)
+        seatIds.push(
+          {
+            id: seat[i].id,
+            number: seat[i].number,
+            occupied: false
+          })
       }
-      
     }
+
+    for await (const seat of seatIds) {
+      await db.ticket.findOne({ where: { seatId: seat.id } })
+        .then((result) =>
+        {
+          if (result != null)
+          {
+            for (const seat of seatIds){
+              if (result.seatId === seat.id){
+                seat.occupied = true;
+              }
+              console.log(seat)
+          }
+          } else {
+            console.log("couldn't find seat")
+        }}
+      )
+    }
+
+    for (var singleSeat = 0; singleSeat < seatIds.length; singleSeat++){
+      if (seatIds[singleSeat].occupied === false) {
+        seatHolder = { id: seatIds[singleSeat].id, seatNumber: seatIds[singleSeat].number, occupied: seatIds[singleSeat].occupied}
+              break;
+      } else {
+        seatHolder = null
+      }
+    }
+            return seatHolder
   }
   router.post('/', async (req, res) => {
 
@@ -84,8 +118,10 @@ module.exports = (db) => {
     if (DN === null)
       return res.status(404).end("Destination station not found")
 
-    seatAvailability(routeIdentity);
-    try {
+
+    try {    
+    let x = await (seatAvailability(routeIdentity))
+    console.log(x)
       var bookId = uniqueId()
       const createBooking = await db.booking.create({
         id: bookId,
