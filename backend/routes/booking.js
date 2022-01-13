@@ -64,13 +64,14 @@ module.exports = (db) => {
             id: seat[i].id,
             wagon: seat[i].wagonId,
             number: seat[i].number,
+            routeId: null,
             occupied: false
           })
       }
     }
 
     for await (const seat of seatIds) {
-      await db.ticket.findOne({ where: { seatId: seat.id } })
+      await db.ticket.findOne({ where: { seatId: seat.id, routeId: routeIdentity } })
         .then((result) =>
         {
           if (result != null)
@@ -78,6 +79,7 @@ module.exports = (db) => {
             for (const seat of seatIds){
               if (result.seatId === seat.id){
                 seat.occupied = true;
+                seat.routeId = result.routeId
               }
           }
           } else {
@@ -86,7 +88,7 @@ module.exports = (db) => {
     }
 
     for (var singleSeat = 0; singleSeat < seatIds.length; singleSeat++){
-      if (seatIds[singleSeat].occupied === false) {
+      if (seatIds[singleSeat].occupied === false && routeIdentity != seatIds[singleSeat].routeId) {
         seatHolder = { id: seatIds[singleSeat].id, seatNumber: seatIds[singleSeat].number, occupied: seatIds[singleSeat].occupied, wagonId: seatIds[singleSeat].wagon }
         multipleSeats.push(seatHolder)
       }
@@ -138,10 +140,12 @@ module.exports = (db) => {
 
         let tickets = []
         for (let i = 0; i < seat.length; i++){
+          console.log(routeIdentity)
       tickets.push({
         price: 100,
         bookingId: bookId,
-        seatId: seat[i].id
+        seatId: seat[i].id,
+        routeId: routeIdentity
       })  
         }
   
@@ -162,7 +166,9 @@ module.exports = (db) => {
       let content =  `Thanks for booking with Scriptens Javavägar! Please see details below: \n
         Booking Id: ${bookId} \n
         From: ${OG.name} at ${departure.replace("T", " ")}\n
-        To: ${DN.name} at ${arrival.replace("T", " ")}\n`
+        To: ${DN.name} at ${arrival.replace("T", " ")}\n
+        routeId: ${routeIdentity}\n`
+
 
         for (let i = 0; i < seat.length; i++){
           content += `Wagon: ${seat[i].wagonId} Seat: ${seat[i].seatNumber}\n`
