@@ -61,6 +61,7 @@ module.exports = (db) => {
         seatIds.push(
           {
             id: seat[i].id,
+            wagon: seat[i].wagonId,
             number: seat[i].number,
             occupied: false
           })
@@ -87,7 +88,7 @@ module.exports = (db) => {
 
     for (var singleSeat = 0; singleSeat < seatIds.length; singleSeat++){
       if (seatIds[singleSeat].occupied === false) {
-        seatHolder = { id: seatIds[singleSeat].id, seatNumber: seatIds[singleSeat].number, occupied: seatIds[singleSeat].occupied}
+        seatHolder = { id: seatIds[singleSeat].id, seatNumber: seatIds[singleSeat].number, occupied: seatIds[singleSeat].occupied, wagonId: seatIds[singleSeat].wagon}
               break;
       } else {
         seatHolder = null
@@ -153,7 +154,7 @@ module.exports = (db) => {
         Booking Id: ${bookId} \n
         From: ${OG.name} at ${departure.replace("T", " ")}\n
         To: ${DN.name} at ${arrival.replace("T", " ")}\n
-        wagon: ${seat.id} seat: ${seat.seatNumber}
+        wagon: ${seat.wagonId} seat: ${seat.seatNumber}
         `
       };
 
