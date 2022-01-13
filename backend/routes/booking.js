@@ -27,9 +27,10 @@ module.exports = (db) => {
 
   */
   
-  var seatAvailability = async function (routeIdentity) {
+  var seatAvailability = async function (routeIdentity,ticketAmount) {
     let maximumCapacityForTrain = []
     let seatIds = []
+    let multipleSeats = []
     let seatHolder;
     let routeIdToTrainId = await db.route.findOne(
       {
@@ -78,23 +79,27 @@ module.exports = (db) => {
               if (result.seatId === seat.id){
                 seat.occupied = true;
               }
-              console.log("seat: ", seat)
           }
           } else {
-            console.log("couldn't find seat")
         }}
       )
     }
 
     for (var singleSeat = 0; singleSeat < seatIds.length; singleSeat++){
       if (seatIds[singleSeat].occupied === false) {
-        seatHolder = { id: seatIds[singleSeat].id, seatNumber: seatIds[singleSeat].number, occupied: seatIds[singleSeat].occupied, wagonId: seatIds[singleSeat].wagon}
-              break;
-      } else {
-        seatHolder = null
+        seatHolder = { id: seatIds[singleSeat].id, seatNumber: seatIds[singleSeat].number, occupied: seatIds[singleSeat].occupied, wagonId: seatIds[singleSeat].wagon }
+        multipleSeats.push(seatHolder)
       }
     }
-            return seatHolder
+    let userWantedSeats = []
+    for (let i = 0; i < ticketAmount; i++){
+      if (multipleSeats[i]) {
+              userWantedSeats.push(multipleSeats[i])
+      }
+    }
+
+
+            return userWantedSeats
   }
   router.post('/', async (req, res) => {
 
@@ -109,7 +114,7 @@ module.exports = (db) => {
     };
 
     //Query
-    const { timetableArrivalId, email, timetableDepartureId, departure, arrival, routeIdentity} = req.body
+    const { timetableArrivalId, email, timetableDepartureId, departure, arrival, routeIdentity,ticketAmount} = req.body
 
     const OG = await db.station.findOne({ where: { id: timetableDepartureId } })
     if (OG === null)
@@ -121,20 +126,29 @@ module.exports = (db) => {
 
 
     try {    
-    let seat = await (seatAvailability(routeIdentity))
-      if (seat != null){
-    var bookId = uniqueId()
-      const createBooking = await db.booking.create({
+      let seat = await (seatAvailability(routeIdentity,ticketAmount))
+      var bookId = uniqueId()
+      if (ticketAmount <= seat.length && seat[0]) {
+        const createBooking = await db.booking.create({
         id: bookId,
         timetableArrivalId: OG.id,
         email,
         timetableDepartureId: DN.id
-      });
-      const createTicket = await db.ticket.create({
+        });
+
+        let tickets = []
+        for (let i = 0; i < seat.length; i++){
+      tickets.push({
         price: 100,
         bookingId: bookId,
-        seatId: seat.id
-      })
+        seatId: seat[i].id
+      })  
+        }
+  
+        
+        await db.ticket.bulkCreate(tickets, {
+        })
+      
       var nodemailer = require('nodemailer');
 
       var transporter = nodemailer.createTransport({
@@ -144,18 +158,21 @@ module.exports = (db) => {
           pass: process.env.EMAIL_PASSWD,
         }
       });
-      const regex = new RegExp('[^ 0 - 9] + /g')
+      
+      let content =  `Thanks for booking with Scriptens Javavägar! Please see details below: \n
+        Booking Id: ${bookId} \n
+        From: ${OG.name} at ${departure.replace("T", " ")}\n
+        To: ${DN.name} at ${arrival.replace("T", " ")}\n`
+
+        for (let i = 0; i < seat.length; i++){
+          content += `Wagon: ${seat[i].wagon} Seat: ${seat[i].seatNumber}\n`
+        }
 
       var mailOptions = {
         from: process.env.EMAIL,
         to: `${email}`,
         subject: 'Booking',
-        text: `Thanks for booking with Scriptens Javavägar! Please see details below: \n
-        Booking Id: ${bookId} \n
-        From: ${OG.name} at ${departure.replace("T", " ")}\n
-        To: ${DN.name} at ${arrival.replace("T", " ")}\n
-        wagon: ${seat.wagonId} seat: ${seat.seatNumber}
-        `
+        text: `${content}`
       };
 
       transporter.sendMail(mailOptions, function (error, info) {
