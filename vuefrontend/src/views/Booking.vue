@@ -5,7 +5,7 @@
         cols="12"
         sm="12"
         md="12"
-        style="background-color: rgb(0, 0, 0); height: 300px"
+        style="background-color: rgb(0, 0, 0); height: 350px"
       >
         <h1 class="my-4" style="color: white; font-size: 30px; padding-top: 30px">
           BOKA BILJETT
@@ -35,8 +35,8 @@
         >
           <v-card>
             <v-card-title class="black">
-              <v-row style="width: 55vw" justify="center">
-                <v-col style="" cols="12" class="text-h4 white--text font-weight-light">
+              <v-row style="width: 65vw">
+                <v-col style="" cols="12" class="text-h6 white--text font-weight-light">
                   {{ station }}
                 </v-col>
               </v-row>
@@ -130,6 +130,7 @@ export default {
         email: this.mailInput,
         departure: this.$store.state.ticketDepartureDate,
         arrival: this.$store.state.ticketArrivalDate,
+        routeIdentity: this.$route.query.routeId,
       };
 
       const url = `${process.env.VUE_APP_API_URL}/booking`;

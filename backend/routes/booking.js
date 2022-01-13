@@ -78,7 +78,7 @@ module.exports = (db) => {
               if (result.seatId === seat.id){
                 seat.occupied = true;
               }
-              console.log(seat)
+              console.log("seat: ", seat)
           }
           } else {
             console.log("couldn't find seat")
