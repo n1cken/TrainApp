@@ -131,6 +131,7 @@ export default {
         departure: this.$store.state.ticketDepartureDate,
         arrival: this.$store.state.ticketArrivalDate,
         routeIdentity: this.$route.query.routeId,
+        ticketAmount: this.$store.state.chosenAmountOfTickets,
       };
 
       const url = `${process.env.VUE_APP_API_URL}/booking`;
