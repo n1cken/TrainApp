@@ -54,7 +54,7 @@
         x-large
         elevation="3"
         color="blue "
-        @click="searchTravels();"
+        @click="searchTravels()"
         :disabled="fetchingResult"
         v-scroll-to="{
           el: '#resultBlackBox',
@@ -178,18 +178,17 @@ export default {
     },
 
     searchTravels() {
-      if (this.fetchingResult)
-        return
+      if (this.fetchingResult) return;
 
-      this.fetchingResult = true
-      this.setSearchInformation()
+      this.fetchingResult = true;
+      this.setSearchInformation();
       this.results = [];
 
       //Origin or Destination is null
       if (!this.$store.state.originStation || !this.$store.state.destinationStation) {
         this.missingStations = true;
-        this.sameStations = false;
-        this.validSearch = false;
+        this.fetchingResult = false;
+        return;
       }
 
       //Check that fields are not null.
@@ -223,14 +222,51 @@ export default {
               }
               console.log(this.resultData);
               console.log("result array: ", this.results);
-              this.fetchingResult = false
+              this.fetchingResult = false;
             })
             .catch((err) => {
-              this.fetchingResult = false
-              console.log(err.message)
+              this.fetchingResult = false;
+              console.log(err.message);
             });
         }
       }
+
+      //If same origin and destination
+      if (this.$store.state.originStation == this.$store.state.destinationStation) {
+        this.sameStations = true;
+        this.fetchingResult = false;
+        return;
+      }
+
+      //Valid search
+      if (this.$store.state.originStation != this.$store.state.destinationStation) {
+        this.validSearch = true;
+        this.fetchingResult = false;
+        return;
+      }
+
+      if (!this.validSearch) {
+        this.fetchingResult = false;
+        return;
+      }
+
+      const url = `${process.env.VUE_APP_API_URL}/route?from=${this.$store.state.originStation}&dest=${this.$store.state.destinationStation}&date=${this.$store.state.chosenDepartureDate}`;
+
+      fetch(url)
+        .then((res) => res.json())
+        .then((data) => (this.resultData = data))
+        .then(() => {
+          for (var i = 0; i < this.resultData.length; i++) {
+            this.results.push(this.resultData[i]);
+          }
+          console.log(this.resultData);
+          console.log("result array: ", this.results);
+          this.fetchingResult = false;
+        })
+        .catch((err) => {
+          this.fetchingResult = false;
+          console.log(err.message);
+        });
     },
   },
 };
