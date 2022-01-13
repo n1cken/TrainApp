@@ -189,9 +189,9 @@ module.exports = (db) => {
         }
       });
 
-      return res.json("Booking Created")
+      return res.json(true)
       } else {
-        return res.json("All seats have been booked!")
+        return res.json(false)
     }
       
     } catch (err) {
