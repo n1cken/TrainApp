@@ -165,7 +165,7 @@ module.exports = (db) => {
         To: ${DN.name} at ${arrival.replace("T", " ")}\n`
 
         for (let i = 0; i < seat.length; i++){
-          content += `Wagon: ${seat[i].wagon} Seat: ${seat[i].seatNumber}\n`
+          content += `Wagon: ${seat[i].wagonId} Seat: ${seat[i].seatNumber}\n`
         }
 
       var mailOptions = {
