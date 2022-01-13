@@ -150,7 +150,7 @@ module.exports = (db) => {
         from: process.env.EMAIL,
         to: `${email}`,
         subject: 'Booking',
-        text: `Thanks for booking with Scriptens Javavägar! Down below is your reciept: \n
+        text: `Thanks for booking with Scriptens Javavägar! Please see details below: \n
         Booking Id: ${bookId} \n
         From: ${OG.name} at ${departure.replace("T", " ")}\n
         To: ${DN.name} at ${arrival.replace("T", " ")}\n
