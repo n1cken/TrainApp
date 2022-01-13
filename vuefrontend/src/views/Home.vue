@@ -135,7 +135,7 @@ export default {
       fetchingResult: false,
       missingStations: false,
       sameStations: false,
-      validSearch: null,
+      validSearch: true,
       results: [],
       amountOfTickets: this.$store.state.chosenAmountOfTickets,
       searchResultDepartureDate: null,
@@ -237,8 +237,7 @@ export default {
               }, 1000);
             });
         }
-      }
-    },
+
   },
 };
 </script>
