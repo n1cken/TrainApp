@@ -120,9 +120,9 @@ module.exports = (db) => {
 
 
     try {    
-    let x = await (seatAvailability(routeIdentity))
-    console.log(x)
-      var bookId = uniqueId()
+    let seat = await (seatAvailability(routeIdentity))
+      if (seat != null){
+    var bookId = uniqueId()
       const createBooking = await db.booking.create({
         id: bookId,
         timetableArrivalId: OG.id,
@@ -132,7 +132,7 @@ module.exports = (db) => {
       const createTicket = await db.ticket.create({
         price: 100,
         bookingId: bookId,
-        seatId: 1
+        seatId: seat.id
       })
       var nodemailer = require('nodemailer');
 
@@ -152,7 +152,8 @@ module.exports = (db) => {
         text: `Thanks for booking with Scriptens Javavägar! Down below is your reciept: \n
         Booking Id: ${bookId} \n
         From: ${OG.name} at ${departure.replace("T", " ")}\n
-        To: ${DN.name} at ${arrival.replace("T", " ")}
+        To: ${DN.name} at ${arrival.replace("T", " ")}\n
+        wagon: ${seat.id} seat: ${seat.seatNumber}
         `
       };
 
@@ -165,6 +166,10 @@ module.exports = (db) => {
       });
 
       return res.json("Booking Created")
+      } else {
+        return res.json("All seats have been booked!")
+    }
+      
     } catch (err) {
       console.log(err)
       console.log("\n" + DN.id + "\n")
