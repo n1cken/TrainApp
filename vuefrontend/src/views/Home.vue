@@ -135,7 +135,7 @@ export default {
       fetchingResult: false,
       missingStations: false,
       sameStations: false,
-      validSearch: null,
+      validSearch: true,
       results: [],
       amountOfTickets: this.$store.state.chosenAmountOfTickets,
       searchResultDepartureDate: null,
@@ -239,8 +239,8 @@ export default {
       }
 
       //Valid search
-      if (this.$store.state.originStation != this.$store.state.destinationStation) {
-        this.validSearch = true;
+      if (this.$store.state.originStation == this.$store.state.destinationStation) {
+        this.validSearch = false;
         this.fetchingResult = false;
         return;
       }
@@ -259,8 +259,6 @@ export default {
           for (var i = 0; i < this.resultData.length; i++) {
             this.results.push(this.resultData[i]);
           }
-          console.log(this.resultData);
-          console.log("result array: ", this.results);
           this.fetchingResult = false;
         })
         .catch((err) => {

@@ -7,7 +7,7 @@
       <v-autocomplete
         v-model="select"
         :loading="loading"
-        :items="items"
+        :items="stations"
         :search-input.sync="search"
         cache-items
         class="mx-3"
@@ -28,7 +28,6 @@ export default {
   data() {
     return {
       loading: false,
-      items: [],
       search: null,
       select: null,
       stations: [],
@@ -50,7 +49,6 @@ export default {
           "setOrigin",
           this.rawStationData[this.stations.indexOf(val)].id
         );
-        console.log(this.rawStationData[this.stations.indexOf(val)]);
       }
       if (this.titel == "Till") {
         this.$store.commit(
@@ -63,7 +61,7 @@ export default {
   methods: {
     getStation(id) {
       return new Promise(function (resolve, reject) {
-        const url = `${process.env.VUE_APP_API_URL}/station/${id}`;
+        const url = `${process.env.VUE_APP_API_URL}/station/${id}`
         fetch(url)
           .then((res) => res.json())
           .then((data) => resolve(data.name))
@@ -74,7 +72,7 @@ export default {
       this.loading = true;
       // Simulated ajax query
       setTimeout(() => {
-        this.items = this.stations.filter((e) => {
+        this.stations = this.stations.filter((e) => {
           return (e || "").toLowerCase().indexOf((v || "").toLowerCase()) > -1;
         });
         this.loading = false;
@@ -101,13 +99,14 @@ export default {
     },
   },
   mounted() {
-    fetch(`${process.env.VUE_APP_API_URL}/station`)
+    const url = `${process.env.VUE_APP_API_URL}/station`
+    fetch(url)
       .then((res) => res.json())
       .then((data) => (this.rawStationData = data))
       .then(() => {
-        for (var i = 0; i < this.rawStationData.length; i++) {
-          this.stations.push(this.rawStationData[i].name);
-        }
+        this.rawStationData.forEach((station) => {
+          this.stations.push(station.name)
+        })
       })
       .catch((err) => console.log(err.message));
   },
