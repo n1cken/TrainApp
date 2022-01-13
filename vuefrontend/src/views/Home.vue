@@ -54,8 +54,8 @@
         x-large
         elevation="3"
         color="blue "
-        @click="searchTravels();"
-        :disabled="fetchingResult"
+        @click="searchTravels()"
+        :loading="fetchingResult"
         v-scroll-to="{
           el: '#resultBlackBox',
           duration: 500,
@@ -177,12 +177,15 @@ export default {
       );
     },
 
-    searchTravels() {
-      if (this.fetchingResult)
-        return
+    resetSearchButton() {
+      this.fetchingResult = false;
+    },
 
-      this.fetchingResult = true
-      this.setSearchInformation()
+    searchTravels() {
+      if (this.fetchingResult) return;
+
+      this.fetchingResult = true;
+      this.setSearchInformation();
       this.results = [];
 
       //Origin or Destination is null
@@ -190,6 +193,7 @@ export default {
         this.missingStations = true;
         this.sameStations = false;
         this.validSearch = false;
+        this.fetchingResult = false;
       }
 
       //Check that fields are not null.
@@ -203,6 +207,7 @@ export default {
           this.sameStations = true;
           this.missingStations = false;
           this.validSearch = false;
+          this.fetchingResult = false;
         }
 
         //Valid search
@@ -221,13 +226,15 @@ export default {
               for (var i = 0; i < this.resultData.length; i++) {
                 this.results.push(this.resultData[i]);
               }
-              console.log(this.resultData);
-              console.log("result array: ", this.results);
-              this.fetchingResult = false
+              setTimeout(() => {
+                this.resetSearchButton();
+              }, 1000);
             })
             .catch((err) => {
-              this.fetchingResult = false
-              console.log(err.message)
+              console.log(err.message);
+              setTimeout(() => {
+                this.resetSearchButton();
+              }, 1000);
             });
         }
       }
