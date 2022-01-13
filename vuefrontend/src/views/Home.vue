@@ -135,7 +135,7 @@ export default {
       fetchingResult: false,
       missingStations: false,
       sameStations: false,
-      validSearch: null,
+      validSearch: false,
       results: [],
       amountOfTickets: this.$store.state.chosenAmountOfTickets,
       searchResultDepartureDate: null,
@@ -238,6 +238,41 @@ export default {
             });
         }
       }
+
+      //If same origin and destination
+      if (this.$store.state.originStation == this.$store.state.destinationStation) {
+        this.sameStations = true;
+        this.fetchingResult = false;
+        return;
+      }
+
+      //Valid search
+      if (this.$store.state.originStation == this.$store.state.destinationStation) {
+        this.validSearch = false;
+        this.fetchingResult = false;
+        return;
+      }
+
+      if (!this.validSearch) {
+        this.fetchingResult = false;
+        return;
+      }
+
+      const url = `${process.env.VUE_APP_API_URL}/route?from=${this.$store.state.originStation}&dest=${this.$store.state.destinationStation}&date=${this.$store.state.chosenDepartureDate}`;
+
+      fetch(url)
+        .then((res) => res.json())
+        .then((data) => (this.resultData = data))
+        .then(() => {
+          for (var i = 0; i < this.resultData.length; i++) {
+            this.results.push(this.resultData[i]);
+          }
+          this.fetchingResult = false;
+        })
+        .catch((err) => {
+          this.fetchingResult = false;
+          console.log(err.message);
+        });
     },
   },
 };
