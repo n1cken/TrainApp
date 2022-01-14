@@ -224,6 +224,12 @@ export default {
             .then((data) => (this.resultData = data))
             .then(() => {
               for (var i = 0; i < this.resultData.length; i++) {
+                this.resultData[i].arrival = this.resultData[i].arrival
+                  .replace("T", " ")
+                  .replace("Z", " ");
+                this.resultData[i].departure = this.resultData[i].departure
+                  .replace("T", " ")
+                  .replace("Z", " ");
                 this.results.push(this.resultData[i]);
               }
               setTimeout(() => {
