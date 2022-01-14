@@ -86,7 +86,8 @@ module.exports = (db) => {
                 from: OGrouteArray[i].stationId,
                 to: DNrouteArray[i].stationId,
                 departure: OGrouteArray[i].departure,
-                arrival: DNrouteArray[i].arrival
+                arrival: DNrouteArray[i].arrival,
+                price: 100
             })
         }
         res.send(MatchRouteArray);

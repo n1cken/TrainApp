@@ -47,9 +47,7 @@ export default {
           value: "departure",
         },
         { text: "ANKOMST", value: "arrival" },
-        { text: "Från", value: "From" },
-        { text: "Till", value: "To" },
-        { text: "PRIS", value: "protein" },
+        { text: "PRIS", value: "price" },
         { text: "BOKA", value: "actions" },
       ],
     };
