@@ -56,20 +56,31 @@
 
     <v-row class="py-6" justify="center">
       <v-btn
+        id="noSeatsAvailable"
         :disabled="!success"
         style="color: white"
         x-large
         elevation="3"
         color="blue"
         @click="bookTicket()"
+        v-scroll-to="{
+          el: '#noSeatsAvailable',
+          duration: 500,
+          easing: 'linear',
+          offset: 0,
+          force: true,
+          cancelable: true,
+          x: false,
+          y: true,
+        }"
         >BEKRÄFTA OCH BETALA</v-btn
       >
     </v-row>
 
-    <v-row v-if="!bookingSuccess" class="py-6" justify="center">
+    <v-row style="color: black" v-if="!bookingSuccess" class="py-6" justify="center">
       <h3>Bokning kunde ej genomföras.</h3>
     </v-row>
-    <v-row v-if="!bookingSuccess" class="py-6" justify="center">
+    <v-row style="color: black" v-if="!bookingSuccess" class="py-6" justify="center">
       <h3>Ej tillräckligt med platser.</h3>
     </v-row>
   </div>

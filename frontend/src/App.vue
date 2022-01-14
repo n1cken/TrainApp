@@ -1,10 +1,22 @@
 <template>
   <v-app>
     <v-app-bar app>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-
-      <v-toolbar-title style="font-size: 40px; margin-top: 0px; margin-right: 20px; font-family: Times New Roman">SJ</v-toolbar-title>
-      <v-toolbar-title style="margin-top: 5px;">{{this.title}}</v-toolbar-title>
+      <router-link to="/" style="text-decoration: none; color: inherit">
+        <v-toolbar-title
+          style="
+            font-size: 40px;
+            margin-top: 0px;
+            margin-right: 20px;
+            padding-left: 50px;
+            font-family: Times New Roman;
+          "
+        >
+          SJ</v-toolbar-title
+        >
+      </router-link>
+      <router-link to="/" style="text-decoration: none; color: inherit">
+        <v-toolbar-title style="margin-top: 5px">{{ this.title }}</v-toolbar-title>
+      </router-link>
 
       <v-spacer></v-spacer>
     </v-app-bar>

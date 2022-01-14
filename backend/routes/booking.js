@@ -132,9 +132,9 @@ module.exports = (db) => {
       if (ticketAmount <= seat.length && seat[0]) {
         const createBooking = await db.booking.create({
           id: bookId,
-          timetableArrivalId: OG.id,
+          timetableArrivalId: DN.id,
           email,
-          timetableDepartureId: DN.id
+          timetableDepartureId: OG.id
         });
 
         let tickets = []
