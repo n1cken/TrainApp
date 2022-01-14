@@ -144,6 +144,10 @@ export default {
     };
   },
   methods: {
+    removeISOTimeFormatting(value) {
+      const exp = /[T]|:0*\.0+Z$/g
+      return value.replaceAll(exp, " ");
+    },
     getStation(id) {
       return new Promise(function (resolve, reject) {
         const url = `${process.env.VUE_APP_API_URL}/station/${id}`;
@@ -151,8 +155,7 @@ export default {
           .then((res) => res.json())
           .then((data) => resolve(data.name))
           .catch((err) => reject(err));
-      });
-    },
+      }); },
     reduceAmountOfTickets() {
       if (this.amountOfTickets > 1) {
         this.amountOfTickets = this.amountOfTickets - 1;
@@ -223,24 +226,15 @@ export default {
             .then((res) => res.json())
             .then((data) => (this.resultData = data))
             .then(() => {
-              for (var i = 0; i < this.resultData.length; i++) {
-                this.resultData[i].arrival = this.resultData[i].arrival
-                  .replace("T", " ")
-                  .replace("Z", " ");
-                this.resultData[i].departure = this.resultData[i].departure
-                  .replace("T", " ")
-                  .replace("Z", " ");
-                this.results.push(this.resultData[i]);
-              }
-              setTimeout(() => {
-                this.resetSearchButton();
-              }, 1000);
+              this.resultData.forEach((data) => {
+                data.arrival = this.removeISOTimeFormatting(data.arrival)
+                data.departure = this.removeISOTimeFormatting(data.departure)
+                this.results.push(data);
+              })
+              this.resetSearchButton();
             })
-            .catch((err) => {
-              console.log(err.message);
-              setTimeout(() => {
-                this.resetSearchButton();
-              }, 1000);
+            .catch(() => {
+              this.resetSearchButton();
             });
         }
       }
