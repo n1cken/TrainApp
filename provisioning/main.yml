@@ -21,3 +21,12 @@
         name: docker
         state: started
         enabled: yes
+
+    - name: Install pip
+      shell:
+        cmd: /usr/bin/python3 -m ensurepip
+
+    - name: Install docker pip dependecies
+      pip:
+        name: docker
+        state: present
