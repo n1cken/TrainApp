@@ -5,7 +5,8 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       autoIncrement: true
     },
-    price: DataTypes.INTEGER
+    price: DataTypes.INTEGER,
+    routeId: DataTypes.INTEGER
   },
   {
     timestamps: false,
