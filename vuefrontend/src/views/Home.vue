@@ -135,7 +135,7 @@ export default {
       fetchingResult: false,
       missingStations: false,
       sameStations: false,
-      validSearch: true,
+      validSearch: false,
       results: [],
       amountOfTickets: this.$store.state.chosenAmountOfTickets,
       searchResultDepartureDate: null,
