@@ -1,5 +1,5 @@
 FROM node:lts-alpine as build
-ARG VUE_APP_API_URL=http://trainapp-api:3000
+ARG VUE_APP_API_URL=https://api.trainapp.letnh.dev
 ENV VUE_APP_API_URL $VUE_APP_API_URL
 WORKDIR /app
 COPY package*.json ./
