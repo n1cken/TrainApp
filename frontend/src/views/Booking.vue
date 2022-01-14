@@ -185,18 +185,16 @@ export default {
     fetch(url)
       .then((res) => res.json())
       .then((data) => {
-        console.log("earlydata ", data);
         this.rawStationData = data;
       })
       .then(async () => {
         for (var i = 0; i < this.rawStationData.length; i++) {
-          console.log("rawstationdata", this.rawStationData[i]);
           await this.getStation(this.rawStationData[i].stationId).then((res) =>
             this.stationsOnRoute.push(res)
           );
         }
       })
-      .catch((err) => console.log(err.message));
+      .catch(() => {});
   },
 };
 </script>

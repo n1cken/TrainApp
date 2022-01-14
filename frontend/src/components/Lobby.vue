@@ -71,9 +71,6 @@ export default {
     msg: String,
   },
   methods: {
-    getAllStations: function () {
-      console.log("This is all stations! ");
-    },
   },
   watch: {},
 
