@@ -20,6 +20,16 @@ $ docker build -t <image> .
 $ docker run -p 80:80 <image>
 ```
 
+#### Frontend Image
+Due to the current project setup, it isn't possible to change the `VUE_APP_API_URL` varaible after the image is built. If you want to change the variable, the image need to be built with `--build-arg` option when building.
+```bash
+docker build --build-arg VUE_APP_API_URL={url} -t {tag} .
+```
+Default will be `http://trainapp-api:3000`
+
+#### Backend Image
+When restarting the backend docker image the database will always be reseeded
+
 ### Node.js Dynamic REST-api for SQLite
 Automatically creates a REST-api from any SQLite-database. 
 Also provides a web server serving files/static content.

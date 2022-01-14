@@ -6,7 +6,7 @@ var db = {};
 
 let sequelize = new Sequelize({
   dialect: "sqlite",
-  storage: "../database/traindb.sqlite3",
+  storage: process.env.DBPATH,
   dialectOptions: {
   }
 });
