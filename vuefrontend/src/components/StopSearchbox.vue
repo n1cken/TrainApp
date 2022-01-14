@@ -7,7 +7,7 @@
       <v-autocomplete
         v-model="select"
         :loading="loading"
-        :items="stations"
+        :items="items"
         :search-input.sync="search"
         cache-items
         class="mx-3"
@@ -28,6 +28,7 @@ export default {
   data() {
     return {
       loading: false,
+      items: [],
       search: null,
       select: null,
       stations: [],
@@ -49,6 +50,7 @@ export default {
           "setOrigin",
           this.rawStationData[this.stations.indexOf(val)].id
         );
+        console.log(this.rawStationData[this.stations.indexOf(val)]);
       }
       if (this.titel == "Till") {
         this.$store.commit(
@@ -72,7 +74,7 @@ export default {
       this.loading = true;
       // Simulated ajax query
       setTimeout(() => {
-        this.stations = this.stations.filter((e) => {
+        this.items = this.stations.filter((e) => {
           return (e || "").toLowerCase().indexOf((v || "").toLowerCase()) > -1;
         });
         this.loading = false;
@@ -99,14 +101,13 @@ export default {
     },
   },
   mounted() {
-    const url = `${process.env.VUE_APP_API_URL}/station`;
-    fetch(url)
+    fetch(`${process.env.VUE_APP_API_URL}/station`)
       .then((res) => res.json())
       .then((data) => (this.rawStationData = data))
       .then(() => {
-        this.rawStationData.forEach((station) => {
-          this.stations.push(station.name);
-        });
+        for (var i = 0; i < this.rawStationData.length; i++) {
+          this.stations.push(this.rawStationData[i].name);
+        }
       })
       .catch((err) => console.log(err.message));
   },

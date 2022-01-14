@@ -55,32 +55,22 @@
     </v-container>
 
     <v-row class="py-6" justify="center">
-      <router-link
-        replace
-        tag="button"
+      <v-btn
         :disabled="!success"
-        :to="{
-          path: 'confirmation',
-          query: {
-            from: this.$route.query.from,
-            to: this.$route.query.to,
-            date: this.$route.query.date,
-            routeId: this.$route.query.routeId,
-            mail: mailInput,
-          },
-        }"
-        style="text-decoration: none; color: inherit"
+        style="color: white"
+        x-large
+        elevation="3"
+        color="blue"
+        @click="bookTicket()"
+        >BEKRÄFTA OCH BETALA</v-btn
       >
-        <v-btn
-          :disabled="!success"
-          style="color: white"
-          x-large
-          elevation="3"
-          color="blue"
-          @click="bookTicket()"
-          >BEKRÄFTA OCH BETALA</v-btn
-        >
-      </router-link>
+    </v-row>
+
+    <v-row v-if="!bookingSuccess" class="py-6" justify="center">
+      <h3>Bokning kunde ej genomföras.</h3>
+    </v-row>
+    <v-row v-if="!bookingSuccess" class="py-6" justify="center">
+      <h3>Ej tillräckligt med platser.</h3>
     </v-row>
   </div>
 </template>
@@ -95,6 +85,7 @@ export default {
       mailInput: "",
       success: false,
       stationsOnRoute: [],
+      bookingSuccess: true,
       rules: [
         (value) => !!value || "Required.",
         (value) => (value || "").length <= 50 || "Max 50 characters",
@@ -131,6 +122,7 @@ export default {
         departure: this.$store.state.ticketDepartureDate,
         arrival: this.$store.state.ticketArrivalDate,
         routeIdentity: this.$route.query.routeId,
+        ticketAmount: this.$store.state.chosenAmountOfTickets,
       };
 
       const url = `${process.env.VUE_APP_API_URL}/booking`;
@@ -145,8 +137,25 @@ export default {
 
       fetch(url, options)
         .then((res) => res.json())
-        .then((res) => console.log(res))
-        .catch((err) => console.log(err));
+        .then((res) => this.handleResponse(res))
+        .catch((err) => this.handleResponse(err));
+    },
+
+    handleResponse(res) {
+      if (res === true) {
+        this.$router.replace({
+          path: "confirmation",
+          query: {
+            from: this.$route.query.from,
+            to: this.$route.query.to,
+            date: this.$route.query.date,
+            routeId: this.$route.query.routeId,
+            mail: this.mailInput,
+          },
+        });
+      } else {
+        this.bookingSuccess = false;
+      }
     },
   },
   beforeMount() {
