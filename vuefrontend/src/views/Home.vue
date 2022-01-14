@@ -193,7 +193,7 @@ export default {
         this.missingStations = true;
         this.sameStations = false;
         this.validSearch = false;
-        this.fetchingResult = false;
+        this.resetSearchButton();
       }
 
       //Check that fields are not null.
@@ -207,7 +207,7 @@ export default {
           this.sameStations = true;
           this.missingStations = false;
           this.validSearch = false;
-          this.fetchingResult = false;
+          this.resetSearchButton();
         }
 
         //Valid search
