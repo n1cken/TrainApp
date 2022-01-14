@@ -297,11 +297,11 @@ timetable:
     stationId: 5
     arrival: null
     departure: 2022-01-28 12:00:00
-  - routeId: 7
+  - routeId: 8
     stationId: 8
     arrival: 2022-01-28 12:55:00
     departure: 2022-01-28 13:05:00
-  - routeId: 7
+  - routeId: 8
     stationId: 9
     arrival: 2022-01-28 14:00:00
     departure: null
