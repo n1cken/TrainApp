@@ -55,7 +55,7 @@
         elevation="3"
         color="blue "
         @click="searchTravels()"
-        :disabled="fetchingResult"
+        :loading="fetchingResult"
         v-scroll-to="{
           el: '#resultBlackBox',
           duration: 500,
@@ -177,6 +177,10 @@ export default {
       );
     },
 
+    resetSearchButton() {
+      this.fetchingResult = false;
+    },
+
     searchTravels() {
       if (this.fetchingResult) return;
 
@@ -187,8 +191,9 @@ export default {
       //Origin or Destination is null
       if (!this.$store.state.originStation || !this.$store.state.destinationStation) {
         this.missingStations = true;
-        this.fetchingResult = false;
-        return;
+        this.sameStations = false;
+        this.validSearch = false;
+        this.resetSearchButton();
       }
 
       //Check that fields are not null.
@@ -202,6 +207,7 @@ export default {
           this.sameStations = true;
           this.missingStations = false;
           this.validSearch = false;
+          this.resetSearchButton();
         }
 
         //Valid search
@@ -220,51 +226,18 @@ export default {
               for (var i = 0; i < this.resultData.length; i++) {
                 this.results.push(this.resultData[i]);
               }
-              console.log(this.resultData);
-              console.log("result array: ", this.results);
-              this.fetchingResult = false;
+              setTimeout(() => {
+                this.resetSearchButton();
+              }, 1000);
             })
             .catch((err) => {
-              this.fetchingResult = false;
               console.log(err.message);
+              setTimeout(() => {
+                this.resetSearchButton();
+              }, 1000);
             });
         }
       }
-
-      //If same origin and destination
-      if (this.$store.state.originStation == this.$store.state.destinationStation) {
-        this.sameStations = true;
-        this.fetchingResult = false;
-        return;
-      }
-
-      //Valid search
-      if (this.$store.state.originStation == this.$store.state.destinationStation) {
-        this.validSearch = false;
-        this.fetchingResult = false;
-        return;
-      }
-
-      if (!this.validSearch) {
-        this.fetchingResult = false;
-        return;
-      }
-
-      const url = `${process.env.VUE_APP_API_URL}/route?from=${this.$store.state.originStation}&dest=${this.$store.state.destinationStation}&date=${this.$store.state.chosenDepartureDate}`;
-
-      fetch(url)
-        .then((res) => res.json())
-        .then((data) => (this.resultData = data))
-        .then(() => {
-          for (var i = 0; i < this.resultData.length; i++) {
-            this.results.push(this.resultData[i]);
-          }
-          this.fetchingResult = false;
-        })
-        .catch((err) => {
-          this.fetchingResult = false;
-          console.log(err.message);
-        });
     },
   },
 };
