@@ -19,11 +19,22 @@ http {
 
     ssl_certificate /etc/letsencrypt/live/{{ domain }}/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/{{ domain }}/privkey.pem;
-    server_name trainapp.{{ domain }};
+    server_name {{ domain }};
 
     location / {
       proxy_pass http://trainapp-web/;
     }
   }
 
+  server {
+    listen 443 ssl http2;
+
+    ssl_certificate /etc/letsencrypt/live/{{ domain }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/{{ domain }}/privkey.pem;
+    server_name api.{{ domain }};
+
+    location / {
+      proxy_pass http://trainapp-api:3000/;
+    }
+  }
 }
