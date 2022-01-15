@@ -69,8 +69,12 @@
         name: trainapp-api
         image: ghcr.io/n1cken/trainapp/backend:latest
         restart_policy: always
+        env:
+          EMAIL: "{{ backend_email }}"
+          EMAIL_PASSWD: "{{ backend_email_pwd }}"
         networks:
           - name: proxy
+          - name: bridge
 
     - name: Create /etc/nginx directory
       file:
