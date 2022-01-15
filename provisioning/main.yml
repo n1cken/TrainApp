@@ -31,6 +31,24 @@
         name: docker
         state: present
 
+    - name: Copy over hetzner.ini
+      template:
+        src: hetzner.ini.j2
+        dest: /root/hetzner.ini
+        owner: root
+        group: root
+        mode: 0600
+
+    - name: Generate Let's Encrypt certificates
+      docker_container:
+        name: certbot-hetzner
+        image: thenerdyhamster/certbot-dns-hetzner
+        volumes:
+          - /etc/letsencrypt:/etc/letsencrypt
+          - /root/hetzner.ini:/hetnzer.ini
+        command: |
+          certonly -n --no-eff-email -a dns-hetzner --dns-hetzner-credentials /hetzner.ini --dns-hetzner-propagation-seconds "30" --agree-tos -m {{ le_mail }} --domain {{ le_domain }}
+
     - name: Deploy trainapp web container
       docker_container:
         name: trainapp-web
