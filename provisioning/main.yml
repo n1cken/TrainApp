@@ -54,7 +54,13 @@
           - /etc/letsencrypt:/etc/letsencrypt
           - /root/hetzner.ini:/hetzner.ini
         command: |
-          certonly -n --no-eff-email -a dns-hetzner --dns-hetzner-credentials /hetzner.ini --dns-hetzner-propagation-seconds "30" --agree-tos -m {{ le_mail }} --domain {{ le_domain }}
+          certonly -n --no-eff-email -a dns-hetzner --dns-hetzner-credentials /hetzner.ini --dns-hetzner-propagation-seconds "30" --agree-tos -m {{ le_mail }} --domain {{ domain }} --domain api.{{ domain }}
+    
+    - name: Wait until certs are generated
+      wait_for:
+        path: /etc/letsencrypt/live/{{ domain }}/fullchain.pem
+        state: present
+        msg: Certificates not found
 
     - name: Deploy trainapp web container
       docker_container:
