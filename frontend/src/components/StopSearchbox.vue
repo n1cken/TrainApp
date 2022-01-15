@@ -50,7 +50,6 @@ export default {
           "setOrigin",
           this.rawStationData[this.stations.indexOf(val)].id
         );
-        console.log(this.rawStationData[this.stations.indexOf(val)]);
       }
       if (this.titel == "Till") {
         this.$store.commit(
@@ -109,7 +108,7 @@ export default {
           this.stations.push(this.rawStationData[i].name);
         }
       })
-      .catch((err) => console.log(err.message));
+      .catch(() => {});
   },
 };
 </script>
