@@ -33,7 +33,7 @@
 
     - name: Copy over hetzner.ini
       template:
-        src: hetzner.ini.j2
+        src: templates/hetzner.ini.j2
         dest: /root/hetzner.ini
         owner: root
         group: root
@@ -43,9 +43,10 @@
       docker_container:
         name: certbot-hetzner
         image: thenerdyhamster/certbot-dns-hetzner
+        restart_policy: always
         volumes:
           - /etc/letsencrypt:/etc/letsencrypt
-          - /root/hetzner.ini:/hetnzer.ini
+          - /root/hetzner.ini:/hetzner.ini
         command: |
           certonly -n --no-eff-email -a dns-hetzner --dns-hetzner-credentials /hetzner.ini --dns-hetzner-propagation-seconds "30" --agree-tos -m {{ le_mail }} --domain {{ le_domain }}
 
