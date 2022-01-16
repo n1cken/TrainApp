@@ -67,9 +67,11 @@ If user hits `api.{{ domain }}`, user will hit the `trainapp-api` container and 
 If user hits `{{ domain }}`, user will hit the `trainapp-web` container and be presentated with the [VueJS](https://vuejs.org) frontend.
 
 - **Trainapp-api**  
+Image: [trainapp/backend](https://github.com/n1cken/TrainApp/pkgs/container/trainapp%2Fbackend)  
 Serves the REST api at `api.{{ domain }}`
 
 - **Trainapp-web**  
+Image: [trainapp/frontend](https://github.com/n1cken/TrainApp/pkgs/container/trainapp%2Ffrontend)  
 Serves the web interface at `{{ domain }}`
 
 ### Network
