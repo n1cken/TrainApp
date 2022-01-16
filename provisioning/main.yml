@@ -1,0 +1,135 @@
+---
+- name: Deployment of trainapp docker images
+  hosts: all
+  
+  tasks:
+    - name: Add community repository
+      lineinfile:
+        path: /etc/apk/repositories
+        regexp: '^#.*v3\.15\/community$'
+        line: 'http://dl-cdn.alpinelinux.org/alpine/v3.15/community'
+        state: present
+        backup: yes
+
+    - name: Install docker on host
+      apk:
+        name: docker
+        state: present
+
+    - name: Start docker service
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Install pip
+      shell:
+        cmd: /usr/bin/python3 -m ensurepip
+
+    - name: Install docker pip dependecies
+      pip:
+        name: docker
+        state: present
+
+    - name: Pull docker images
+      docker_image:
+        name: "{{ item }}"
+        source: pull
+        force_source: yes
+      with_items:
+        - "{{ frontend_image }}"
+        - "{{ backend_image }}"
+
+    - name: Setup internal proxy network
+      docker_network:
+        name: proxy
+        internal: yes
+        driver: bridge
+
+    - name: Copy over hetzner.ini
+      template:
+        src: templates/hetzner.ini.j2
+        dest: /root/hetzner.ini
+        owner: root
+        group: root
+        mode: 0600
+
+    - name: Generate Let's Encrypt certificates
+      docker_container:
+        name: certbot-hetzner
+        image: thenerdyhamster/certbot-dns-hetzner
+        restart_policy: always
+        volumes:
+          - /etc/letsencrypt:/etc/letsencrypt
+          - /root/hetzner.ini:/hetzner.ini
+        command: |
+          certonly -n --no-eff-email -a dns-hetzner --dns-hetzner-credentials /hetzner.ini --dns-hetzner-propagation-seconds "30" --agree-tos -m {{ le_mail }} --domain {{ domain }} --domain api.{{ domain }}
+    
+    - name: Wait until certs are generated
+      wait_for:
+        path: /etc/letsencrypt/live/{{ domain }}/fullchain.pem
+        state: present
+        msg: Certificates not found
+
+    - name: Deploy trainapp web container
+      docker_container:
+        name: trainapp-web
+        image: "{{ frontend_image }}" 
+        restart_policy: always
+        networks:
+          - name: proxy
+
+    - name: Deploy trainapp api container
+      docker_container:
+        name: trainapp-api
+        image: "{{ backend_image }}"
+        restart_policy: always
+        env:
+          EMAIL: "{{ backend_email }}"
+          EMAIL_PASSWD: "{{ backend_email_pwd }}"
+        networks:
+          - name: proxy
+          - name: bridge
+
+    - name: Create /etc/nginx directory
+      file:
+        path: /etc/nginx
+        state: directory
+        owner: root
+        group: root
+        mode: 755
+
+    - name: Generate nginx.conf
+      template:
+        src: templates/nginx.conf.j2
+        dest: /etc/nginx/nginx.conf
+        owner: root
+        group: root
+        mode: 644
+
+    - name: Find symlink to {{ domain }} privkey.pem
+      stat:
+        path: /etc/letsencrypt/live/{{ domain }}/privkey.pem
+      register: stat_privkey
+
+    - name: Find symlink to {{ domain }} fullchain.pem
+      stat:
+        path: /etc/letsencrypt/live/{{ domain }}/fullchain.pem
+      register: stat_fullchain
+
+    - name: Deploy nginx proxy contaner
+      docker_container:
+        name: nginx-proxy
+        image: nginx:1.21-alpine
+        restart_policy: unless-stopped
+        ports:
+          - 80:80
+          - 443:443
+        volumes:
+          - "{{ stat_fullchain.stat.lnk_source }}:/etc/letsencrypt/live/{{ domain }}/fullchain.pem"
+          - "{{ stat_privkey.stat.lnk_source }}:/etc/letsencrypt/live/{{ domain }}/privkey.pem"
+          - /etc/nginx/nginx.conf:/etc/nginx/nginx.conf
+        networks:
+          - name: proxy
+          - name: bridge
+
