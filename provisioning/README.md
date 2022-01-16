@@ -51,4 +51,4 @@ $ ansible-playbook main.yml --ask-vault-password
 Tasks will run when completed the infrastructre will be up and running.
 
 ## Result of deployment
-TODO: Add diagram of running "infrastructre"
+![Diagram over infrastructre deployed with ansible](./Trainapp-finaldeployment.png)
