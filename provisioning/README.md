@@ -58,4 +58,22 @@ $ ansible-playbook reset-db.yml --ask-vault-password
 This will reseed the database, and set it to inital state.
 
 ## Result of deployment
-![Diagram over infrastructre deployed with ansible](./Trainapp-finaldeployment.png)
+![Diagram over infrastructre deployed with ansible](./Trainapp-finaldeployment.png)  
+When deploying using this provising playbook, the application will be deployed in [Docker Containers](https://docker.com).  
+### Containers
+- **Nginx**  
+Nginx is used as a reverse proxy, to route traffic to either `trainapp-web` or `trainapp-api`, based on what url user goes to.
+If user hits `api.{{ domain }}`, user will hit the `trainapp-api` container and be presentated with the REST API.  
+If user hits `{{ domain }}`, user will hit the `trainapp-web` container and be presentated with the [VueJS](https://vuejs.org) frontend.
+
+- **Trainapp-api**  
+Serves the REST api at `api.{{ domain }}`
+
+- **Trainapp-web**  
+Serves the web interface at `{{ domain }}`
+
+### Network
+These containers are devied into two diffrent networks: `bridge` and `proxy`.
+- The `proxy` network does not allow any external access which means that the `trainapp-web` is not allowed reach out.  
+- The `bridge` network allows external access, to both `trainapp-api` (*needed, for confirmation mail*) and `nginx` containers.  
+- The `nginx` container exposes both port `80` and `443` for external access, so the application can be reached by end users.
