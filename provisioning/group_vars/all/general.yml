@@ -9,6 +9,9 @@ hetzner_dns_api_token: !vault |
 
 domain: trainapp.letnh.dev
 
+frontend_image: ghcr.io/n1cken/trainapp/frontend:latest
+
+backend_image: ghcr.io/n1cken/trainapp/backend:latest
 backend_email: scriptensjavavagarbooking@gmail.com
 backend_email_pwd: !vault |
           $ANSIBLE_VAULT;1.1;AES256

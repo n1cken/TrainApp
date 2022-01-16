@@ -31,7 +31,16 @@
         name: docker
         state: present
 
-    - name: Setup proxy network
+    - name: Pull docker images
+      docker_image:
+        name: "{{ item }}"
+        source: pull
+        force_source: yes
+      with_items:
+        - "{{ frontend_image }}"
+        - "{{ backend_image }}"
+
+    - name: Setup internal proxy network
       docker_network:
         name: proxy
         internal: yes
@@ -65,7 +74,7 @@
     - name: Deploy trainapp web container
       docker_container:
         name: trainapp-web
-        image: ghcr.io/n1cken/trainapp/frontend:latest
+        image: "{{ frontend_image }}" 
         restart_policy: always
         networks:
           - name: proxy
@@ -73,7 +82,7 @@
     - name: Deploy trainapp api container
       docker_container:
         name: trainapp-api
-        image: ghcr.io/n1cken/trainapp/backend:latest
+        image: "{{ backend_image }}"
         restart_policy: always
         env:
           EMAIL: "{{ backend_email }}"
