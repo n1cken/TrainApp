@@ -1,0 +1,10 @@
+---
+- name: Reset database
+  hosts: all
+  
+  tasks:
+    - name: Reseed database
+      community.docker.docker_container_exec:
+        container: trainapp-api
+        command: npm run seed
+        chdir: /app
