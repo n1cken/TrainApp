@@ -43,12 +43,19 @@ all:
     {ip | domain to server}
 ```
 
-### Run playbook
-To run the playbook steps in [Setup ansible environment](#setup-ansible-environment) after that is completed run:
+### Deploy application
+To deploy application using ansible playbook steps in [Setup ansible environment](#setup-ansible-environment) after that is completed run:
 ```bash
 $ ansible-playbook main.yml --ask-vault-password
 ```
 Tasks will run when completed the infrastructre will be up and running.
+
+### Reset database
+To reset the database run:
+```bash
+$ ansible-playbook reset-db.yml --ask-vault-password
+```
+This will reseed the database, and set it to inital state.
 
 ## Result of deployment
 ![Diagram over infrastructre deployed with ansible](./Trainapp-finaldeployment.png)
