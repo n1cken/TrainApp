@@ -15,7 +15,7 @@ More information about the use of [Docker]() can be found [here](#run-&-build-wi
 Frotend is built using both [VueJS]() and [Vuetify]().
 
 #### Backend
-Backend is built using [ExpressJS]() & [Sqlite] as database.
+Backend is built using [ExpressJS]() & [Sqlite]() our database at the moment, _might change in future_  
 We are also utilising [Sequelize]() for our ORM.
 
 
