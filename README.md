@@ -44,6 +44,29 @@ To add data to the seeding script modify `backend/scripts/seed-data.yml`, each "
 To run the seeding script execute `npm run seed` from the `backend` directory.  Please notice that this will *DELETE* all current data and overwrite it with the seeding data.
 
 ### Run & build with docker
+The recomended way to either deploy or test the application is with [Docker](https://docker.com) or another container runtime,  due to easy of setup with containers.
+There is both a [Backend](https://github.com/n1cken/TrainApp/pkgs/container/trainapp%2Fbackend) & [Frontend](https://github.com/n1cken/TrainApp/pkgs/container/trainapp%2Ffrontend) image, provided by the "developers", that will _mostly_ be a stable release.
+
+#### Backend
+[Dockerfile](backend/Dockerfile)
+The backend image is built using the [nginx:lts-alpine](https://hub.docker.com/_/nginx), to achive a small and secure image without any thing extra required.  
+
+##### Enviorment varaibles
+- PORT: Specifed port the application will run on (default: 3000)
+- DBPATH: Path to sqlite database (default: database/traindb.sqlite)
+- EMAIL: Email used to send confirmation mails (default: none)
+- EMAIL_PASSWD: Password to email used to send confirmation mails (default: none)
+
+##### Persistent database
+Database is located under `/app/${DBPATH}` in the container. To achive a presistent database over restarts mount `/app/${DBPATH}` to preferd path on host.
+
+##### Run image
+```bash
+$ docker run --name trainapp-api --rm -d -p 3000:3000 ghcr.io/n1cken/trainapp/backend:latest
+```
+
+#### Frontend
+[Dockerfile](frontend/Dockerfile)
 *To be Updated*
 When we `build` for production, we are using an [nginx:lts-alpine](https://hub.docker.com/_/nginx) to achive both a smaller and easier to maintain image.
 
