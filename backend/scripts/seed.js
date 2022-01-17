@@ -1,3 +1,4 @@
+require('dotenv').config();
 const db = require('../db/database.js')
 
 db.sequelize.sync({ force: true }).then(() => {
