@@ -48,7 +48,7 @@ The recomended way to either deploy or test the application is with [Docker](htt
 There is both a [Backend](https://github.com/n1cken/TrainApp/pkgs/container/trainapp%2Fbackend) & [Frontend](https://github.com/n1cken/TrainApp/pkgs/container/trainapp%2Ffrontend) image, provided by the "developers", that will _mostly_ be a stable release.
 
 #### Backend
-[Dockerfile](backend/Dockerfile)
+[Dockerfile](backend/Dockerfile)  
 The backend image is built using the [nginx:lts-alpine](https://hub.docker.com/_/nginx), to achive a small and secure image without any thing extra required.  
 
 ##### Enviorment varaibles
@@ -66,7 +66,22 @@ $ docker run --name trainapp-api --rm -d -p 3000:3000 ghcr.io/n1cken/trainapp/ba
 ```
 
 #### Frontend
-[Dockerfile](frontend/Dockerfile)
+[Dockerfile](frontend/Dockerfile)  
+The frontend image is built using a mutli-stage build with both [node:lts-alpine](https://hub.docker.com/_/node) & [nginx-stable-alpine](https://hub.docker.com/_/nginx)
+
+##### Enviornment variables
+- VUE_APP_API_URL: API url to backend (default: https://api.trainapp.letnh.dev) _Might not work correctly due current implementation of image_
+
+##### Change environment variable during build
+Current workaround is to build image with your own `API_URL`.
+```
+$ docker build --build-arg VUE_APP_API_URL=${url} -t ${tag} .
+```
+
+#### Run image
+```bash
+$ docker run --name trainapp-web --rm -d -p 80:80 ghcr.io/n1cken/trainapp/frontend:latest
+```
 
 ### Deployment
 *To Be Written*
