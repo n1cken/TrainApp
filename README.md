@@ -67,24 +67,6 @@ $ docker run --name trainapp-api --rm -d -p 3000:3000 ghcr.io/n1cken/trainapp/ba
 
 #### Frontend
 [Dockerfile](frontend/Dockerfile)
-*To be Updated*
-When we `build` for production, we are using an [nginx:lts-alpine](https://hub.docker.com/_/nginx) to achive both a smaller and easier to maintain image.
-
-```bash
-$ cd vuefrontend
-$ docker build -t <image> .
-$ docker run -p 80:80 <image>
-```
-
-#### Frontend Image
-Due to the current project setup, it isn't possible to change the `VUE_APP_API_URL` varaible after the image is built. If you want to change the variable, the image need to be built with `--build-arg` option when building.
-```bash
-docker build --build-arg VUE_APP_API_URL={url} -t {tag} .
-```
-Default will be `http://api.trainapp.letnh.dev`
-
-#### Backend Image
-When restarting the backend docker image the database will always be reseeded
 
 ### Deployment
 *To Be Written*
