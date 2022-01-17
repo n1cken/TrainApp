@@ -3,7 +3,21 @@
 ## Techincal overview
 
 ### Frameworks
-*To Be Written*
+The project is built using:
+- [ExpressJS]()
+- [VueJS]() & [Vuetify]()
+- [Sqlite]() with [Sequelize]() (ORM)
+
+The application can both be tested and deployed into production using the docker images or docker files located in either `backend` or `frontend` directory.
+More information about the use of [Docker]() can be found [here](#run-&-build-with-docker).
+
+#### Frontend
+Frotend is built using both [VueJS]() and [Vuetify]().
+
+#### Backend
+Backend is built using [ExpressJS]() & [Sqlite] as database.
+We are also utilising [Sequelize]() for our ORM.
+
 
 ### Project overview
 *To Be Written*
