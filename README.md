@@ -84,4 +84,6 @@ $ docker run --name trainapp-web --rm -d -p 80:80 ghcr.io/n1cken/trainapp/fronte
 ```
 
 ### Deployment
-*To Be Written*
+Recommended way of deployment is with Docker Images.  
+There is also a [ansible](https://ansible.com) playbook located in [provisioning](provisioning).  
+That deploys the whole application on [AlpineLinux](https://alpinelinux.org) using the "Offical" images.
