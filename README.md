@@ -25,7 +25,9 @@
 >Obs! database and frontend folder is just temporary!
 
 #### Seeding of database
-*To Be Written*
+Database is seeded with help of a _simple_ script written in `JavaScript`, data is parsed with help of yml _(Not the most optimal solution, but it works)._ The script is found under `backend/scripts`.
+To add data to the seeding script modify `backend/scripts/seed-data.yml`, each "object" is its own table, and there after representated.  
+To run the seeding script execute `npm run seed` from the `backend` directory.  Please notice that this will *DELETE* all current data and overwrite it with the seeding data.
 
 ### Run & build with docker
 *To be Updated*
