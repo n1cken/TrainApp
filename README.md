@@ -52,10 +52,10 @@ There is both a [Backend](https://github.com/n1cken/TrainApp/pkgs/container/trai
 The backend image is built using the [nginx:lts-alpine](https://hub.docker.com/_/nginx), to achive a small and secure image without any thing extra required.  
 
 ##### Enviorment varaibles
-- PORT: Specifed port the application will run on (default: 3000)
-- DBPATH: Path to sqlite database (default: database/traindb.sqlite)
-- EMAIL: Email used to send confirmation mails (default: none)
-- EMAIL_PASSWD: Password to email used to send confirmation mails (default: none)
+- `PORT`: Specifed port the application will run on (default: 3000)
+- `DBPATH`: Path to sqlite database (default: database/traindb.sqlite)
+- `EMAIL`: Email used to send confirmation mails (default: none)
+- `EMAIL_PASSWD`: Password to email used to send confirmation mails (default: none)
 
 ##### Persistent database
 Database is located under `/app/${DBPATH}` in the container. To achive a presistent database over restarts mount `/app/${DBPATH}` to preferd path on host.
@@ -70,10 +70,10 @@ $ docker run --name trainapp-api --rm -d -p 3000:3000 ghcr.io/n1cken/trainapp/ba
 The frontend image is built using a mutli-stage build with both [node:lts-alpine](https://hub.docker.com/_/node) & [nginx-stable-alpine](https://hub.docker.com/_/nginx)
 
 ##### Enviornment variables
-- VUE_APP_API_URL: API url to backend (default: https://api.trainapp.letnh.dev) _Might not work correctly due current implementation of image_
+- `VUE_APP_API_URL`: API url to backend (default: https://api.trainapp.letnh.dev) _Might not work correctly due current implementation of image_
 
 ##### Change environment variable during build
-Current workaround is to build image with your own `API_URL`.
+Current workaround is to build image with your own API url.
 ```
 $ docker build --build-arg VUE_APP_API_URL=${url} -t ${tag} .
 ```
