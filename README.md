@@ -19,8 +19,19 @@ Backend is built using [ExpressJS](https://expressjs.com) & [Sqlite](https://sql
 We are also utilising [Sequelize](https://sequelize.org) for our ORM.
 
 
-### Project overview
-*To Be Written*
+### Project structure
+ * [provisioning](./provisioning) - _Ansible-playbook for provisioning the application_
+   * [group_vars](./provisioning/group_vars)
+   * [templates](./provisioning/templates)
+ * [backend](./backend) _Rest API code base_
+   * [node_modules](./backend/node_modules)
+   * [routes](./backend/routes)
+   * [db](./backend/db)
+   * [scripts](./backend/scripts) _Useful scripts for backend, such as seeding database_
+ * [frontend](./frontend) _The web client code base_
+     * [public](./frontend/public)
+     * [src](./frontend/src)
+     * [node_modules](./frontend/node_modules)
 
 ### Standards
 *To Be Written*
