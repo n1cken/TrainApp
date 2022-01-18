@@ -37,17 +37,26 @@ We are also utilising [Sequelize](https://sequelize.org) for our ORM.
 *To Be Written*
 
 ### Setup development Enviornment
-*To be Updated*
-<ol>
-<li> Open intergrated terminal inside vuefrontend folder</li>
-<li> "npm install"</li>
-<li> "npm run serve"</li>
-<li> Open intergrated terminal inside the backend folder</li>
-<li> "npm install"</li>
-<li> "npm run serve"</li>
-</ol>
+Requirements for running the project is:
+- [NodeJS](https://nodejs.org) installed.
+- [NPM](https://npmjs.com) installed.
+- [VueCli](https://cli.vuejs.org/) installed.
 
->Obs! database and frontend folder is just temporary!
+Not required but useful _tools_:
+- [Ansible](https://ansible.com) - For provisioning
+- [Docker](https://docker.com) or _other contianer runtimes_ - For building the images 
+- [Sqlite](https://sqlite.org) - For working with sqlite.
+
+#### Run backend
+1. Open [backend folder](./backend) in terminal
+2. Install npm dependencies with `npm run install`
+  a. Seed the database with `npm run seed`- optional
+3. Start backend with `npm run serve`
+
+#### Run frontend
+1. Open [frontend folder](./frontend) in terminal
+2. Install npm dependencies with `npm run install`
+3. Start backend with `npm run serve`
 
 #### Seeding of database
 Database is seeded with help of a _simple_ script written in `JavaScript`, data is parsed with help of yml _(Not the most optimal solution, but it works)._ The script is found under `backend/scripts`.
