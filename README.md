@@ -23,12 +23,12 @@ We are also utilising [Sequelize](https://sequelize.org) for our ORM.
  * [provisioning](./provisioning) - _Ansible-playbook for provisioning the application_
    * [group_vars](./provisioning/group_vars)
    * [templates](./provisioning/templates)
- * [backend](./backend) _Rest API code base_
+ * [backend](./backend) - _Rest API code base_
    * [node_modules](./backend/node_modules)
    * [routes](./backend/routes)
    * [db](./backend/db)
-   * [scripts](./backend/scripts) _Useful scripts for backend, such as seeding database_
- * [frontend](./frontend) _The web client code base_
+   * [scripts](./backend/scripts) - _Useful scripts for backend, such as seeding database_
+ * [frontend](./frontend) - _The web client code base_
      * [public](./frontend/public)
      * [src](./frontend/src)
      * [node_modules](./frontend/node_modules)
