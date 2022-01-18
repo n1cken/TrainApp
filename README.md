@@ -33,7 +33,7 @@ We are also utilising [Sequelize](https://sequelize.org) for our ORM.
 
 
 ## Standards
-*To Be Written*
+Currently there isn't really any code standard used, there is an issue that is assigned to try to utilize some standard Issue: G2-214
 
 ## Setup development Enviornment
 Requirements for running the project is:
