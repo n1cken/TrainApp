@@ -1,24 +1,9 @@
-# vuefrontend
+# Scriptens Javavägar
+### Train booking application
 
-## Project setup
-```
-npm install
-```
+Scriptens Javavägar is a booking application for fictional train departures in Sweden.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+Bookings made are confirmed via email.
 
-### Compiles and minifies for production
-```
-npm run build
-```
+Frontend built with Vue and Vuetify.
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

@@ -1,140 +1,108 @@
-### Instructions to start!
+# Trainapp
 
-<ol>
-<li> Open intergrated terminal inside vuefrontend folder</li>
-<li> "npm install"</li>
-<li> "npm run serve"</li>
-<li> Open intergrated terminal inside the backend folder</li>
-<li> "npm install"</li>
-<li> "npm run serve"</li>
-</ol>
+## Project structure
+ * [provisioning](./provisioning) - _Ansible-playbook for provisioning the application_
+   * [group_vars](./provisioning/group_vars)
+   * [templates](./provisioning/templates)
+ * [backend](./backend) - _Rest API code base_
+   * [node_modules](./backend/node_modules)
+   * [routes](./backend/routes)
+   * [db](./backend/db)
+   * [scripts](./backend/scripts) - _Useful scripts for backend, such as seeding database_
+ * [frontend](./frontend) - _The web client code base_
+     * [public](./frontend/public)
+     * [src](./frontend/src)
+     * [node_modules](./frontend/node_modules)
 
->Obs! database and frontend folder is just temporary!
+## Frameworks
+The project is built using:
+- [ExpressJS](https://expressjs.com)
+- [VueJS](https://vuejs.org) & [Vuetify](https://vuetifyjs.com)
+- [Sqlite](https://sqlite.org) with [Sequelize](https://sequelize.org) (ORM)
 
-### Run & build with docker
-When we `build` for production, we are using an [nginx:lts-alpine](https://hub.docker.com/_/nginx) to achive both a smaller and easier to maintain image.
+The application can both be tested and deployed into production using the docker images or docker files located in either `backend` or `frontend` directory.
+More information about the use of [Docker](https://docker.com) can be found [here](#run-&-build-with-docker).
 
+### Frontend
+Frotend is built using both [VueJS](https://vuejs.org) and [Vuetify](https:://vuetifyjs.com).
+
+### Backend
+Backend is built using [ExpressJS](https://expressjs.com) & [Sqlite](https://sqlite.org) our database at the moment, _might change in future_  
+We are also utilising [Sequelize](https://sequelize.org) for our ORM.
+
+
+
+## Standards
+Currently there isn't really any code standard used, there is an issue that is assigned to try to utilize some standard Issue: G2-214
+
+## Setup development Enviornment
+Requirements for running the project is:
+- [NodeJS](https://nodejs.org) installed.
+- [NPM](https://npmjs.com) installed.
+- [VueCli](https://cli.vuejs.org/) installed.
+
+Not required but useful _tools_:
+- [Ansible](https://ansible.com) - For provisioning
+- [Docker](https://docker.com) or _other contianer runtimes_ - For building the images 
+- [Sqlite](https://sqlite.org) - For working with sqlite.
+
+### Run backend
+1. Open [backend folder](./backend) in terminal
+2. Install npm dependencies with `npm run install`
+  a. Seed the database with `npm run seed`- optional
+3. Start backend with `npm run serve`
+
+### Run frontend
+1. Open [frontend folder](./frontend) in terminal
+2. Install npm dependencies with `npm run install`
+3. Start backend with `npm run serve`
+
+### Seeding of database
+Database is seeded with help of a _simple_ script written in `JavaScript`, data is parsed with help of yml _(Not the most optimal solution, but it works)._ The script is found under `backend/scripts`.
+To add data to the seeding script modify `backend/scripts/seed-data.yml`, each "object" is its own table, and there after representated.  
+To run the seeding script execute `npm run seed` from the `backend` directory.  Please notice that this will *DELETE* all current data and overwrite it with the seeding data.
+
+## Run & build with docker
+The recomended way to either deploy or test the application is with [Docker](https://docker.com) or another container runtime,  due to easy of setup with containers.
+There is both a [Backend](https://github.com/n1cken/TrainApp/pkgs/container/trainapp%2Fbackend) & [Frontend](https://github.com/n1cken/TrainApp/pkgs/container/trainapp%2Ffrontend) image, provided by the "developers", that will _mostly_ be a stable release.
+
+### Backend
+[Dockerfile](backend/Dockerfile)  
+The backend image is built using the [nginx:lts-alpine](https://hub.docker.com/_/nginx), to achive a small and secure image without any thing extra required.  
+
+#### Enviorment varaibles
+- `PORT`: Specifed port the application will run on (default: 3000)
+- `DBPATH`: Path to sqlite database (default: database/traindb.sqlite)
+- `EMAIL`: Email used to send confirmation mails (default: none)
+- `EMAIL_PASSWD`: Password to email used to send confirmation mails (default: none)
+
+#### Persistent database
+Database is located under `/app/${DBPATH}` in the container. To achive a presistent database over restarts mount `/app/${DBPATH}` to preferd path on host.
+
+#### Run image
 ```bash
-$ cd vuefrontend
-$ docker build -t <image> .
-$ docker run -p 80:80 <image>
+$ docker run --name trainapp-api --rm -d -p 3000:3000 ghcr.io/n1cken/trainapp/backend:latest
 ```
 
-#### Frontend Image
-Due to the current project setup, it isn't possible to change the `VUE_APP_API_URL` varaible after the image is built. If you want to change the variable, the image need to be built with `--build-arg` option when building.
+### Frontend
+[Dockerfile](frontend/Dockerfile)  
+The frontend image is built using a mutli-stage build with both [node:lts-alpine](https://hub.docker.com/_/node) & [nginx-stable-alpine](https://hub.docker.com/_/nginx)
+
+#### Enviornment variables
+- `VUE_APP_API_URL`: API url to backend (default: https://api.trainapp.letnh.dev) _Might not work correctly due current implementation of image_
+
+#### Change environment variable during build
+Current workaround is to build image with your own API url.
+```
+$ docker build --build-arg VUE_APP_API_URL=${url} -t ${tag} .
+```
+
+### Run image
 ```bash
-docker build --build-arg VUE_APP_API_URL={url} -t {tag} .
-```
-Default will be `http://trainapp-api:3000`
-
-#### Backend Image
-When restarting the backend docker image the database will always be reseeded
-
-### Node.js Dynamic REST-api for SQLite
-Automatically creates a REST-api from any SQLite-database. 
-Also provides a web server serving files/static content.
-
-Put your SQLite database file in in the **database** folder and all your frontend code (html, css, js, images etc) in the **frontend** folder.
-
-**Note:** All tables are expected to have a column named **id**.
-
-### Settings
-You can change the settings - in settings.json: 
-```json
-{
-  // which server port to start the web server on
-  "port": 3000,
-  // the name of the database file
-  "dbName": "petowners-and-pets.sqlite3", 
-  // if post request with where clauses should be allowed
-  "allowWherePosts": true 
-}
+$ docker run --name trainapp-web --rm -d -p 80:80 ghcr.io/n1cken/trainapp/frontend:latest
 ```
 
-### CRUD - Read/search
-
-#### GET /api/db-info
-Returns a list of all tables and views in the database in JSON format.
-
-##### Example result: 
-```json
-{
-  "tablesInDb": [
-    "petOwners",
-    "pets"
-  ],
-  "viewsInDb": [
-    "petOwnersAndPets"
-  ]
-}
-```
-
-#### GET /api/:tableName
-Returns all data from a table as a JSON array of objects.
-
-#### GET /api/:tableName/:id
-Returns one post from a table as a JSON object.
-
-#### POST /api/:tableName
-
-##### Request body example
-Your own where clause logic:
-```json
-{
-  "where": "species = 'dog'"
-}
-```
-Returns posts matching the where clause.
-(Only works if **settings.allowWherePosts** is set to **true**.)
-
-#### Extra parameters
-You can use the extra parameters *order, limit* and *offset*.
-
-##### Examples
-*GET /api/:tableName/?order=name,-age*
-translates to the SQL: **ORDER BY name, age DESC**
-
-*GET /api/:tableName?limit=5*
-Shows the first 5 matching posts.
-
-*GET /api/:tableName?limit=5&offset=10*
-Shows post 11 to 15.
-
-You can combine all three parameters:
-*GET /api/:tableName/order=name,-age&limit=5&offset=10*
-translates to the SQL:  **ORDER BY name, age DESC LIMIT 5 OFFSET 10**.
-
-You can also use the same parameters together with the POST request and a where clause!
-
-### CRUD - Create a post
-
-#### POST /api/:tableName
-
-##### Request body example
-```json
-{
-  "name": "Cecilia",
-  "age": 25
-}
-```
-**Note:** Do *not* include an **id**, instead let the database set the id automatically.
-
-### CRUD - Update a post
-
-#### PATCH /api/:tableName/:id
-
-##### Request body example
-```json
-{
-  "age": 26
-}
-```
-**Note:** Include an existing **id** in the url and the fields you want to update in the request body.
-
-#### PUT /api/:tableName/:id
-Works exactly the same way as **PATCH /api/:tableName/:id**.
-
-### CRUD - Delete a post
-
-#### DELETE /api/:tableName/:id
-Deletes a post with the specified id.
+## Deployment
+Recommended way of deployment is with Docker Images.  
+There is also a [Ansible](https://ansible.com) playbook located in [provisioning](provisioning).  
+That deploys the whole application on [Alpine Linux](https://alpinelinux.org) using the "Offical" images.
